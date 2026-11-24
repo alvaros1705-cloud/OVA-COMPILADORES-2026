@@ -35,7 +35,7 @@ Aplicacion web para analizar codigo de una gramatica LL(1)/LL(2). Permite ver la
    - Reporte PDF con codigo fuente, AST, simbolos, tokens y errores.
 
 7. **Ejemplos e historial**
-   - 10 ejemplos precargados (validos e invalidos).
+   - 17 ejemplos precargados (validos e invalidos).
    - Historial de los ultimos 5 codigos analizados (localStorage).
 
 ---
@@ -127,3 +127,25 @@ En Render.com el servicio usa la variable `$PORT` automáticamente (ver `render.
 - **Editor**: Monaco Editor (CDN)
 - **Graficos**: D3.js v7
 - **PDF**: jsPDF, html2canvas
+
+---
+
+## Reto 2 (2026-II) — Fortalecimiento del analizador sintáctico
+
+Mantenimiento realizado por el **Grupo 2: Kevin Flórez, Kevin Sandoval y Jordani Rodríguez** sobre el proyecto original de Fabián y Sofi.
+
+- Mensajes de error claros, con línea y columna: expresión incompleta, operadores sin operandos, paréntesis sin cerrar o sobrantes, asignaciones mal formadas y delimitadores faltantes.
+- Recuperación de errores que ya no descarta sentencias válidas (a nivel de frase y en modo pánico).
+- Rangos del AST coherentes con el código, para el resaltado árbol ↔ editor.
+- Sin errores 500 con dígitos Unicode ni con expresiones muy largas.
+- TAC solo para programas sin errores léxicos ni sintácticos.
+- 7 ejemplos nuevos (casos del examen, recuperación y asociatividad).
+
+Documentación en [`docs/`](docs/): [diagnóstico](docs/INFORME_DIAGNOSTICO.md), [cambios](docs/CAMBIOS.md), [matriz de pruebas](docs/MATRIZ_PRUEBAS.md), [documento técnico](docs/DOCUMENTO_TECNICO.md), [manual de usuario](docs/MANUAL_USUARIO.md) y [guion de sustentación](docs/GUION_SUSTENTACION.md).
+
+### Pruebas
+
+```bash
+pip install -r requirements-dev.txt
+python -m pytest backend -v      # 54 pruebas
+```

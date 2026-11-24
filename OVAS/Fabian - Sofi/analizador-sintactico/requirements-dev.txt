@@ -1,0 +1,4 @@
+# Dependencias solo para ejecutar las pruebas (no se usan en produccion/Render)
+-r requirements.txt
+pytest>=8.0
+httpx>=0.27

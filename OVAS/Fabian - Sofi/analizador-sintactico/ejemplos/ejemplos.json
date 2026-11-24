@@ -68,5 +68,54 @@
     "description": "Aunque es sintácticamente válido, el analizador semántico detectará una división por cero estática.",
     "code": "divisor = 5 - 5;\ntasa = 100 / divisor;\n",
     "category": "Inválido (Semántico)"
+  },
+  {
+    "id": 11,
+    "name": "11. Examen P-01: Precedencia",
+    "description": "La multiplicación se agrupa antes que la suma: el AST tiene '+' en la raíz y '*' como hijo derecho.",
+    "code": "x = 5 + 3 * 2;\n",
+    "category": "Válido"
+  },
+  {
+    "id": 12,
+    "name": "12. Examen P-02: Paréntesis",
+    "description": "Los paréntesis cambian la agrupación: el AST tiene '*' en la raíz y '+' como hijo izquierdo.",
+    "code": "x = (5 + 3) * 2;\n",
+    "category": "Válido"
+  },
+  {
+    "id": 13,
+    "name": "13. Examen P-03: Expresión incompleta",
+    "description": "El operador '+' no tiene operando derecho.",
+    "code": "x=5+;\n",
+    "category": "Inválido (Sintáctico)"
+  },
+  {
+    "id": 14,
+    "name": "14. Examen P-04: Paréntesis sin cerrar",
+    "description": "El '(' abierto no tiene su ')' correspondiente.",
+    "code": "x = (5 + 3;\n",
+    "category": "Inválido (Sintáctico)"
+  },
+  {
+    "id": 15,
+    "name": "15. Examen P-05: Asignación mal formada",
+    "description": "Falta el '=' entre la variable y la expresión.",
+    "code": "x 5;\n",
+    "category": "Inválido (Sintáctico)"
+  },
+  {
+    "id": 16,
+    "name": "16. Recuperación: varios errores en un programa",
+    "description": "El parser reporta cada error con su línea y sigue analizando las demás sentencias.",
+    "code": "a = 10;\nb = a +;\nc = (a * 2;\nd 4;\ne = a - 1\nf = e / 2;\n",
+    "category": "Inválido (Sintáctico)"
+  },
+  {
+    "id": 17,
+    "name": "17. Asociatividad izquierda",
+    "description": "10 - 4 - 2 se agrupa como (10 - 4) - 2 = 4, no como 10 - (4 - 2) = 8.",
+    "code": "r = 10 - 4 - 2;\ns = 16 / 4 / 2;\n",
+    "category": "Válido"
   }
 ]
