@@ -41,6 +41,12 @@ class Token:
         return f"Token({self.type}[{self.category}], '{self.value}', L:{self.line}, C:{self.column})"
 
 
+def is_digit(char: str) -> bool:
+    """Solo digitos ASCII 0-9. str.isdigit() acepta tambien '²', '³', '٣', etc.,
+    que luego hacen fallar int()/float() en el parser (error 500)."""
+    return char != "" and char in "0123456789"
+
+
 class Lexer:
     def __init__(self, code: str):
         self.code = code
@@ -92,7 +98,7 @@ class Lexer:
         start_line = self.line
 
         value = ""
-        while self.peek().isdigit():
+        while is_digit(self.peek()):
             value += self.advance()
 
         if self.peek() == '.':
@@ -100,9 +106,9 @@ class Lexer:
             next_char = self.peek()
             self.pos -= 1
 
-            if next_char.isdigit():
+            if is_digit(next_char):
                 value += self.advance()
-                while self.peek().isdigit():
+                while is_digit(self.peek()):
                     value += self.advance()
 
         return Token("NUMERO", value, start_line, start_col, start_pos, self.pos)
@@ -129,7 +135,7 @@ class Lexer:
             start_col = self.col
             start_line = self.line
 
-            if char.isdigit():
+            if is_digit(char):
                 self.tokens.append(self.read_number())
                 continue
 
