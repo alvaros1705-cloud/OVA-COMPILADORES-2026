@@ -102,7 +102,17 @@ si (edad) {
 
 // Palabras reservadas, tipos de datos y etiquetas usadas por el tokenizer.
 const TYPE_KEYWORDS = new Set(['entero', 'decimal', 'texto', 'logico']);
-const KEYWORDS = new Set([...TYPE_KEYWORDS, 'verdadero', 'falso', 'imprimir', 'si', 'sino']);
+// v1.6.0: alias estilo C para que casos como "int x = 10;" se analicen como declaraciones.
+// Cada alias se traduce al tipo equivalente del minilenguaje.
+const TYPE_ALIASES = { int: 'entero', float: 'decimal', double: 'decimal', string: 'texto', bool: 'logico', boolean: 'logico' };
+const BOOLEAN_LITERALS = new Set(['verdadero', 'falso', 'true', 'false']);
+const KEYWORDS = new Set([...TYPE_KEYWORDS, ...Object.keys(TYPE_ALIASES), ...BOOLEAN_LITERALS, 'imprimir', 'si', 'sino']);
+
+// Devuelve el tipo del minilenguaje para una palabra de tipo (o su alias); null si no es un tipo.
+function canonicalType(word) {
+  if (TYPE_KEYWORDS.has(word)) return word;
+  return TYPE_ALIASES[word] ?? null;
+}
 const TOKEN_LABELS = {
   keyword: 'Palabra reservada',
   identifier: 'Identificador',
@@ -292,228 +302,251 @@ function analyze(source) {
   const lines = source.split('\n');
   for (let index = 0; index < lines.length; index++) {
     const lineNumber = index + 1;
-    const lineTokens = tokenizeLine(lines[index], lineNumber);
-    if (lineTokens.length === 0) continue;
+    const rawTokens = tokenizeLine(lines[index], lineNumber);
+    if (rawTokens.length === 0) continue;
 
-    lineTokens.filter(t => t.type === 'unknown').forEach(t => {
-      issues.push(issue('Sintaxis', lineNumber, `El carácter '${t.value}' no pertenece al lenguaje definido.`, 'Elimina ese carácter o reemplázalo por un operador válido.'));
+    // v1.6.0: estos errores pertenecen a la fase léxica, no a la sintáctica.
+    rawTokens.filter(t => t.type === 'unknown').forEach(t => {
+      issues.push(issue('Léxico', lineNumber, `El carácter '${t.value}' no pertenece al lenguaje definido.`, 'Elimina ese carácter o reemplázalo por un operador válido.'));
     });
 
-    lineTokens.filter(t => t.type === 'string' && t.closed === false).forEach(() => {
-      issues.push(issue('Sintaxis', lineNumber, 'Falta cerrar una cadena de texto con comillas dobles.', 'Ejemplo válido: texto nombre = "Gabriel";'));
+    rawTokens.filter(t => t.type === 'string' && t.closed === false).forEach(() => {
+      issues.push(issue('Léxico', lineNumber, 'Falta cerrar una cadena de texto con comillas dobles.', 'Ejemplo válido: texto nombre = "Gabriel";'));
     });
 
-    lineTokens.filter(t => t.type === 'number' && t.malformed).forEach(t => {
-      issues.push(issue('Sintaxis', lineNumber, `El número '${t.value}' tiene más de un punto decimal.`, 'Ejemplo válido: 4.5'));
+    rawTokens.filter(t => t.type === 'number' && t.malformed).forEach(t => {
+      issues.push(issue('Léxico', lineNumber, `El número '${t.value}' tiene más de un punto decimal.`, 'Ejemplo válido: 4.5'));
     });
 
-    while (lineTokens[0]?.value === '}') {
-      openedBlocks--;
-      if (openedBlocks < 0) {
-        issues.push(issue('Sintaxis', lineNumber, 'Hay una llave de cierre } sin una llave de apertura {.', 'Revisa los bloques si (...) { ... }.'));
-        openedBlocks = 0;
+    // v1.6.0: una línea puede tener varias sentencias (int x; int x;  o  si (c) { ... }).
+    // Los caracteres no reconocidos ya se reportaron como error léxico; se excluyen para no generar errores en cascada.
+    const statements = splitStatements(rawTokens.filter(t => t.type !== 'unknown'));
+    for (const statementTokens of statements) {
+      const lineTokens = statementTokens.slice();
+      if (lineTokens.length === 0) continue;
+
+      while (lineTokens[0]?.value === '}') {
+        openedBlocks--;
+        if (openedBlocks < 0) {
+          issues.push(issue('Sintaxis', lineNumber, 'Hay una llave de cierre } sin una llave de apertura {.', 'Revisa los bloques si (...) { ... }.'));
+          openedBlocks = 0;
+        }
+        if (scopes.length > 1) scopes.pop();
+        lineTokens.shift();
+        if (lineTokens.length === 0) break;
       }
-      if (scopes.length > 1) scopes.pop();
-      lineTokens.shift();
-      if (lineTokens.length === 0) break;
-    }
-    if (lineTokens.length === 0) continue;
+      if (lineTokens.length === 0) continue;
 
-    const currentScope = () => scopes[scopes.length - 1];
-    const text = lineTokens.map(t => t.value).join(' ');
+      const currentScope = () => scopes[scopes.length - 1];
+      const text = lineTokens.map(t => t.value).join(' ');
 
-    const requireSemicolon = (kind) => {
-      if (!endsWithSemicolon(lineTokens)) {
-        issues.push(issue('Sintaxis', lineNumber, `Falta ';' al final de la ${kind}.`, `Agrega punto y coma: ${text};`));
-        return false;
-      }
-      return true;
-    };
+      const requireSemicolon = (kind) => {
+        if (!endsWithSemicolon(lineTokens)) {
+          issues.push(issue('Sintaxis', lineNumber, `Falta ';' al final de la ${kind}.`, `Agrega punto y coma: ${text};`));
+          return false;
+        }
+        return true;
+      };
 
-    const declare = () => {
-      requireSemicolon('declaración');
-      const declaredType = lineTokens[0].value;
-      const nameToken = lineTokens[1];
+      // forcedType: tipo usado cuando la palabra de tipo vino mal escrita (recuperación de errores).
+      const declare = (forcedType = null) => {
+        requireSemicolon('declaración');
+        const declaredType = forcedType ?? canonicalType(lineTokens[0].value);
+        const nameToken = lineTokens[1];
 
-      if (!nameToken || nameToken.type !== 'identifier') {
-        issues.push(issue('Sintaxis', lineNumber, `Después del tipo '${declaredType}' debe aparecer el nombre de la variable.`, `Ejemplo: ${declaredType} edad = 20;`));
-        return;
-      }
+        if (!nameToken || nameToken.type !== 'identifier') {
+          issues.push(issue('Sintaxis', lineNumber, `Después del tipo '${declaredType}' debe aparecer el nombre de la variable.`, `Ejemplo: ${declaredType} edad = 20;`));
+          return;
+        }
 
-      const eqIndex = lineTokens.findIndex(t => t.value === '=');
-      const contentTokens = stripTrailingSemicolon(lineTokens);
-      const hasExtraValueWithoutEquals = eqIndex < 0 && contentTokens.length > 2;
+        const eqIndex = lineTokens.findIndex(t => t.value === '=');
+        const contentTokens = stripTrailingSemicolon(lineTokens);
+        const hasExtraValueWithoutEquals = eqIndex < 0 && contentTokens.length > 2;
 
-      if (findInExactScope(symbols, nameToken.value, currentScope())) {
-        issues.push(issue('Semántico', lineNumber, `La variable '${nameToken.value}' ya fue declarada en el ámbito '${currentScope()}'.`, 'Cambia el nombre de la variable o elimina la declaración repetida.'));
-      }
+        if (findInExactScope(symbols, nameToken.value, currentScope())) {
+          issues.push(issue('Semántico', lineNumber, `La variable '${nameToken.value}' ya fue declarada en el ámbito '${currentScope()}'.`, 'Cambia el nombre de la variable o elimina la declaración repetida.'));
+        }
 
-      let initialValue = 'sin inicializar';
-      let exprType = null;
+        let initialValue = 'sin inicializar';
+        let exprType = null;
 
-      if (hasExtraValueWithoutEquals) {
-        const possibleValue = contentTokens.slice(2).map(t => t.value).join(' ');
-        issues.push(issue('Sintaxis', lineNumber, `No se pudo asociar '${nameToken.value}' con '${possibleValue}' porque falta el operador '='.`, `Escríbelo así: ${declaredType} ${nameToken.value} = ${possibleValue};`));
-        const result = evaluateExpression(contentTokens.slice(2), symbols, scopes, issues, lineNumber);
-        exprType = result.type;
-        initialValue = result.text;
-      } else if (eqIndex >= 0) {
+        if (hasExtraValueWithoutEquals) {
+          const possibleValue = contentTokens.slice(2).map(t => t.value).join(' ');
+          issues.push(issue('Sintaxis', lineNumber, `No se pudo asociar '${nameToken.value}' con '${possibleValue}' porque falta el operador '='.`, `Escríbelo así: ${declaredType} ${nameToken.value} = ${possibleValue};`));
+          const result = evaluateExpression(contentTokens.slice(2), symbols, scopes, issues, lineNumber);
+          exprType = result.type;
+          initialValue = result.text;
+        } else if (eqIndex >= 0) {
+          const exprTokens = expressionAfterEquals(lineTokens, eqIndex);
+          const result = evaluateExpression(exprTokens, symbols, scopes, issues, lineNumber);
+          exprType = result.type;
+          initialValue = result.text;
+        }
+
+        if (eqIndex >= 0 || hasExtraValueWithoutEquals) {
+          const assignCheck = assignmentProblem(declaredType, exprType);
+          if (assignCheck) {
+            issues.push(issue('Semántico', lineNumber, `No se puede asignar una expresión de tipo '${exprType}' a la variable '${nameToken.value}' de tipo '${declaredType}'.`, assignCheck));
+          }
+          intermediate.push(`DECLARAR ${nameToken.value} : ${declaredType}`);
+          intermediate.push(`${nameToken.value} = ${initialValue}`);
+        } else {
+          intermediate.push(`DECLARAR ${nameToken.value} : ${declaredType}`);
+        }
+
+        if (!findInExactScope(symbols, nameToken.value, currentScope())) {
+          symbols.push({
+            name: nameToken.value,
+            type: declaredType,
+            scope: currentScope(),
+            line: lineNumber,
+            value: initialValue,
+            initialized: eqIndex >= 0 || hasExtraValueWithoutEquals
+          });
+        }
+
+        steps.push(`Línea ${lineNumber}: se revisa una declaración. Variable: '${nameToken.value}'. Tipo declarado: '${declaredType}'.${exprType ? ` Tipo detectado en el valor: '${exprType}'.` : ''}`);
+      };
+
+      const assign = () => {
+        requireSemicolon('asignación');
+        const name = lineTokens[0].value;
+        const symbol = findSymbol(symbols, name, scopes);
+        if (!symbol) {
+          issues.push(undeclaredIssue(name, lineNumber, symbols, scopes, 'se usa como destino de una asignación'));
+        }
+        const eqIndex = lineTokens.findIndex(t => t.value === '=');
         const exprTokens = expressionAfterEquals(lineTokens, eqIndex);
         const result = evaluateExpression(exprTokens, symbols, scopes, issues, lineNumber);
-        exprType = result.type;
-        initialValue = result.text;
-      }
+        const targetType = symbol?.type ?? suggestedTypeFor(name, symbols, scopes);
+        const assignCheck = assignmentProblem(targetType, result.type);
 
-      if (eqIndex >= 0 || hasExtraValueWithoutEquals) {
-        const assignCheck = assignmentProblem(declaredType, exprType);
-        if (assignCheck) {
-          issues.push(issue('Semántico', lineNumber, `No se puede asignar una expresión de tipo '${exprType}' a la variable '${nameToken.value}' de tipo '${declaredType}'.`, assignCheck));
+        if (symbol && assignCheck) {
+          issues.push(issue('Semántico', lineNumber, `No se puede asignar una expresión de tipo '${result.type}' a '${name}', porque la variable es de tipo '${symbol.type}'.`, assignCheck));
         }
-        intermediate.push(`DECLARAR ${nameToken.value} : ${declaredType}`);
-        intermediate.push(`${nameToken.value} = ${initialValue}`);
-      } else {
-        intermediate.push(`DECLARAR ${nameToken.value} : ${declaredType}`);
-      }
-
-      if (!findInExactScope(symbols, nameToken.value, currentScope())) {
-        symbols.push({
-          name: nameToken.value,
-          type: declaredType,
-          scope: currentScope(),
-          line: lineNumber,
-          value: initialValue
-        });
-      }
-
-      steps.push(`Línea ${lineNumber}: se revisa una declaración. Variable: '${nameToken.value}'. Tipo declarado: '${declaredType}'.${exprType ? ` Tipo detectado en el valor: '${exprType}'.` : ''}`);
-    };
-
-    const assign = () => {
-      requireSemicolon('asignación');
-      const name = lineTokens[0].value;
-      const symbol = findSymbol(symbols, name, scopes);
-      if (!symbol) {
-        issues.push(undeclaredIssue(name, lineNumber, symbols, scopes, 'se usa como destino de una asignación'));
-      }
-      const eqIndex = lineTokens.findIndex(t => t.value === '=');
-      const exprTokens = expressionAfterEquals(lineTokens, eqIndex);
-      const result = evaluateExpression(exprTokens, symbols, scopes, issues, lineNumber);
-      const targetType = symbol?.type ?? suggestedTypeFor(name, symbols, scopes);
-      const assignCheck = assignmentProblem(targetType, result.type);
-
-      if (symbol && assignCheck) {
-        issues.push(issue('Semántico', lineNumber, `No se puede asignar una expresión de tipo '${result.type}' a '${name}', porque la variable es de tipo '${symbol.type}'.`, assignCheck));
-      }
-      if (symbol) symbol.value = result.text;
-      intermediate.push(`${name} = ${result.text}`);
-      steps.push(`Línea ${lineNumber}: se valida una asignación. Variable destino: '${name}'. Tipo esperado: '${symbol?.type ?? 'desconocido'}'. Tipo recibido: '${result.type ?? 'desconocido'}'.`);
-    };
-
-    const malformedAssignment = () => {
-      requireSemicolon('asignación');
-      const name = lineTokens[0].value;
-      const contentTokens = stripTrailingSemicolon(lineTokens);
-      const possibleValue = contentTokens.slice(1).map(t => t.value).join(' ');
-      const symbol = findSymbol(symbols, name, scopes);
-
-      if (!symbol) {
-        issues.push(undeclaredIssue(name, lineNumber, symbols, scopes, 'parece ser una variable de asignación'));
-      }
-      issues.push(issue('Sintaxis', lineNumber, `No se pudo asociar '${name}' con '${possibleValue}' porque falta el operador '='.`, `Escríbelo así: ${name} = ${possibleValue};`));
-
-      if (possibleValue) {
-        const result = evaluateExpression(contentTokens.slice(1), symbols, scopes, issues, lineNumber);
         if (symbol) {
-          const assignCheck = assignmentProblem(symbol.type, result.type);
-          if (assignCheck) issues.push(issue('Semántico', lineNumber, `Aunque se agregue '=', el valor sería de tipo '${result.type}' y '${name}' es de tipo '${symbol.type}'.`, assignCheck));
+          symbol.value = result.text;
+          symbol.initialized = true;
         }
-      }
-      steps.push(`Línea ${lineNumber}: se detecta una asignación mal escrita. Falta el operador '=' para unir la variable con el valor.`);
-    };
+        intermediate.push(`${name} = ${result.text}`);
+        steps.push(`Línea ${lineNumber}: se valida una asignación. Variable destino: '${name}'. Tipo esperado: '${symbol?.type ?? 'desconocido'}'. Tipo recibido: '${result.type ?? 'desconocido'}'.`);
+      };
 
-    const printStatement = () => {
-      requireSemicolon('instrucción imprimir');
-      const open = lineTokens.findIndex(t => t.value === '(');
-      const close = lastIndexOfValue(lineTokens, ')');
+      const malformedAssignment = () => {
+        requireSemicolon('asignación');
+        const name = lineTokens[0].value;
+        const contentTokens = stripTrailingSemicolon(lineTokens);
+        const possibleValue = contentTokens.slice(1).map(t => t.value).join(' ');
+        const symbol = findSymbol(symbols, name, scopes);
 
-      if (open < 0) {
-        issues.push(issue('Sintaxis', lineNumber, "Falta el paréntesis de apertura '(' en la instrucción imprimir.", 'Forma correcta: imprimir(expresión);'));
-        return;
-      }
-      if (close < 0 || close <= open) {
-        issues.push(issue('Sintaxis', lineNumber, "Falta el paréntesis de cierre ')' en la instrucción imprimir.", 'Forma correcta: imprimir(expresión);'));
-        const partial = stripTrailingSemicolon(lineTokens.slice(open + 1));
-        if (partial.length) evaluateExpression(partial, symbols, scopes, issues, lineNumber);
-        return;
-      }
+        if (!symbol) {
+          issues.push(undeclaredIssue(name, lineNumber, symbols, scopes, 'parece ser una variable de asignación'));
+        }
+        issues.push(issue('Sintaxis', lineNumber, `No se pudo asociar '${name}' con '${possibleValue}' porque falta el operador '='.`, `Escríbelo así: ${name} = ${possibleValue};`));
 
-      const exprTokens = lineTokens.slice(open + 1, close);
-      const result = evaluateExpression(exprTokens, symbols, scopes, issues, lineNumber);
-      intermediate.push(`IMPRIMIR ${result.text}`);
-      steps.push(`Línea ${lineNumber}: se valida la expresión enviada a imprimir. Tipo detectado: '${result.type ?? 'desconocido'}'.`);
-    };
+        if (possibleValue) {
+          const result = evaluateExpression(contentTokens.slice(1), symbols, scopes, issues, lineNumber);
+          if (symbol) {
+            const assignCheck = assignmentProblem(symbol.type, result.type);
+            if (assignCheck) issues.push(issue('Semántico', lineNumber, `Aunque se agregue '=', el valor sería de tipo '${result.type}' y '${name}' es de tipo '${symbol.type}'.`, assignCheck));
+          }
+        }
+        steps.push(`Línea ${lineNumber}: se detecta una asignación mal escrita. Falta el operador '=' para unir la variable con el valor.`);
+      };
 
-    const ifStatement = () => {
-      const open = lineTokens.findIndex(t => t.value === '(');
-      const close = lastIndexOfValue(lineTokens, ')');
-      if (open < 0) {
-        issues.push(issue('Sintaxis', lineNumber, "Falta el paréntesis de apertura '(' después de 'si'.", 'Forma correcta: si (condición) {'));
-        return;
-      }
-      if (close < 0 || close <= open) {
-        issues.push(issue('Sintaxis', lineNumber, "Falta el paréntesis de cierre ')' en la condición del si.", 'Forma correcta: si (condición) {'));
-        return;
-      }
-      if (!lineTokens.some(t => t.value === '{')) {
-        issues.push(issue('Sintaxis', lineNumber, "Falta la llave de apertura '{' para iniciar el bloque del si.", 'Forma correcta: si (condición) {'));
-      }
+      const printStatement = () => {
+        requireSemicolon('instrucción imprimir');
+        const open = lineTokens.findIndex(t => t.value === '(');
+        const close = lastIndexOfValue(lineTokens, ')');
 
-      const exprTokens = lineTokens.slice(open + 1, close);
-      const result = evaluateExpression(exprTokens, symbols, scopes, issues, lineNumber);
-      if (result.type && result.type !== 'logico') {
-        issues.push(issue('Semántico', lineNumber, `La condición de 'si' debe ser de tipo 'logico', pero se recibió '${result.type}'.`, 'Usa una comparación, por ejemplo: si (edad >= 18) {'));
-      }
-      intermediate.push(`SI ${result.text} ENTONCES`);
-      steps.push(`Línea ${lineNumber}: se revisa la condición del 'si'. Debe ser lógica; el tipo detectado fue '${result.type ?? 'desconocido'}'.`);
+        if (open < 0) {
+          issues.push(issue('Sintaxis', lineNumber, "Falta el paréntesis de apertura '(' en la instrucción imprimir.", 'Forma correcta: imprimir(expresión);'));
+          return;
+        }
+        if (close < 0 || close <= open) {
+          issues.push(issue('Sintaxis', lineNumber, "Falta el paréntesis de cierre ')' en la instrucción imprimir.", 'Forma correcta: imprimir(expresión);'));
+          const partial = stripTrailingSemicolon(lineTokens.slice(open + 1));
+          if (partial.length) evaluateExpression(partial, symbols, scopes, issues, lineNumber);
+          return;
+        }
 
-      if (lineTokens.some(t => t.value === '{')) {
+        const exprTokens = lineTokens.slice(open + 1, close);
+        const result = evaluateExpression(exprTokens, symbols, scopes, issues, lineNumber);
+        intermediate.push(`IMPRIMIR ${result.text}`);
+        steps.push(`Línea ${lineNumber}: se valida la expresión enviada a imprimir. Tipo detectado: '${result.type ?? 'desconocido'}'.`);
+      };
+
+      const ifStatement = () => {
+        const open = lineTokens.findIndex(t => t.value === '(');
+        const close = lastIndexOfValue(lineTokens, ')');
+        if (open < 0) {
+          issues.push(issue('Sintaxis', lineNumber, "Falta el paréntesis de apertura '(' después de 'si'.", 'Forma correcta: si (condición) {'));
+          return;
+        }
+        if (close < 0 || close <= open) {
+          issues.push(issue('Sintaxis', lineNumber, "Falta el paréntesis de cierre ')' en la condición del si.", 'Forma correcta: si (condición) {'));
+          return;
+        }
+        if (!lineTokens.some(t => t.value === '{')) {
+          issues.push(issue('Sintaxis', lineNumber, "Falta la llave de apertura '{' para iniciar el bloque del si.", 'Forma correcta: si (condición) {'));
+        }
+
+        const exprTokens = lineTokens.slice(open + 1, close);
+        const result = evaluateExpression(exprTokens, symbols, scopes, issues, lineNumber);
+        if (result.type && result.type !== 'logico') {
+          issues.push(issue('Semántico', lineNumber, `La condición de 'si' debe ser de tipo 'logico', pero se recibió '${result.type}'.`, 'Usa una comparación, por ejemplo: si (edad >= 18) {'));
+        }
+        intermediate.push(`SI ${result.text} ENTONCES`);
+        steps.push(`Línea ${lineNumber}: se revisa la condición del 'si'. Debe ser lógica; el tipo detectado fue '${result.type ?? 'desconocido'}'.`);
+
+        if (lineTokens.some(t => t.value === '{')) {
+          blockCounter++;
+          openedBlocks++;
+          scopes.push(`bloque_${blockCounter}`);
+        }
+      };
+
+      const elseStatement = () => {
+        if (!lineTokens.some(t => t.value === '{')) {
+          issues.push(issue('Sintaxis', lineNumber, "Falta la llave de apertura '{' para iniciar el bloque del sino.", 'Forma correcta: sino {'));
+        }
+        intermediate.push('SINO');
+        if (lineTokens.some(t => t.value === '{')) {
+          blockCounter++;
+          openedBlocks++;
+          scopes.push(`bloque_${blockCounter}`);
+        }
+      };
+
+      const misspelledType = lineTokens[0].type === 'identifier' && lineTokens[1]?.type === 'identifier'
+        ? similarTypeWord(lineTokens[0].value)
+        : null;
+
+      if (canonicalType(lineTokens[0].value)) {
+        declare();
+      } else if (misspelledType) {
+        // v1.6.0: recuperación de errores. "eentero edad = 20;" se reporta y se registra como entero
+        // para no producir errores en cascada ("edad no fue declarada") en las líneas siguientes.
+        issues.push(issue('Sintaxis', lineNumber, `El tipo de dato '${lineTokens[0].value}' no existe.`, `¿Quisiste decir '${misspelledType}'? Ejemplo: ${misspelledType} ${lineTokens[1].value} = ...;`));
+        declare(canonicalType(misspelledType));
+      } else if (lineTokens[0].type === 'identifier' && lineTokens.some(t => t.value === '=')) {
+        assign();
+      } else if (lineTokens[0].type === 'identifier' && lineTokens.length > 1) {
+        malformedAssignment();
+      } else if (lineTokens[0].value === 'imprimir') {
+        printStatement();
+      } else if (lineTokens[0].value === 'si') {
+        ifStatement();
+      } else if (lineTokens[0].value === 'sino') {
+        elseStatement();
+      } else if (lineTokens.some(t => t.value === '{')) {
         blockCounter++;
         openedBlocks++;
         scopes.push(`bloque_${blockCounter}`);
+      } else {
+        issues.push(issue('Sintaxis', lineNumber, `No se reconoció la instrucción: ${text}`, 'Usa una declaración, asignación, imprimir(...) o si (...).'));
       }
-    };
-
-    const elseStatement = () => {
-      if (!lineTokens.some(t => t.value === '{')) {
-        issues.push(issue('Sintaxis', lineNumber, "Falta la llave de apertura '{' para iniciar el bloque del sino.", 'Forma correcta: sino {'));
-      }
-      intermediate.push('SINO');
-      if (lineTokens.some(t => t.value === '{')) {
-        blockCounter++;
-        openedBlocks++;
-        scopes.push(`bloque_${blockCounter}`);
-      }
-    };
-
-    if (TYPE_KEYWORDS.has(lineTokens[0].value)) {
-      declare();
-    } else if (lineTokens[0].type === 'identifier' && lineTokens.some(t => t.value === '=')) {
-      assign();
-    } else if (lineTokens[0].type === 'identifier' && lineTokens.length > 1) {
-      malformedAssignment();
-    } else if (lineTokens[0].value === 'imprimir') {
-      printStatement();
-    } else if (lineTokens[0].value === 'si') {
-      ifStatement();
-    } else if (lineTokens[0].value === 'sino') {
-      elseStatement();
-    } else if (lineTokens.some(t => t.value === '{')) {
-      blockCounter++;
-      openedBlocks++;
-      scopes.push(`bloque_${blockCounter}`);
-    } else {
-      issues.push(issue('Sintaxis', lineNumber, `No se reconoció la instrucción: ${text}`, 'Usa una declaración, asignación, imprimir(...) o si (...).'));
-    }
+    } // fin del recorrido de sentencias de la línea
   }
 
   if (openedBlocks > 0) {
@@ -586,6 +619,39 @@ function levenshtein(a, b) {
     }
   }
   return dp[a.length][b.length];
+}
+
+// v1.6.0: busca una palabra de tipo parecida (p. ej. 'eentero' -> 'entero') para sugerirla.
+function similarTypeWord(word) {
+  const candidates = [...TYPE_KEYWORDS, ...Object.keys(TYPE_ALIASES)];
+  return candidates.find(type => levenshtein(type, word.toLowerCase()) <= 2 && word.length >= 3) ?? null;
+}
+
+// v1.6.0: divide los tokens de una línea en sentencias independientes.
+// Cierran una sentencia: ';' fuera de paréntesis, '{' (encabezado de bloque) y '}' (que queda sola).
+function splitStatements(tokens) {
+  const statements = [];
+  let current = [];
+  let depth = 0;
+  for (const token of tokens) {
+    if (token.value === '}') {
+      if (current.length) statements.push(current);
+      statements.push([token]);
+      current = [];
+      depth = 0;
+      continue;
+    }
+    current.push(token);
+    if (token.value === '(') depth++;
+    else if (token.value === ')') depth = Math.max(0, depth - 1);
+    else if ((token.value === ';' && depth === 0) || token.value === '{') {
+      statements.push(current);
+      current = [];
+      depth = 0;
+    }
+  }
+  if (current.length) statements.push(current);
+  return statements;
 }
 
 function lastIndexOfValue(tokens, value) {
@@ -669,7 +735,7 @@ function evaluateExpression(tokens, symbols, scopes, issues, lineNumber) {
       consume();
       return result('texto', token.value);
     }
-    if (token.value === 'verdadero' || token.value === 'falso') {
+    if (BOOLEAN_LITERALS.has(token.value)) {
       consume();
       return result('logico', token.value);
     }
@@ -680,6 +746,9 @@ function evaluateExpression(tokens, symbols, scopes, issues, lineNumber) {
         const suggestion = findSimilarSymbol(symbols, token.value, scopes);
         issues.push(undeclaredIssue(token.value, lineNumber, symbols, scopes, 'se usa en una expresión'));
         return result(suggestion?.type ?? null, token.value);
+      }
+      if (symbol.initialized === false) {
+        issues.push(issue('Advertencia', lineNumber, `La variable '${token.value}' se usa antes de recibir un valor.`, `Asígnale un valor antes de usarla. Ejemplo: ${token.value} = ...;`, 'Baja'));
       }
       return result(symbol.type, token.value);
     }
@@ -800,25 +869,30 @@ function evaluateExpression(tokens, symbols, scopes, issues, lineNumber) {
 
 // Actualiza la interfaz con todos los resultados del analisis.
 function renderAnalysis(result) {
+  // v1.6.0: las advertencias se muestran en la lista, pero no cuentan como errores.
+  const realErrors = result.errors.filter(e => e.kind !== 'Advertencia');
+  const warnings = result.errors.length - realErrors.length;
   if (result.isEmpty) {
     verdict.className = 'verdict';
     verdict.textContent = 'Escribe código o carga un ejemplo para comenzar el análisis.';
   } else {
-    const ok = result.errors.length === 0;
+    const ok = realErrors.length === 0;
     verdict.className = `verdict ${ok ? 'ok' : 'bad'}`;
     verdict.textContent = ok
-      ? '✅ Sentencia correcta. El programa pasó el análisis sintáctico y semántico sin problemas.'
-      : `❌ Se encontraron ${result.errors.length} error(es) de sintaxis o semántica.`;
+      ? (warnings > 0
+        ? `✅ Sin errores. El programa pasó el análisis, pero tiene ${warnings} advertencia(s).`
+        : '✅ Sentencia correcta. El programa pasó el análisis sintáctico y semántico sin problemas.')
+      : `❌ Se encontraron ${realErrors.length} error(es): ${countByKind(realErrors, 'Léxico')} léxico(s), ${countByKind(realErrors, 'Sintaxis')} sintáctico(s) y ${countByKind(realErrors, 'Semántico')} semántico(s).`;
   }
 
   tokenCount.textContent = result.tokens.length;
   symbolCount.textContent = result.symbols.length;
-  errorCount.textContent = result.errors.length;
+  errorCount.textContent = realErrors.length;
 
   panels.errors.innerHTML = renderErrors(result.errors, result.isEmpty);
   panels.symbols.innerHTML = renderSymbols(result.symbols);
   panels.tokens.innerHTML = renderTokens(result.tokens);
-  panels.intermediate.innerHTML = renderIntermediate(result.intermediate, result.errors.length);
+  panels.intermediate.innerHTML = renderIntermediate(result.intermediate, realErrors.length);
   panels.steps.innerHTML = renderSteps(result.steps);
 
   if (result.errors.length > 0) {
@@ -828,11 +902,16 @@ function renderAnalysis(result) {
   }
 }
 
+// Cuenta cuántos errores hay de una fase concreta (Léxico, Sintaxis o Semántico).
+function countByKind(errors, kind) {
+  return errors.filter(e => e.kind === kind).length;
+}
+
 // Renderiza la lista de errores detectados.
 function renderErrors(errors, isEmpty) {
   if (isEmpty) return `<div class="empty">El editor está vacío. Escribe código o usa uno de los ejemplos para iniciar el análisis.</div>`;
   if (!errors.length) return `<div class="empty">No se detectaron errores. El programa es coherente según las reglas del lenguaje integrado.</div>`;
-  return `<div class="error-list">${errors.map(e => `<div class="error-item"><div class="error-title"><span class="error-kind">${htmlEscape(e.kind)}</span><strong>Línea ${e.line}:</strong><span class="badge">Severidad: ${htmlEscape(e.severity ?? 'Media')}</span></div><div>${htmlEscape(e.message)}</div>${e.help ? `<small>${htmlEscape(e.help)}</small>` : ''}</div>`).join('')}</div>`;
+  return `<div class="error-list">${errors.map(e => `<div class="error-item"><div class="error-title"><span class="error-kind${e.kind === 'Advertencia' ? ' warn' : ''}">${htmlEscape(e.kind)}</span><strong>Línea ${e.line}:</strong><span class="badge">Severidad: ${htmlEscape(e.severity ?? 'Media')}</span></div><div>${htmlEscape(e.message)}</div>${e.help ? `<small>${htmlEscape(e.help)}</small>` : ''}</div>`).join('')}</div>`;
 }
 
 // Renderiza la tabla de simbolos.

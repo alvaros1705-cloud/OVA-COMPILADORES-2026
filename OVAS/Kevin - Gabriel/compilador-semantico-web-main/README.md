@@ -75,6 +75,8 @@ texto
 logico
 ```
 
+Desde la v1.6.0 también se aceptan los alias `int` (entero), `float`/`double` (decimal), `string` (texto) y `bool`/`boolean` (logico), además de `true`/`false`. Por ejemplo, `int x = "hola";` se analiza como una declaración de tipo entero.
+
 ### Declaración de variables
 
 ```txt
@@ -110,6 +112,8 @@ si (edad >= 18) {
 ---
 
 ## Errores que puede detectar
+
+Cada error indica su fase: **Léxico** (carácter no reconocido, cadena sin cerrar, número mal formado), **Sintaxis** o **Semántico**. Las **advertencias** (por ejemplo, usar una variable que todavía no tiene valor) se muestran aparte y no cuentan como error. Se pueden escribir varias sentencias en una misma línea, por ejemplo `int x; int x;`.
 
 ### Errores de sintaxis
 
@@ -252,8 +256,24 @@ Incluye:
     ├── 05-guion-presentacion.md
     ├── 06-preguntas-frecuentes.md
     ├── 07-pruebas-de-errores.md
-    └── 08-acerca-y-despliegue.md
+    ├── 08-acerca-y-despliegue.md
+    ├── 09-manual-tecnico-codigo.md / .pdf
+    └── 10-informe-tecnico-reto3.md / .pdf
+tests/
+└── pruebas-semanticas.test.js
 ```
+
+---
+
+## Pruebas automáticas
+
+Desde la raíz del proyecto (requiere Node.js 16 o superior):
+
+```bash
+node tests/pruebas-semanticas.test.js
+```
+
+Ejecuta 31 casos (los del enunciado del Reto 3, tipos, ámbitos, fases de error, formato y regresión) e informa cuáles se aprueban. El detalle está en `docs/10-informe-tecnico-reto3.md`.
 
 ---
 
@@ -398,8 +418,8 @@ En Dokploy, se debe hacer un rebuild/redeploy o verificar que el webhook haya ej
 El proyecto usa versionado en los archivos estáticos, por ejemplo:
 
 ```html
-<link rel="stylesheet" href="styles.css?v=1.5.6" />
-<script src="analyzer.js?v=1.5.6"></script>
+<link rel="stylesheet" href="styles.css?v=1.6.0" />
+<script src="analyzer.js?v=1.6.0"></script>
 ```
 
 Esto ayuda a que el navegador solicite la versión nueva de los archivos y evita que cargue versiones antiguas del CSS o del JavaScript.
@@ -546,7 +566,7 @@ El archivo `analyzer.js` es el encargado de activar la lógica del proyecto:
 Por eso, al final de `index.html` debe existir esta línea justo antes de `</body>`:
 
 ```html
-<script src="analyzer.js?v=1.5.6"></script>
+<script src="analyzer.js?v=1.6.0"></script>
 ```
 
 Si esa línea se elimina, la página carga visualmente, pero los botones dejan de funcionar.
@@ -608,10 +628,12 @@ Este proyecto se desarrolló con fines académicos para la asignatura **Teoría 
 Versión actual documentada:
 
 ```txt
-v1.5.7
+v1.6.0
 ```
 
-Incluye:
+La v1.6.0 corresponde al examen práctico de la OVA 2026-II (Reto 3, Grupo 3: Klivert Chiquiza, Ricardo Mendoza y Rafael Ruiz). Los cambios están en `CHANGELOG.md` y `docs/10-informe-tecnico-reto3.md`.
+
+Versiones anteriores incluyen:
 
 - Rediseño general de la interfaz.
 - Sección Acerca de.

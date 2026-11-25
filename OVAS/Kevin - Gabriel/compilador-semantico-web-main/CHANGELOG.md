@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.6.0 — Examen práctico OVA 2026-II (Reto 3, Grupo 3: Klivert Chiquiza, Ricardo Mendoza, Rafael Ruiz)
+- Corrige el análisis de varias sentencias en una misma línea (`int x; int x;`, `si (c) { ... }`): nueva función `splitStatements()`.
+- Agrega alias de tipos estilo C (`int`, `float`, `double`, `string`, `bool`, `boolean`) y literales `true`/`false`, traducidos a los tipos del minilenguaje.
+- Diferencia los errores léxicos (carácter no reconocido, cadena sin cerrar, número mal formado) de los sintácticos y semánticos, y evita errores en cascada por caracteres inválidos.
+- Recuperación de errores ante tipos mal escritos (`eentero` → sugiere `entero` y registra la variable).
+- La tabla de símbolos registra si la variable fue inicializada; usar una variable sin valor genera una advertencia.
+- El veredicto muestra el desglose de errores por fase; las advertencias no cuentan como error.
+- Agrega `tests/pruebas-semanticas.test.js` (31 pruebas reproducibles con Node.js).
+- Agrega `docs/10-informe-tecnico-reto3.md` (diagnóstico, cambios, matriz de pruebas y limitaciones).
+- Actualiza versión de recursos estáticos a `v=1.6.0`.
+
 ## v1.5.7
 - Agrega comentarios de mantenimiento en `index.html`, `styles.css`, `analyzer.js`, `Dockerfile` y `docker-compose.yml`.
 - Agrega `docs/09-manual-tecnico-codigo.md`.

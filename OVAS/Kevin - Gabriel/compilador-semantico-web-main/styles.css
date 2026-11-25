@@ -550,6 +550,12 @@ code, pre { font-family: var(--usb-font-mono); }
   color: var(--bad);
 }
 
+/* v1.6.0: las advertencias (p. ej. variable usada sin valor) se distinguen de los errores. */
+.error-kind.warn {
+  background: rgba(245, 158, 11, 0.16);
+  color: var(--warning);
+}
+
 .badge {
   background: var(--usb-surface-elevated);
   color: var(--muted);

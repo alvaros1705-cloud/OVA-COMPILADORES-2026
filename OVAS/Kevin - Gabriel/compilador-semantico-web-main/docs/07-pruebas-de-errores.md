@@ -166,6 +166,48 @@ si (edad >= 18) {
 
 ---
 
+## 9. Casos del examen práctico (v1.6.0)
+
+Se pueden escribir tal como aparecen en el enunciado, con `int`:
+
+```txt
+int x = 10;          // válido
+x = 20;              // error: x no fue declarada (pegar solo esta línea)
+int x; int x;        // error: declaración duplicada en el mismo ámbito
+int x = 10 + 2;      // válido
+int x = "hola";      // error: no se puede asignar texto a entero
+```
+
+## 10. Error léxico
+
+```txt
+entero n = 5 @ 3;
+```
+
+**Qué debe detectar:** error **Léxico**: el carácter `@` no pertenece al lenguaje.
+
+## 11. Variable sin valor (advertencia)
+
+```txt
+entero w;
+entero k = w + 1;
+```
+
+**Qué debe pasar:** el programa es válido, pero aparece una **Advertencia**: `w` se usa antes de recibir un valor.
+
+## 12. Ámbitos
+
+```txt
+si (verdadero) {
+  entero y = 1;
+}
+imprimir(y);
+```
+
+**Qué debe detectar:** error semántico; `y` solo existe dentro del bloque del `si`.
+
+---
+
 ## Frase para la exposición
 
 > La diferencia importante es que un error de sintaxis ocurre cuando la forma del código está mal escrita, como faltar un punto y coma. En cambio, un error semántico ocurre cuando el código sí tiene forma válida, pero no tiene sentido, como guardar un texto en una variable entera.

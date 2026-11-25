@@ -59,7 +59,7 @@
   <link rel="stylesheet" href="../../shared/usb-ova-tokens.css" />
   <link rel="stylesheet" href="../../shared/usb-ova-components.css" />
   <script src="../../shared/usb-ova-theme.js"></script>
-  <link rel="stylesheet" href="styles.css?v=1.6.0" />
+  <link rel="stylesheet" href="styles.css?v=1.6.1" />
 </head>
 <body class="usb-ova-body ova-phase-sem">
 
@@ -314,7 +314,7 @@
           <h2>MiniLenguaje incluido</h2>
           <p>La demo usa un minilenguaje compacto para que el análisis sea claro y fácil de seguir.</p>
           <ul class="doc-list">
-            <li><strong>Tipos:</strong> <code>entero</code>, <code>decimal</code>, <code>texto</code>, <code>logico</code>.</li>
+            <li><strong>Tipos:</strong> <code>entero</code>, <code>decimal</code>, <code>texto</code>, <code>logico</code>. También se aceptan los alias <code>int</code>, <code>float</code>/<code>double</code>, <code>string</code> y <code>bool</code>.</li>
             <li><strong>Declaración:</strong> <code>entero edad = 20;</code></li>
             <li><strong>Asignación:</strong> <code>edad = edad + 1;</code></li>
             <li><strong>Salida:</strong> <code>imprimir(nombre);</code></li>
@@ -327,7 +327,7 @@
           <h2>Cómo leer la salida</h2>
           <p>Después de ejecutar el análisis puedes revisar distintas vistas complementarias.</p>
           <ul class="doc-list">
-            <li><strong>Errores:</strong> muestra línea, tipo de problema y sugerencia.</li>
+            <li><strong>Errores:</strong> muestra línea, fase (léxico, sintaxis o semántico) y sugerencia. Las advertencias no cuentan como error.</li>
             <li><strong>Tabla de símbolos:</strong> registra variables, tipos, ámbito y valor.</li>
             <li><strong>Tokens:</strong> lista cada lexema y su categoría.</li>
             <li><strong>Código intermedio:</strong> resume lo que el analizador entendió del programa.</li>
@@ -442,7 +442,7 @@
     </div>
   </footer>
   <!-- Script principal: activa botones, analisis, pestanas y renderizado de resultados. -->
-  <script src="analyzer.js?v=1.5.7"></script>
+  <script src="analyzer.js?v=1.6.0"></script>
   <script>
     (function () {
       var embedded = window.self !== window.top;
