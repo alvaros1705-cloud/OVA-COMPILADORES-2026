@@ -62,10 +62,16 @@ class SemanticAnalyzer:
             self._error(f"No se puede asignar '{val_type}' a '{sym.symbol_type}'", node.position)
 
     def visit_assignment_expr(self, node: AssignmentExpr):
+        # El parser produce este nodo para toda asignación 'x = expr;'.
+        # Antes no se visitaba node.value: variables no declaradas o tipos
+        # incompatibles en el lado derecho pasaban a la generación de TAC.
+        val_type = node.value.accept(self)
         sym = self.table.lookup(node.name)
         if not sym:
             self._error(f"Variable '{node.name}' no declarada", node.position)
             return None
+        if val_type and not self._compatible(sym.symbol_type, val_type):
+            self._error(f"No se puede asignar '{val_type}' a '{sym.symbol_type}'", node.position)
         return sym.symbol_type
 
     def visit_if_statement(self, node: IfStatement):

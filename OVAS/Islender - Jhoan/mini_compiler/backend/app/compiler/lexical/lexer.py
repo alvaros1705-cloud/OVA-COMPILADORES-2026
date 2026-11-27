@@ -23,8 +23,10 @@ class Lexer:
                 if tok:
                     self.tokens.append(tok)
             except LexicalError as e:
+                # Recuperación: quien lanza el error ya consumió el carácter
+                # inválido (o la comilla de apertura). Avanzar otra vez aquí
+                # saltaba un carácter válido y fallaba con IndexError al final.
                 self.errors.append(e)
-                self._advance()  # recuperación: saltar caracter inválido
 
         self.tokens.append(Token(TokenType.EOF, "", self._position()))
         return self.tokens

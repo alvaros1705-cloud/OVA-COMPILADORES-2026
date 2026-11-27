@@ -1,0 +1,26 @@
+# Blueprint de despliegue de las API de las OVAS en Render.
+# Se crean dos servicios FastAPI independientes; los frontends estáticos permanecen en GitHub Pages.
+services:
+  - type: web
+    name: analizador-sintactico
+    runtime: python
+    rootDir: "OVAS/Fabian - Sofi/analizador-sintactico"
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+
+  - type: web
+    name: mini-compilador-tac
+    runtime: python
+    rootDir: "OVAS/Islender - Jhoan/mini_compiler/backend"
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.0"

@@ -31,12 +31,18 @@ class TACGenerator:
         for s in node.statements: s.accept(self)
 
     def visit_function_decl(self, node: FunctionDecl):
+        # Las funciones se declaran en medio del programa principal; sin este
+        # salto, el flujo secuencial entraba al cuerpo de la función al pasar
+        # por su declaración (sin argumentos y ejecutando su RETURN).
+        skip_lbl = self._new_label()
+        self._emit("GOTO", result=skip_lbl)
         self._emit("FUNC_BEGIN", node.name, result=f"func_{node.name}")
         for p in node.params:
             self._emit("PARAM", p.name)
         for s in node.body:
             s.accept(self)
         self._emit("FUNC_END", node.name)
+        self._emit("LABEL", result=skip_lbl)
 
     def visit_var_declaration(self, node: VarDeclaration):
         if node.initializer:
@@ -69,14 +75,21 @@ class TACGenerator:
 
     def visit_if_statement(self, node: IfStatement):
         cond = node.condition.accept(self)
+        if not node.else_branch:
+            # Sin else basta un salto al final; antes se emitía además un
+            # GOTO a una etiqueta inmediatamente siguiente (código inútil).
+            end_lbl = self._new_label()
+            self._emit("IF_FALSE", cond, result=end_lbl)
+            for s in node.then_branch: s.accept(self)
+            self._emit("LABEL", result=end_lbl)
+            return
         else_lbl = self._new_label()
         end_lbl = self._new_label()
         self._emit("IF_FALSE", cond, result=else_lbl)
         for s in node.then_branch: s.accept(self)
         self._emit("GOTO", result=end_lbl)
         self._emit("LABEL", result=else_lbl)
-        if node.else_branch:
-            for s in node.else_branch: s.accept(self)
+        for s in node.else_branch: s.accept(self)
         self._emit("LABEL", result=end_lbl)
 
     def visit_while_statement(self, node: WhileStatement):

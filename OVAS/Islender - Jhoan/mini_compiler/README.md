@@ -56,3 +56,15 @@ En Render.com el servicio usa la variable `$PORT` automáticamente (ver `render.
 - `backend/app/compiler/` — Motor del compilador
 - `frontend/` — Interfaz web
 - `examples/` — Programas de ejemplo .mc
+
+## Pruebas
+
+```bash
+pip install pytest httpx
+python -m pytest                   # desde mini_compiler/
+python scripts/casos_reto4.py      # catálogo de casos con sus cuádruplas
+```
+
+## Reto 4 (II-2026): corrección del generador TAC
+
+En la versión del Reto 4 se corrigieron defectos que detenían el compilador ante errores de sintaxis o léxicos (HTTP 500), asignaciones que no se validaban semánticamente y el flujo de control del TAC en las funciones. Diagnóstico, cambios, matriz de pruebas, manual y documento técnico: [`docs/reto4/`](docs/reto4/README.md).
