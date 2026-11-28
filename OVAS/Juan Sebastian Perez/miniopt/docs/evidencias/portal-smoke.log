@@ -1,0 +1,8 @@
+cards 6
+navItems 7
+modal6 true
+counters [ '6', '6', '6' ]
+errors []
+iframe src OVAS/Juan Sebastian Perez/miniopt/index.html
+viewer title MiniOpt — Optimizador de Código Intermedio (TAC)
+portal smoke OK

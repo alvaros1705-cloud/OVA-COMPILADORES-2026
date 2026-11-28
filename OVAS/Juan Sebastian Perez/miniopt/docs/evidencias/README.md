@@ -17,6 +17,15 @@ Capturas generadas con **Playwright + Chromium 131** sobre el portal servido loc
 | [`11-portal-seis-ovas.png`](11-portal-seis-ovas.png) | Las seis tarjetas, incluida “Optimizador TAC (MiniOpt)”. | P-18 |
 | [`12-portal-iframe-miniopt.png`](12-portal-iframe-miniopt.png) | MiniOpt cargado dentro del iframe del portal. | P-18 |
 
+## Registros de ejecución
+
+| Archivo | Contenido |
+|---|---|
+| [`npm-test.txt`](npm-test.txt) | Salida completa de `npm test`: 38 pruebas aprobadas. |
+| [`ui-smoke.log`](ui-smoke.log) | Prueba de humo de la UI: ejemplo, efectos, modo agresivo, paso a paso, pestañas, error y límite. |
+| [`portal-smoke.log`](portal-smoke.log) | Prueba de humo del portal: 6 tarjetas, 7 ítems de navegación, modal, contadores y iframe. |
+| [`capturas.log`](capturas.log) | Resultado de la captura con Playwright: sin errores de página. |
+
 ## Reproducir las capturas
 
 ```bash

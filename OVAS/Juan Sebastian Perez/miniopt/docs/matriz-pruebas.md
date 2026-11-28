@@ -94,6 +94,13 @@ portal smoke OK
 
 Las capturas están en [`evidencias/`](evidencias/) y fueron generadas con Playwright/Chromium sobre el portal servido por HTTP. El índice completo está en [`evidencias/README.md`](evidencias/README.md).
 
+Registros de ejecución:
+
+- [`evidencias/npm-test.txt`](evidencias/npm-test.txt) — 38 pruebas aprobadas.
+- [`evidencias/ui-smoke.log`](evidencias/ui-smoke.log) — prueba de humo de la interfaz.
+- [`evidencias/portal-smoke.log`](evidencias/portal-smoke.log) — prueba de humo del portal.
+- [`evidencias/capturas.log`](evidencias/capturas.log) — captura sin errores de página.
+
 | Evidencia | Qué demuestra | Caso |
 |---|---|---|
 | [`01-ejemplo-enunciado.png`](evidencias/01-ejemplo-enunciado.png) | `x = 16`, 4 → 1 instrucciones y 75 % de reducción. | P-01 |
