@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es" class="ova-phase-tac usb-ova-root">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MiniOpt — Optimizador didáctico de código intermedio de tres direcciones (TAC) para la asignatura Teoría de Compiladores de la Universidad Simón Bolívar.">
+  <title>MiniOpt — Optimizador TAC | USB</title>
+  <link rel="stylesheet" href="../../shared/usb-ova-tokens.css">
+  <link rel="stylesheet" href="../../shared/usb-ova-components.css">
+  <link rel="stylesheet" href="css/miniopt.css">
+  <script src="../../shared/usb-ova-theme.js"></script>
+</head>
+<body class="usb-ova-body miniopt-body">
+  <header class="ova-header">
+    <div class="ova-header__brand">
+      <div class="ova-header__icon" aria-hidden="true">M6</div>
+      <div class="ova-header__text">
+        <h1 class="ova-header__title">MiniOpt</h1>
+        <p class="ova-header__subtitle">Optimizador de código intermedio TAC · Fase 6</p>
+      </div>
+    </div>
+    <div class="ova-header__actions">
+      <span class="ova-header__meta">Cliente estático</span>
+      <a class="ova-btn-secondary" href="../../index.html" target="_top" rel="noopener">Volver al portal</a>
+    </div>
+  </header>
+
+  <main class="miniopt-main">
+    <section class="ova-panel miniopt-toolbar" aria-label="Configuración de la optimización">
+      <div class="miniopt-toolbar__row">
+        <label class="miniopt-field" for="sample-select">
+          <span>Programa de ejemplo</span>
+          <select id="sample-select" class="ova-select"></select>
+        </label>
+        <p id="sample-description" class="miniopt-sample-description"></p>
+      </div>
+      <div class="miniopt-toolbar__row miniopt-toolbar__row--toggles">
+        <span class="miniopt-toolbar__label">Optimizaciones activas</span>
+        <div id="pass-toggles" class="miniopt-toggles" role="group" aria-label="Optimizaciones activas"></div>
+      </div>
+    </section>
+
+    <div id="status-bar" class="ova-status-bar status-ok" role="status" aria-live="polite">
+      <span class="ova-status-bar__dot" aria-hidden="true"></span>
+      <span id="status-text">Listo para optimizar. Escriba TAC o cargue un ejemplo.</span>
+    </div>
+
+    <section class="miniopt-metrics" aria-label="Métricas de la optimización">
+      <article class="miniopt-metric">
+        <span class="miniopt-metric__label">Instrucciones antes</span>
+        <strong class="miniopt-metric__value" id="metric-before">0</strong>
+      </article>
+      <article class="miniopt-metric">
+        <span class="miniopt-metric__label">Instrucciones después</span>
+        <strong class="miniopt-metric__value" id="metric-after">0</strong>
+      </article>
+      <article class="miniopt-metric">
+        <span class="miniopt-metric__label">Reducción</span>
+        <strong class="miniopt-metric__value" id="metric-reduction">0 %</strong>
+      </article>
+      <article class="miniopt-metric">
+        <span class="miniopt-metric__label">Transformaciones</span>
+        <strong class="miniopt-metric__value" id="metric-transformations">0</strong>
+      </article>
+      <article class="miniopt-metric">
+        <span class="miniopt-metric__label">Temporales</span>
+        <strong class="miniopt-metric__value" id="metric-temps">0 → 0</strong>
+      </article>
+    </section>
+
+    <section class="miniopt-workspace">
+      <div class="ova-panel miniopt-editor-panel">
+        <div class="ova-panel__header">
+          <span>Código TAC de entrada</span>
+          <span id="input-counter" class="miniopt-counter">0 líneas</span>
+        </div>
+        <div class="miniopt-editor-wrap">
+          <div id="line-gutter" class="miniopt-gutter" aria-hidden="true">1</div>
+          <textarea
+            id="tac-input"
+            class="miniopt-textarea"
+            spellcheck="false"
+            autocapitalize="off"
+            autocomplete="off"
+            aria-label="Editor de código TAC"
+            placeholder="t1 = 5 + 3&#10;t2 = t1 * 2&#10;x = t2 + 0&#10;print x"
+          ></textarea>
+        </div>
+        <div class="ova-panel__footer miniopt-editor-footer">
+          <label class="miniopt-check miniopt-check--danger" for="opt-aggressive">
+            <input type="checkbox" id="opt-aggressive">
+            <span>Eliminar también variables de usuario muertas (modo agresivo)</span>
+          </label>
+          <div class="miniopt-editor-actions">
+            <button type="button" id="btn-optimize" class="ova-btn-primary">Optimizar</button>
+            <button type="button" id="btn-step" class="ova-btn-secondary">Paso a paso</button>
+            <button type="button" id="btn-reset" class="ova-btn-secondary">Reiniciar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ova-panel miniopt-output-panel">
+        <div class="ova-tabs" role="tablist" aria-label="Resultados de la optimización">
+          <button type="button" class="ova-tab active" id="tab-optimized" role="tab" aria-selected="true" aria-controls="panel-optimized" data-tab="optimized">TAC optimizado</button>
+          <button type="button" class="ova-tab" id="tab-diff" role="tab" aria-selected="false" aria-controls="panel-diff" data-tab="diff">Comparación</button>
+          <button type="button" class="ova-tab" id="tab-rules" role="tab" aria-selected="false" aria-controls="panel-rules" data-tab="rules">Reglas aplicadas</button>
+          <button type="button" class="ova-tab" id="tab-equivalence" role="tab" aria-selected="false" aria-controls="panel-equivalence" data-tab="equivalence">Equivalencia</button>
+        </div>
+
+        <div id="panel-optimized" class="ova-tab-content active" role="tabpanel" aria-labelledby="tab-optimized">
+          <pre id="optimized-output" class="miniopt-code" aria-live="polite">(sin resultado todavía)</pre>
+        </div>
+
+        <div id="panel-diff" class="ova-tab-content" role="tabpanel" aria-labelledby="tab-diff">
+          <div class="miniopt-diff-head">
+            <span class="miniopt-diff-key miniopt-diff-key--del">Original</span>
+            <span class="miniopt-diff-key miniopt-diff-key--add">Optimizado</span>
+          </div>
+          <div class="miniopt-diff" id="diff-view">
+            <div class="miniopt-diff-col">
+              <div class="miniopt-diff-title">TAC original</div>
+              <div id="diff-original" class="miniopt-diff-lines"></div>
+            </div>
+            <div class="miniopt-diff-col">
+              <div class="miniopt-diff-title">TAC optimizado</div>
+              <div id="diff-optimized" class="miniopt-diff-lines"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="panel-rules" class="ova-tab-content" role="tabpanel" aria-labelledby="tab-rules">
+          <div class="miniopt-table-wrap">
+            <table class="ova-table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Regla</th>
+                  <th scope="col">Línea</th>
+                  <th scope="col">Antes</th>
+                  <th scope="col">Después</th>
+                  <th scope="col">Justificación</th>
+                </tr>
+              </thead>
+              <tbody id="rules-body"></tbody>
+            </table>
+          </div>
+          <p id="rules-empty" class="ova-empty-state">Aún no se han aplicado reglas.</p>
+        </div>
+
+        <div id="panel-equivalence" class="ova-tab-content" role="tabpanel" aria-labelledby="tab-equivalence">
+          <div id="equivalence-summary" class="miniopt-equivalence-summary"></div>
+          <div id="equivalence-detail" class="miniopt-equivalence-detail"></div>
+        </div>
+
+        <div class="ova-panel__footer miniopt-output-footer">
+          <button type="button" id="btn-copy" class="ova-btn-secondary">Copiar TAC</button>
+          <button type="button" id="btn-download" class="ova-btn-secondary">Descargar .tac</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="ova-panel miniopt-diagnostics" aria-label="Diagnóstico de la entrada">
+      <div class="ova-panel__header">
+        <span>Diagnóstico de la entrada</span>
+        <span id="diagnostics-count" class="miniopt-counter">Sin observaciones</span>
+      </div>
+      <div class="ova-panel__body">
+        <ul id="diagnostics-list" class="miniopt-diagnostics-list">
+          <li class="miniopt-diagnostic miniopt-diagnostic--ok">La entrada se analizará al optimizar.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="ova-panel miniopt-help" aria-label="Ayuda rápida">
+      <div class="ova-panel__header">Cómo leer el resultado</div>
+      <div class="ova-panel__body miniopt-help__body">
+        <p><strong>Seguridad primero:</strong> MiniOpt nunca elimina llamadas, parámetros, impresiones, retornos ni almacenamientos en arreglos. Si una optimización no puede garantizarse, la instrucción se conserva.</p>
+        <p><strong>Variables de usuario:</strong> por defecto se consideran salidas observables y no se eliminan; los temporales <code>t1</code>, <code>t2</code>… sí pueden retirarse cuando su valor no se usa. El modo agresivo permite eliminar variables muertas y la pestaña de equivalencia mostrará cualquier diferencia.</p>
+        <p><strong>Equivalencia:</strong> el intérprete ejecuta el TAC original y el optimizado y compara <code>print</code>, <code>return</code>, variables observables y arreglos. Si hay llamadas o líneas opacas, la verificación se marca como manual.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="miniopt-footer">
+    <span>MiniOpt · Teoría de Compiladores · Universidad Simón Bolívar</span>
+    <span>Desarrollado por Juan Sebastian Perez Galvis · 2026</span>
+  </footer>
+
+  <noscript>
+    <p class="miniopt-noscript">MiniOpt necesita JavaScript habilitado para ejecutar el optimizador.</p>
+  </noscript>
+
+  <script type="module" src="js/ui.js"></script>
+</body>
+</html>

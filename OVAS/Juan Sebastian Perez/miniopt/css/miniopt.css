@@ -1,0 +1,635 @@
+/**
+ * MiniOpt — Estilos específicos
+ * Se apoya en los tokens y componentes institucionales de OVAS/shared.
+ */
+
+:root,
+html.usb-ova-root {
+  --miniopt-code-bg: rgba(2, 6, 23, 0.45);
+  --miniopt-gutter-bg: rgba(2, 6, 23, 0.6);
+  --miniopt-del-bg: rgba(239, 68, 68, 0.14);
+  --miniopt-del-border: rgba(239, 68, 68, 0.45);
+  --miniopt-add-bg: rgba(16, 185, 129, 0.14);
+  --miniopt-add-border: rgba(16, 185, 129, 0.45);
+  --miniopt-warn-bg: rgba(245, 158, 11, 0.1);
+  --miniopt-warn-border: rgba(245, 158, 11, 0.4);
+  --miniopt-error-bg: rgba(239, 68, 68, 0.1);
+  --miniopt-error-border: rgba(239, 68, 68, 0.4);
+  --miniopt-ok-bg: rgba(16, 185, 129, 0.1);
+  --miniopt-ok-border: rgba(16, 185, 129, 0.4);
+}
+
+html.usb-ova-light {
+  --miniopt-code-bg: rgba(248, 250, 252, 0.9);
+  --miniopt-gutter-bg: rgba(226, 232, 240, 0.85);
+  --miniopt-del-bg: #fee2e2;
+  --miniopt-del-border: #fca5a5;
+  --miniopt-add-bg: #dcfce7;
+  --miniopt-add-border: #86efac;
+  --miniopt-warn-bg: #fef3c7;
+  --miniopt-warn-border: #fcd34d;
+  --miniopt-error-bg: #fee2e2;
+  --miniopt-error-border: #fca5a5;
+  --miniopt-ok-bg: #dcfce7;
+  --miniopt-ok-border: #86efac;
+}
+
+.miniopt-body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.miniopt-main {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Barra de configuración ─────────────────────────────────────────── */
+.miniopt-toolbar {
+  padding: 12px 16px;
+  gap: 10px;
+}
+
+.miniopt-toolbar__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+}
+
+.miniopt-toolbar__row--toggles {
+  border-top: 1px solid var(--usb-border);
+  padding-top: 10px;
+}
+
+.miniopt-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--usb-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.miniopt-sample-description {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--usb-text-muted);
+  flex: 1;
+  min-width: 220px;
+}
+
+.miniopt-toolbar__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--usb-text-subtle);
+}
+
+.miniopt-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+}
+
+.miniopt-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 9px;
+  border: 1px solid var(--usb-border);
+  border-radius: 999px;
+  background: var(--usb-surface-elevated);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--usb-text-muted);
+  cursor: pointer;
+  transition: var(--usb-transition-fast);
+  user-select: none;
+}
+
+.miniopt-check:hover {
+  border-color: var(--usb-teal);
+  color: var(--usb-text);
+}
+
+.miniopt-check input {
+  accent-color: var(--usb-teal);
+  margin: 0;
+}
+
+.miniopt-check--danger {
+  border-color: var(--miniopt-warn-border);
+  color: var(--usb-warning);
+  background: var(--miniopt-warn-bg);
+  border-radius: var(--usb-radius-md);
+  padding: 7px 10px;
+  text-align: left;
+}
+
+.miniopt-check--danger input {
+  accent-color: var(--usb-warning);
+}
+
+/* ── Métricas ────────────────────────────────────────────────────────── */
+.miniopt-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.miniopt-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 14px;
+  border: 1px solid var(--usb-border);
+  border-radius: var(--usb-radius-md);
+  background: var(--usb-surface);
+  box-shadow: var(--usb-shadow-sm);
+}
+
+.miniopt-metric__label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--usb-text-subtle);
+}
+
+.miniopt-metric__value {
+  font-family: var(--usb-font-mono);
+  font-size: 1.1rem;
+  color: var(--ova-phase-accent);
+}
+
+/* ── Espacio de trabajo ──────────────────────────────────────────────── */
+.miniopt-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+  min-height: 540px;
+  flex: 1;
+}
+
+.miniopt-editor-panel,
+.miniopt-output-panel {
+  min-height: 0;
+}
+
+.miniopt-editor-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.miniopt-editor-wrap {
+  display: flex;
+  flex: 1;
+  min-height: 380px;
+  background: var(--miniopt-code-bg);
+  overflow: hidden;
+}
+
+.miniopt-gutter {
+  width: 48px;
+  flex-shrink: 0;
+  padding: 12px 8px 12px 4px;
+  text-align: right;
+  font-family: var(--usb-font-mono);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--usb-text-subtle);
+  background: var(--miniopt-gutter-bg);
+  border-right: 1px solid var(--usb-border);
+  overflow: hidden;
+  user-select: none;
+  white-space: pre;
+}
+
+.miniopt-textarea {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: var(--usb-text);
+  font-family: var(--usb-font-mono);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  tab-size: 2;
+  white-space: pre;
+  overflow: auto;
+}
+
+.miniopt-textarea::placeholder {
+  color: var(--usb-text-subtle);
+  opacity: 0.75;
+}
+
+.miniopt-textarea:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--usb-teal);
+}
+
+.miniopt-editor-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.miniopt-editor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.miniopt-counter {
+  font-family: var(--usb-font-mono);
+  font-size: 0.7rem;
+  color: var(--usb-text-subtle);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* ── Salida ──────────────────────────────────────────────────────────── */
+.miniopt-output-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.miniopt-output-panel .ova-tab-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.miniopt-code {
+  margin: 0;
+  padding: 4px 2px;
+  white-space: pre;
+  overflow: auto;
+  font-family: var(--usb-font-mono);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--usb-text);
+}
+
+.miniopt-output-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* ── Diff ────────────────────────────────────────────────────────────── */
+.miniopt-diff-head {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.miniopt-diff-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.miniopt-diff-key::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.miniopt-diff-key--del::before {
+  background: var(--miniopt-del-border);
+}
+
+.miniopt-diff-key--add::before {
+  background: var(--miniopt-add-border);
+}
+
+.miniopt-diff {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  min-width: 0;
+}
+
+.miniopt-diff-col {
+  min-width: 0;
+  border: 1px solid var(--usb-border);
+  border-radius: var(--usb-radius-md);
+  overflow: hidden;
+  background: var(--miniopt-code-bg);
+}
+
+.miniopt-diff-title {
+  padding: 6px 10px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--usb-text-subtle);
+  background: var(--usb-surface-elevated);
+  border-bottom: 1px solid var(--usb-border);
+}
+
+.miniopt-diff-lines {
+  max-height: 420px;
+  overflow: auto;
+  padding: 4px 0;
+}
+
+.diff-line {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 8px;
+  padding: 1px 8px;
+  font-family: var(--usb-font-mono);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  white-space: pre;
+}
+
+.diff-line .diff-num {
+  color: var(--usb-text-subtle);
+  text-align: right;
+  user-select: none;
+}
+
+.diff-line.diff-del {
+  background: var(--miniopt-del-bg);
+  box-shadow: inset 3px 0 0 var(--miniopt-del-border);
+}
+
+.diff-line.diff-add {
+  background: var(--miniopt-add-bg);
+  box-shadow: inset 3px 0 0 var(--miniopt-add-border);
+}
+
+.diff-line.diff-empty {
+  opacity: 0.35;
+}
+
+/* ── Reglas ──────────────────────────────────────────────────────────── */
+.miniopt-table-wrap {
+  max-height: 430px;
+  overflow: auto;
+  border: 1px solid var(--usb-border);
+  border-radius: var(--usb-radius-md);
+}
+
+.miniopt-table-wrap .ova-table tbody td {
+  vertical-align: top;
+}
+
+.miniopt-rule-tag {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(0, 168, 150, 0.12);
+  border: 1px solid rgba(0, 168, 150, 0.35);
+  color: var(--usb-teal);
+  font-family: var(--usb-font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ── Equivalencia ────────────────────────────────────────────────────── */
+.miniopt-equivalence-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--usb-border);
+  border-radius: var(--usb-radius-md);
+  margin-bottom: 12px;
+  background: var(--usb-surface-elevated);
+}
+
+.miniopt-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+
+.miniopt-badge--ok {
+  background: var(--miniopt-ok-bg);
+  border-color: var(--miniopt-ok-border);
+  color: var(--usb-success);
+}
+
+.miniopt-badge--warn {
+  background: var(--miniopt-warn-bg);
+  border-color: var(--miniopt-warn-border);
+  color: var(--usb-warning);
+}
+
+.miniopt-badge--error {
+  background: var(--miniopt-error-bg);
+  border-color: var(--miniopt-error-border);
+  color: var(--usb-error);
+}
+
+.miniopt-equivalence-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.miniopt-equivalence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px;
+}
+
+.miniopt-equivalence-card {
+  padding: 9px 12px;
+  border: 1px solid var(--usb-border);
+  border-radius: var(--usb-radius-md);
+  background: var(--usb-surface);
+}
+
+.miniopt-equivalence-card span {
+  display: block;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--usb-text-subtle);
+}
+
+.miniopt-equivalence-card strong {
+  font-family: var(--usb-font-mono);
+  font-size: 0.9rem;
+  color: var(--usb-text);
+  overflow-wrap: anywhere;
+}
+
+.miniopt-diff-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.8rem;
+  color: var(--usb-text-muted);
+}
+
+.miniopt-diff-list li {
+  margin: 3px 0;
+  font-family: var(--usb-font-mono);
+}
+
+/* ── Diagnóstico ─────────────────────────────────────────────────────── */
+.miniopt-diagnostics-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.miniopt-diagnostic {
+  padding: 8px 10px;
+  border-radius: var(--usb-radius-sm);
+  border: 1px solid var(--usb-border);
+  font-size: 0.8rem;
+  font-family: var(--usb-font-mono);
+}
+
+.miniopt-diagnostic--ok {
+  background: var(--miniopt-ok-bg);
+  border-color: var(--miniopt-ok-border);
+  color: var(--usb-success);
+}
+
+.miniopt-diagnostic--warn {
+  background: var(--miniopt-warn-bg);
+  border-color: var(--miniopt-warn-border);
+  color: var(--usb-warning);
+}
+
+.miniopt-diagnostic--error {
+  background: var(--miniopt-error-bg);
+  border-color: var(--miniopt-error-border);
+  color: var(--usb-error);
+}
+
+/* ── Ayuda y pie ─────────────────────────────────────────────────────── */
+.miniopt-help__body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px 18px;
+  font-size: 0.82rem;
+  color: var(--usb-text-muted);
+}
+
+.miniopt-help__body p {
+  margin: 0;
+}
+
+.miniopt-help__body code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(0, 168, 150, 0.12);
+  color: var(--usb-teal);
+  font-size: 0.78rem;
+}
+
+.miniopt-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 16px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--usb-border);
+  color: var(--usb-text-subtle);
+  font-size: 0.72rem;
+}
+
+.miniopt-noscript {
+  margin: 0;
+  padding: 12px 20px;
+  background: var(--miniopt-error-bg);
+  color: var(--usb-error);
+  font-size: 0.85rem;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 1000px) {
+  .miniopt-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .miniopt-diff {
+    grid-template-columns: 1fr;
+  }
+
+  .miniopt-editor-wrap {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 620px) {
+  .miniopt-main {
+    padding: 10px;
+  }
+
+  .miniopt-toolbar__row {
+    align-items: flex-start;
+  }
+
+  .miniopt-editor-footer {
+    align-items: stretch;
+  }
+
+  .miniopt-editor-actions {
+    width: 100%;
+  }
+
+  .miniopt-editor-actions .ova-btn-primary,
+  .miniopt-editor-actions .ova-btn-secondary {
+    flex: 1;
+  }
+
+  .miniopt-output-footer {
+    justify-content: stretch;
+  }
+
+  .miniopt-output-footer .ova-btn-secondary {
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
