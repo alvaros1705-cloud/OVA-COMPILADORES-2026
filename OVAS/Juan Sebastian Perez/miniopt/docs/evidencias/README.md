@@ -13,8 +13,8 @@ Capturas generadas con **Playwright + Chromium 131** sobre el portal servido loc
 | [`07-paso-a-paso.png`](07-paso-a-paso.png) | Modo paso a paso: un pase por clic y traza acumulada. | P-01 |
 | [`08-modo-agresivo.png`](08-modo-agresivo.png) | Modo agresivo: se elimina `x` y la equivalencia detecta `10 → 0`. | P-07 |
 | [`09-tema-claro.png`](09-tema-claro.png) | Tema claro con los tokens institucionales USB. | P-20 |
-| [`10-portal-dashboard.png`](10-portal-dashboard.png) | Dashboard con 6 OVAS integradas y el ítem 06 en el menú. | P-18 |
-| [`11-portal-seis-ovas.png`](11-portal-seis-ovas.png) | Las seis tarjetas, incluida “Optimizador TAC (MiniOpt)”. | P-18 |
+| [`10-portal-dashboard.png`](10-portal-dashboard.png) | Dashboard con 7 OVAS integradas y los ítems 06 y 07 en el menú. | P-18 |
+| [`11-portal-siete-ovas.png`](11-portal-siete-ovas.png) | Las siete tarjetas, incluida “MiniOpt (Juan Sebastian)”. | P-18 |
 | [`12-portal-iframe-miniopt.png`](12-portal-iframe-miniopt.png) | MiniOpt cargado dentro del iframe del portal. | P-18 |
 
 ## Registros de ejecución
@@ -23,7 +23,7 @@ Capturas generadas con **Playwright + Chromium 131** sobre el portal servido loc
 |---|---|
 | [`npm-test.txt`](npm-test.txt) | Salida completa de `npm test`: 38 pruebas aprobadas. |
 | [`ui-smoke.log`](ui-smoke.log) | Prueba de humo de la UI: ejemplo, efectos, modo agresivo, paso a paso, pestañas, error y límite. |
-| [`portal-smoke.log`](portal-smoke.log) | Prueba de humo del portal: 6 tarjetas, 7 ítems de navegación, modal, contadores y iframe. |
+| [`portal-smoke.log`](portal-smoke.log) | Prueba de humo del portal: 7 tarjetas, 8 ítems de navegación, modal, contadores e iframe. |
 | [`capturas.log`](capturas.log) | Resultado de la captura con Playwright: sin errores de página. |
 
 ## Reproducir las capturas

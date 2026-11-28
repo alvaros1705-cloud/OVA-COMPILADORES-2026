@@ -2,7 +2,7 @@
 
 ## Antes de empezar
 
-- Tener abierto el portal en la OVA 6.
+- Tener abierto el portal en la OVA 7. La OVA 06 corresponde a otra implementación de MiniOpt y se conserva como comparación.
 - Tener cargado el ejemplo **“Ejemplo del enunciado”**.
 - Tener a mano una terminal con `npm test` en la carpeta de MiniOpt.
 - Verificar que el proyector permite ver el tema oscuro y el contraste.
@@ -52,8 +52,8 @@ Mostrar el diagrama de `docs/arquitectura.md` o la estructura de carpetas.
 ## 4:00 – 4:40 | Integración y regresión
 
 1. Volver al portal.
-2. Abrir la tarjeta **OVA 06** y mostrar que carga en el iframe.
-3. Abrir una OVA anterior (por ejemplo, la 5) y confirmar que sigue funcionando.
+2. Abrir la tarjeta **OVA 07** y mostrar que carga en el iframe.
+3. Abrir la **OVA 06** de Daihan y una OVA anterior (por ejemplo, la 5) para confirmar que ambas siguen funcionando.
 4. Mostrar la guía del Centro de Aprendizaje con la entrada de MiniOpt.
 5. Mostrar el tema claro/oscuro.
 

@@ -45,7 +45,7 @@ Por tanto, el producto mínimo debe cubrir dos frentes: **(a)** un motor de opti
 | D-01 | GitHub Pages no ejecuta Python ni Node. | Un backend rompería la publicación y añadiría CORS/URLs. | Cliente 100 % estático con módulos ES. |
 | D-02 | La OVA 4 produce TAC infijo, no cuádruplas JSON. | Si MiniOpt solo aceptara cuádruplas, no sería interoperable. | Aceptar TAC infijo y, además, `call`, arreglos, etiquetas y saltos. |
 | D-03 | No hay framework de pruebas. | Sin evidencia reproducible no se puede demostrar corrección. | Añadir pruebas con `node --test`, sin dependencias. |
-| D-04 | Los contadores y la guía están codificados para cinco OVAs. | La integración quedaría incompleta o inconsistente. | Actualizar contadores, tarjeta, nav, modal y guía a seis. |
+| D-04 | Los contadores y la guía están codificados para cinco OVAs. | La integración quedaría incompleta o inconsistente. | Actualizar contadores, tarjeta, nav, modal y guía. La integración final quedó como OVA 07 porque la OVA 06 ya estaba ocupada por otra implementación de MiniOpt. |
 | D-05 | El iframe usa rutas relativas con espacios. | Una ruta mal codificada funciona en local y falla en Pages. | Probar la ruta publicada y mantener la convención existente. |
 | D-06 | Optimizar mal puede cambiar el resultado del programa. | Un error es más grave que no optimizar. | Dataflow conservador, barreras de efectos secundarios y verificación de equivalencia. |
 | D-07 | El TAC didáctico no tiene especificación formal en el repositorio. | Ambigüedad en la sintaxis de entrada. | Documentar la gramática y validar con mensajes por línea. |
@@ -84,8 +84,12 @@ Por tanto, el producto mínimo debe cubrir dos frentes: **(a)** un motor de opti
 - RNF-02: mantener la identidad visual USB y el tema claro/oscuro.
 - RNF-03: no introducir secretos, dependencias de runtime ni llamadas de red.
 - RNF-04: ser reproducible con pruebas automatizadas y una matriz diligenciada.
-- RNF-05: conservar intactas las cinco OVAs existentes.
+- RNF-05: conservar intactas las cinco OVAs existentes y la OVA 06 de Daihan Riveros.
 
 ## 8. Conclusión
 
-El portal está preparado para recibir una sexta OVA estática. La ausencia de backend es una restricción, pero también una ventaja para la reproducibilidad: MiniOpt puede implementarse por completo en el navegador y verificarse con pruebas nativas de Node.js. La integración debe ser quirúrgica en `index.html`, `script.js` y `js/learning-data.js` para no afectar las OVAs previas.
+El portal está preparado para recibir una nueva OVA estática. La ausencia de backend es una restricción, pero también una ventaja para la reproducibilidad: MiniOpt puede implementarse por completo en el navegador y verificarse con pruebas nativas de Node.js. La integración debe ser quirúrgica en `index.html`, `script.js` y `js/learning-data.js` para no afectar las OVAs previas.
+
+## 9. Nota sobre la numeración final
+
+Durante el desarrollo, el repositorio institucional recibió otra implementación de MiniOpt como OVA 06, desarrollada por Daihan Riveros. Para no alterar el trabajo de ese equipo, esta entrega se integró como **OVA 07**. La decisión conserva las dos herramientas, mantiene la OVA 06 intacta y permite comparar dos enfoques de optimización en el mismo portal. Los contadores del dashboard se actualizaron a siete OVAs.

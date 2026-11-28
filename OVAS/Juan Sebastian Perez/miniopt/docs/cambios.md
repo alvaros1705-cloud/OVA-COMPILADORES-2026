@@ -2,7 +2,7 @@
 
 ## 1. Alcance
 
-Se implementó la **OVA 6 — MiniOpt**, un optimizador estático de código intermedio TAC, y se integró en el portal sin modificar el código interno de las cinco OVAs existentes.
+Se implementó la **OVA 07 — MiniOpt (Juan Sebastian)**, un optimizador estático de código intermedio TAC, y se integró en el portal sin modificar el código interno de las cinco OVAs existentes ni la OVA 06 de Daihan Riveros. La OVA 06 ya estaba ocupada por otra implementación de MiniOpt, por lo que esta entrega se numeró como OVA 07 para conservar ambas.
 
 ## 2. Archivos nuevos
 
@@ -32,12 +32,12 @@ Se implementó la **OVA 6 — MiniOpt**, un optimizador estático de código int
 
 | Archivo | Cambio | Justificación |
 |---|---|---|
-| `script.js` | Ruta `optimizador-tac` y modal `details-ova-6-modal`. | El router SPA necesita conocer la nueva OVA. |
-| `index.html` | Ítem de navegación 06, tarjeta 06, modal 06, contadores 5 → 6, comentario de sección y `allow-downloads` en el iframe. | Integración visual, consistencia del dashboard y descarga del TAC dentro del visor. |
-| `js/learning-data.js` | Entrada de guía de la OVA 6. | El Centro de Aprendizaje debe explicar la optimización. |
-| `OVAS/README.md` | Listado de las seis OVAs. | Documentación institucional actualizada. |
+| `script.js` | Ruta `optimizador-tac` y modal `details-ova-7-modal`. | El router SPA necesita conocer la nueva OVA. |
+| `index.html` | Ítem de navegación 07, tarjeta 07, modal 07, contadores 6 → 7, comentario de sección y `allow-downloads` en el iframe. | Integración visual, consistencia del dashboard y descarga del TAC dentro del visor. |
+| `js/learning-data.js` | Entrada de guía para la OVA 7. | El Centro de Aprendizaje debe explicar la optimización. |
+| `OVAS/README.md` | Listado de las siete OVAs. | Documentación institucional actualizada. |
 
-No se modificó el código de las OVAs 1–5, ni la identidad visual, ni los créditos existentes.
+No se modificó el código de las OVAs 1–5, ni la OVA 06 de Daihan, ni la identidad visual, ni los créditos existentes.
 
 ## 4. Decisiones técnicas
 
@@ -63,7 +63,7 @@ main
  └── reto6-miniopt-juan-sebastian
        ├── feat(miniopt): motor TAC, pases y pruebas
        ├── feat(miniopt): interfaz, diff y equivalencia
-       ├── feat(portal): ruta, tarjeta, modal y guía de la OVA 6
+       ├── feat(portal): ruta, tarjeta, modal y guía de la OVA 7
        └── docs(miniopt): diagnóstico, arquitectura, manual y matriz
 ```
 
@@ -75,12 +75,13 @@ El Pull Request debe dirigirse a `main` y no fusionarse hasta la revisión del d
 cd "OVAS/Juan Sebastian Perez/miniopt"
 npm test                 # 38/38
 python3 -m http.server 8000
-# abrir el portal y la OVA 6
+# abrir el portal y la OVA 7
 ```
 
 Comprobaciones mínimas:
 
-- [x] La OVA 6 abre desde el portal y desde su URL directa.
+- [x] La OVA 7 abre desde el portal y desde su URL directa.
+- [x] La OVA 06 de Daihan sigue abriendo desde el portal.
 - [x] El ejemplo del enunciado produce `x = 16`.
 - [x] `call`, `param`, `print`, `return` y `a[i] = x` se conservan.
 - [x] La división por cero no se pliega.

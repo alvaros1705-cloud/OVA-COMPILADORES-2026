@@ -181,12 +181,14 @@ Si hay llamadas o instrucciones opacas, el estado es `manual`. Si hay una difere
 
 | Archivo | Cambio |
 |---|---|
-| `script.js` | Ruta `optimizador-tac` en `OVAS_ROUTES` y modal en `OVA_MODAL_MAP`. |
-| `index.html` | Nav 06, tarjeta 06, modal `details-ova-6-modal`, contadores 5 → 6. |
-| `js/learning-data.js` | Entrada de guía para la OVA 6. |
-| `OVAS/README.md` | Listado de las seis OVAs. |
+| `script.js` | Ruta `optimizador-tac` en `OVAS_ROUTES` y modal `details-ova-7-modal` en `OVA_MODAL_MAP`. |
+| `index.html` | Nav 07, tarjeta 07, modal `details-ova-7-modal`, contadores 6 → 7. |
+| `js/learning-data.js` | Entrada de guía para la OVA 7. |
+| `OVAS/README.md` | Listado de las siete OVAs. |
 
 La herramienta se sirve desde `OVAS/Juan Sebastian Perez/miniopt/index.html` y se carga en el iframe existente. No requiere backend ni configuración adicional.
+
+La OVA 06 corresponde a otra implementación de MiniOpt, desarrollada por Daihan Riveros en `OVAS/MiniOpt/`. Esta entrega se integró como OVA 07 para conservar ambas herramientas y no modificar el trabajo del otro equipo.
 
 ## 10. Decisiones y limitaciones
 

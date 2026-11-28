@@ -14,7 +14,7 @@ MiniOpt es una herramienta web para optimizar **código intermedio de tres direc
 ### Desde el portal
 
 1. Abra el Portal de OVAS.
-2. En el menú lateral o en las tarjetas, seleccione **OVA 06 — Optimizador TAC (MiniOpt)**.
+2. En el menú lateral o en las tarjetas, seleccione **OVA 07 — MiniOpt (Juan Sebastian)**. La OVA 06 corresponde a otra implementación de MiniOpt y se conserva como alternativa.
 3. La herramienta se carga dentro del visor.
 
 ### Directamente

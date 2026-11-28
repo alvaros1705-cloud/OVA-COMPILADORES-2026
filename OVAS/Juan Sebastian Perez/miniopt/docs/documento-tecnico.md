@@ -28,7 +28,7 @@ Detalle completo en [`arquitectura.md`](arquitectura.md).
 
 ### Nuevos
 
-- `OVAS/Juan Sebastian Perez/miniopt/` — código, pruebas y documentación de la OVA 6.
+- `OVAS/Juan Sebastian Perez/miniopt/` — código, pruebas y documentación de la OVA 7.
 - `js/tac/`, `js/passes/`, `js/optimizer.js`, `js/interpreter.js`, `js/samples.js`, `js/ui.js`.
 - `tests/*.test.js` — 38 pruebas automatizadas.
 
@@ -36,12 +36,12 @@ Detalle completo en [`arquitectura.md`](arquitectura.md).
 
 | Archivo | Cambio |
 |---|---|
-| `script.js` | Ruta `optimizador-tac` y modal `details-ova-6-modal`. |
-| `index.html` | Nav 06, tarjeta 06, modal 06, contadores 5 → 6 y `allow-downloads` en el iframe. |
-| `js/learning-data.js` | Entrada de guía de la OVA 6. |
-| `OVAS/README.md` | Listado de las seis OVAs. |
+| `script.js` | Ruta `optimizador-tac` y modal `details-ova-7-modal`. |
+| `index.html` | Nav 07, tarjeta 07, modal 07, contadores 6 → 7 y `allow-downloads` en el iframe. |
+| `js/learning-data.js` | Entrada de guía para la OVA 7. |
+| `OVAS/README.md` | Listado de las siete OVAs. |
 
-No se modificó el código interno de las OVAs 1–5.
+No se modificó el código interno de las OVAs 1–5 ni la OVA 06 de Daihan Riveros. La OVA 06 ya estaba ocupada por otra implementación de MiniOpt; esta entrega se integró como OVA 07 para conservar ambas.
 
 Detalle completo en [`cambios.md`](cambios.md).
 
@@ -72,6 +72,6 @@ npm test
 
 Resultado: **38 pruebas aprobadas, 0 fallidas**.
 
-También se verificó la UI con `jsdom` (ejemplo inicial, efectos secundarios, modo agresivo, paso a paso, pestañas, error y límite de tamaño) y el portal (6 tarjetas, 6 OVAs + Inicio, modal 6 y carga del iframe).
+También se verificó la UI con `jsdom` (ejemplo inicial, efectos secundarios, modo agresivo, paso a paso, pestañas, error y límite de tamaño) y el portal (7 tarjetas, 7 OVAs + Inicio, modal 7 y carga del iframe).
 
 Evidencia detallada en [`matriz-pruebas.md`](matriz-pruebas.md).

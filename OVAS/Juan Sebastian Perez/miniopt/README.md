@@ -31,7 +31,7 @@ Luego abra:
 http://localhost:8000/OVAS/Juan%20Sebastian%20Perez/miniopt/index.html
 ```
 
-También funciona dentro del portal, en la tarjeta **OVA 06 — Optimizador TAC (MiniOpt)**.
+También funciona dentro del portal, en la tarjeta **OVA 07 — MiniOpt (Juan Sebastian)**. La OVA 06 corresponde a otra implementación de MiniOpt y se conserva como alternativa.
 
 > Los módulos ES requieren servirse por HTTP; abrir el archivo con `file://` no es un entorno soportado.
 

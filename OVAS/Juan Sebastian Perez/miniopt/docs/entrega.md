@@ -80,8 +80,8 @@ Las 12 capturas están en [`evidencias/`](evidencias/) y cubren:
 - paso a paso,
 - modo agresivo,
 - tema claro,
-- dashboard con 6 OVAs,
-- las seis tarjetas,
+- dashboard con 7 OVAs,
+- las siete tarjetas,
 - MiniOpt dentro del iframe.
 
 Pendiente únicamente:

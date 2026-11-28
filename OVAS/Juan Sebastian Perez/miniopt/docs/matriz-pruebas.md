@@ -31,8 +31,8 @@
 | P-15 | `a = b; c = a; print c` | Propagar copias dentro del bloque | `a = b; c = b; print b`; `equivalent` | Aprobado | Propagación de copias. |
 | P-16 | `t1 = a + b; x = t1; print x` | Reutilizar `x` y eliminar la copia | `x = a + b; print x`; `equivalent` | Aprobado | Coalescencia de temporales. |
 | P-17 | `// comentario` + línea vacía + `x = 1; print x` | Conservar comentarios y líneas vacías | `// comentario` y línea vacía presentes; `equivalent` | Aprobado | El formato no se pierde. |
-| P-18 | Portal con 6 tarjetas y ruta `#/ova/optimizador-tac` | Cargar MiniOpt en el iframe | 6 tarjetas, 6 ítems OVA + Inicio, modal 6, iframe con la ruta correcta | Aprobado | Verificado con `jsdom` sobre el portal servido. |
-| P-19 | Regresión de las 5 OVAs previas | Rutas y tarjetas intactas | Las 5 rutas originales siguen en `OVAS_ROUTES`; contadores a 6 | Aprobado | No se modificó código de las OVAs previas. |
+| P-18 | Portal con 7 tarjetas y ruta `#/ova/optimizador-tac` | Cargar MiniOpt en el iframe | 7 tarjetas, 7 ítems OVA + Inicio, modal 7, iframe con la ruta correcta | Aprobado | Verificado con `jsdom` sobre el portal servido. |
+| P-19 | Regresión de las 5 OVAs previas y de la OVA 06 de Daihan | Rutas y tarjetas intactas | Las 5 rutas originales y la ruta `mini-opt` siguen en `OVAS_ROUTES`; contadores a 7 | Aprobado | No se modificó código de las OVAs previas ni de `OVAS/MiniOpt`. |
 | P-20 | Tema claro/oscuro y layout móvil | Cambio de tema y una columna en pantallas pequeñas | Variables `usb-ova-light`, grid responsive y `prefers-reduced-motion` definidos | Aprobado (revisión de código) | El entorno de pruebas no permitió capturar pantalla; la evidencia visual (captura/video) queda para el equipo. |
 
 ## 3. Pruebas automatizadas
@@ -72,12 +72,12 @@ Resultado: `UI smoke test OK`.
 Para el portal se verificó:
 
 ```text
-cards 6
-navItems 7          (Inicio + 6 OVAs)
-modal6 true
-counters [ '6', '6', '6' ]
+cards 7
+navItems 8          (Inicio + 7 OVAs)
+modal7 true
+counters [ '7', '7', '7' ]
 iframe src OVAS/Juan Sebastian Perez/miniopt/index.html
-viewer title MiniOpt — Optimizador de Código Intermedio (TAC)
+viewer title MiniOpt (Juan Sebastian) — Optimizador de Código Intermedio (TAC)
 portal smoke OK
 ```
 
@@ -112,8 +112,8 @@ Registros de ejecución:
 | [`07-paso-a-paso.png`](evidencias/07-paso-a-paso.png) | Aplicación pase a pase. | P-01 |
 | [`08-modo-agresivo.png`](evidencias/08-modo-agresivo.png) | Diferencia `x: 10 → 0` detectada. | P-07 |
 | [`09-tema-claro.png`](evidencias/09-tema-claro.png) | Tema claro institucional. | P-20 |
-| [`10-portal-dashboard.png`](evidencias/10-portal-dashboard.png) | Dashboard con 6 OVAS y nav 06. | P-18 |
-| [`11-portal-seis-ovas.png`](evidencias/11-portal-seis-ovas.png) | Las seis tarjetas del portal. | P-18 |
+| [`10-portal-dashboard.png`](evidencias/10-portal-dashboard.png) | Dashboard con 7 OVAS y nav 06 y 07. | P-18 |
+| [`11-portal-siete-ovas.png`](evidencias/11-portal-siete-ovas.png) | Las siete tarjetas del portal. | P-18 |
 | [`12-portal-iframe-miniopt.png`](evidencias/12-portal-iframe-miniopt.png) | MiniOpt dentro del iframe. | P-18 |
 
 ### Vista rápida
@@ -124,4 +124,4 @@ Registros de ejecución:
 
 ![Modo agresivo](evidencias/08-modo-agresivo.png)
 
-![Portal con seis OVAs](evidencias/11-portal-seis-ovas.png)
+![Portal con siete OVAs](evidencias/11-portal-siete-ovas.png)
