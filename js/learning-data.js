@@ -56,6 +56,18 @@ const LEARNING_DATA = {
         { heading: 'Estado de aceptación', text: 'Estado final: si la cadena termina en un estado de aceptación, la cadena es reconocida por el lenguaje del autómata.' },
         { heading: 'Validación de cadenas', text: 'Ingrese la cadena en FASS y observe la traza paso a paso, tabla de transiciones e indicador de aceptación o rechazo.' }
       ]
+    },
+    {
+      id: 'opt', title: 'OVA 7 — MiniOpt (Juan Sebastian)', ova: 'Juan Sebastian Perez', color: 'tac',
+      steps: [
+        { heading: 'Ubicación en el portal', text: 'La OVA 6 corresponde a otra implementación de MiniOpt realizada por Daihan Riveros. Esta OVA 7 es la implementación de Juan Sebastian Perez y se conserva como una segunda alternativa para comparar enfoques de optimización.' },
+        { heading: 'Qué es optimizar código intermedio', text: 'Es transformar el TAC para reducir instrucciones o cálculos sin cambiar el comportamiento observable del programa. La corrección tiene prioridad sobre la cantidad de código eliminado.' },
+        { heading: 'Plegado de constantes', text: 'Si una operación tiene operandos literales, se calcula en tiempo de compilación. Por ejemplo, t1 = 5 + 3 se convierte en t1 = 8. No se pliega una división por cero.' },
+        { heading: 'Propagación de constantes y copias', text: 'Si una variable tiene un valor conocido en todas las rutas que llegan a una instrucción, se sustituye por ese valor. En uniones de caminos solo se propaga cuando todas las rutas coinciden.' },
+        { heading: 'Simplificación algebraica', text: 'Aplica identidades válidas como x + 0 = x, x * 1 = x, x - x = 0 y x * 0 = 0. Son seguras porque en TAC leer una variable no produce efectos secundarios.' },
+        { heading: 'Eliminación de código muerto', text: 'Retira asignaciones puras cuyo resultado no se usa después. Nunca elimina llamadas, parámetros, print, return ni almacenamientos en arreglos, porque producen efectos observables.' },
+        { heading: 'Cómo usar MiniOpt', text: 'Cargue un ejemplo o escriba TAC, elija las optimizaciones activas y pulse Optimizar. Revise el TAC resultante, el diff, la tabla de reglas y la pestaña de equivalencia. Use Paso a paso para explicar cada transformación en la sustentación.' }
+      ]
     }
   ],
 

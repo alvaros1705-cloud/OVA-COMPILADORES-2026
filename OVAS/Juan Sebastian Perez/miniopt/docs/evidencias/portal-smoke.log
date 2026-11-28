@@ -1,0 +1,11 @@
+cards 7
+navItems 8
+modal6 true
+modal7 true
+counters [ '7', '7', '7' ]
+errors []
+ova6 src OVAS/MiniOpt/index.html
+ova6 title MiniOpt — Optimizador de Código Intermedio (TAC)
+ova7 src OVAS/Juan Sebastian Perez/miniopt/index.html
+ova7 title MiniOpt (Juan Sebastian) — Optimizador de Código Intermedio (TAC)
+portal smoke OK

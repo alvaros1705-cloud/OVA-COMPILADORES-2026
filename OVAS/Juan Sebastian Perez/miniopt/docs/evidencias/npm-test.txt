@@ -1,0 +1,243 @@
+npm warn Unknown global config "python". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> miniopt@1.0.0 test
+> node --test
+
+TAP version 13
+# Subtest: interpreta asignaciones, print y return
+ok 1 - interpreta asignaciones, print y return
+  ---
+  duration_ms: 8.89412
+  type: 'test'
+  ...
+# Subtest: interpreta ciclos
+ok 2 - interpreta ciclos
+  ---
+  duration_ms: 1.627141
+  type: 'test'
+  ...
+# Subtest: interpreta arreglos
+ok 3 - interpreta arreglos
+  ---
+  duration_ms: 0.756945
+  type: 'test'
+  ...
+# Subtest: ifFalse salta cuando el valor es cero
+ok 4 - ifFalse salta cuando el valor es cero
+  ---
+  duration_ms: 0.477563
+  type: 'test'
+  ...
+# Subtest: detecta división por cero en ejecución
+ok 5 - detecta división por cero en ejecución
+  ---
+  duration_ms: 0.668374
+  type: 'test'
+  ...
+# Subtest: compara programas equivalentes
+ok 6 - compara programas equivalentes
+  ---
+  duration_ms: 1.056527
+  type: 'test'
+  ...
+# Subtest: detecta diferencias en variables observables
+ok 7 - detecta diferencias en variables observables
+  ---
+  duration_ms: 0.664695
+  type: 'test'
+  ...
+# Subtest: marca como manual un programa con llamadas
+ok 8 - marca como manual un programa con llamadas
+  ---
+  duration_ms: 0.473493
+  type: 'test'
+  ...
+# Subtest: parsea asignaciones, copias y operaciones
+ok 9 - parsea asignaciones, copias y operaciones
+  ---
+  duration_ms: 8.79953
+  type: 'test'
+  ...
+# Subtest: parsea etiquetas, saltos y condicionales
+ok 10 - parsea etiquetas, saltos y condicionales
+  ---
+  duration_ms: 0.940056
+  type: 'test'
+  ...
+# Subtest: parsea llamadas y arreglos
+ok 11 - parsea llamadas y arreglos
+  ---
+  duration_ms: 0.784935
+  type: 'test'
+  ...
+# Subtest: conserva comentarios y líneas vacías como nop
+ok 12 - conserva comentarios y líneas vacías como nop
+  ---
+  duration_ms: 0.908136
+  type: 'test'
+  ...
+# Subtest: reporta línea y mensaje en una instrucción inválida
+ok 13 - reporta línea y mensaje en una instrucción inválida
+  ---
+  duration_ms: 0.977037
+  type: 'test'
+  ...
+# Subtest: advierte por etiqueta no definida
+ok 14 - advierte por etiqueta no definida
+  ---
+  duration_ms: 0.507094
+  type: 'test'
+  ...
+# Subtest: acepta números enteros y reales
+ok 15 - acepta números enteros y reales
+  ---
+  duration_ms: 0.823546
+  type: 'test'
+  ...
+# Subtest: plegado de constantes resuelve operaciones
+ok 16 - plegado de constantes resuelve operaciones
+  ---
+  duration_ms: 9.484204
+  type: 'test'
+  ...
+# Subtest: plegado no divide por cero y advierte
+ok 17 - plegado no divide por cero y advierte
+  ---
+  duration_ms: 1.041737
+  type: 'test'
+  ...
+# Subtest: simplificación algebraica aplica identidades
+ok 18 - simplificación algebraica aplica identidades
+  ---
+  duration_ms: 3.593754
+  type: 'test'
+  ...
+# Subtest: propagación de constantes sustituye valores conocidos
+ok 19 - propagación de constantes sustituye valores conocidos
+  ---
+  duration_ms: 2.843569
+  type: 'test'
+  ...
+# Subtest: propagación de constantes no cruza uniones con valores distintos
+ok 20 - propagación de constantes no cruza uniones con valores distintos
+  ---
+  duration_ms: 1.881463
+  type: 'test'
+  ...
+# Subtest: propagación de copias reemplaza variables
+ok 21 - propagación de copias reemplaza variables
+  ---
+  duration_ms: 1.372519
+  type: 'test'
+  ...
+# Subtest: eliminación de código muerto retira temporales
+ok 22 - eliminación de código muerto retira temporales
+  ---
+  duration_ms: 2.395116
+  type: 'test'
+  ...
+# Subtest: eliminación de código muerto conserva variables de usuario por defecto
+ok 23 - eliminación de código muerto conserva variables de usuario por defecto
+  ---
+  duration_ms: 0.649015
+  type: 'test'
+  ...
+# Subtest: modo agresivo elimina variables de usuario muertas
+ok 24 - modo agresivo elimina variables de usuario muertas
+  ---
+  duration_ms: 1.59635
+  type: 'test'
+  ...
+# Subtest: no elimina llamadas, parámetros ni almacenamientos
+ok 25 - no elimina llamadas, parámetros ni almacenamientos
+  ---
+  duration_ms: 1.749851
+  type: 'test'
+  ...
+# Subtest: coalescencia reutiliza el destino y elimina la copia
+ok 26 - coalescencia reutiliza el destino y elimina la copia
+  ---
+  duration_ms: 1.102837
+  type: 'test'
+  ...
+# Subtest: coalescencia no toca temporales con más de un uso
+ok 27 - coalescencia no toca temporales con más de un uso
+  ---
+  duration_ms: 0.595284
+  type: 'test'
+  ...
+# Subtest: ejemplo del enunciado termina en x = 16
+ok 28 - ejemplo del enunciado termina en x = 16
+  ---
+  duration_ms: 15.933848
+  type: 'test'
+  ...
+# Subtest: propagación y copias conservan la salida
+ok 29 - propagación y copias conservan la salida
+  ---
+  duration_ms: 3.779765
+  type: 'test'
+  ...
+# Subtest: los efectos secundarios nunca se eliminan
+ok 30 - los efectos secundarios nunca se eliminan
+  ---
+  duration_ms: 1.844202
+  type: 'test'
+  ...
+# Subtest: un ciclo conserva su flujo y su equivalencia
+ok 31 - un ciclo conserva su flujo y su equivalencia
+  ---
+  duration_ms: 2.731658
+  type: 'test'
+  ...
+# Subtest: la división por cero se conserva y se advierte
+ok 32 - la división por cero se conserva y se advierte
+  ---
+  duration_ms: 0.836826
+  type: 'test'
+  ...
+# Subtest: una entrada inválida reporta la línea y no bloquea el resto
+ok 33 - una entrada inválida reporta la línea y no bloquea el resto
+  ---
+  duration_ms: 0.757086
+  type: 'test'
+  ...
+# Subtest: el modo agresivo puede cambiar una salida observable
+ok 34 - el modo agresivo puede cambiar una salida observable
+  ---
+  duration_ms: 0.774335
+  type: 'test'
+  ...
+# Subtest: el modo conservador mantiene la variable de usuario
+ok 35 - el modo conservador mantiene la variable de usuario
+  ---
+  duration_ms: 0.361142
+  type: 'test'
+  ...
+# Subtest: se pueden desactivar pases
+ok 36 - se pueden desactivar pases
+  ---
+  duration_ms: 1.054917
+  type: 'test'
+  ...
+# Subtest: el modo paso a paso llega al mismo resultado
+ok 37 - el modo paso a paso llega al mismo resultado
+  ---
+  duration_ms: 1.970423
+  type: 'test'
+  ...
+# Subtest: todas las muestras se ejecutan sin lanzar excepciones
+ok 38 - todas las muestras se ejecutan sin lanzar excepciones
+  ---
+  duration_ms: 4.617151
+  type: 'test'
+  ...
+1..38
+# tests 38
+# suites 0
+# pass 38
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 379.907597
