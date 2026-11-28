@@ -4074,3 +4074,11 @@ body.light-theme .dashboard-view .hero-section:hover .hero-logo-halo {
     animation: none !important;
   }
 }
+
+/* Preferencias de idioma y tema del portal */
+.language-switch{display:flex;align-items:center;gap:3px;padding:4px;border:1px solid var(--portal-border-blue);border-radius:999px;background:var(--surface-card);margin-right:10px}
+.language-button{border:0;border-radius:999px;min-width:34px;height:30px;padding:0 9px;background:transparent;color:var(--text-secondary);font:700 11px 'Outfit',sans-serif;cursor:pointer;transition:all .2s}
+.language-button.is-active{background:var(--color-primary);color:#fff;box-shadow:0 2px 8px #0002}
+.theme-toggle-btn{width:auto;min-width:var(--touch-target-min);height:var(--touch-target-min);padding:0 13px;border-radius:999px;gap:9px;white-space:nowrap}
+.theme-toggle-label{font:600 12px 'Outfit',sans-serif}
+@media(max-width:760px){.language-switch{margin-right:4px}.language-button{min-width:30px;padding:0 7px}.theme-toggle-btn{padding:0 9px}.theme-toggle-label{font-size:10px}}
