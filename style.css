@@ -4123,3 +4123,38 @@ body.light-theme .dashboard-view .hero-section:hover .hero-logo-halo {
 @media (max-width: 767px) {
   .btn-home-main { min-height: 38px; padding: 0 10px; font-size: .72rem; }
 }
+
+
+/* Corrección estructural: el menú lateral termina con el área del portal,
+   antes del footer. En escritorio deja de ser fixed y pasa a sticky dentro
+   de .portal-container; así nunca queda flotando sobre el pie institucional. */
+@media (min-width: 1200px) {
+  .portal-container {
+    align-items: stretch;
+    min-height: calc(100vh - var(--portal-header-height, 72px));
+    min-height: calc(100dvh - var(--portal-header-height, 72px));
+    overflow: visible;
+  }
+  .sidebar {
+    position: sticky;
+    top: var(--portal-header-height, 72px);
+    bottom: auto;
+    align-self: flex-start;
+    flex: 0 0 300px;
+    width: 300px;
+    height: calc(100vh - var(--portal-header-height, 72px));
+    height: calc(100dvh - var(--portal-header-height, 72px));
+    max-height: calc(100vh - var(--portal-header-height, 72px));
+    max-height: calc(100dvh - var(--portal-header-height, 72px));
+    transform: none;
+    z-index: 20;
+  }
+  .main-content {
+    margin-left: 0;
+    min-width: 0;
+  }
+  .portal-footer {
+    position: relative;
+    z-index: 1;
+  }
+}
