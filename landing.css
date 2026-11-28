@@ -142,3 +142,39 @@
 .feature-card,.path-card,.pac-week,.objective-grid article{transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
 .feature-card:hover,.path-card:hover,.pac-week:hover,.objective-grid article:hover{transform:translateY(-6px);box-shadow:0 18px 38px rgba(8,65,38,.12)}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.js-reveal{opacity:1;transform:none}}
+
+
+/* Animación protagonista de la ilustración del compilador: más visible y continua. */
+@keyframes hero-art-dance{
+  0%,100%{transform:translateY(0) rotate(0deg) scale(1)}
+  18%{transform:translateY(-13px) rotate(-1.2deg) scale(1.012)}
+  38%{transform:translateY(2px) rotate(1deg) scale(.995)}
+  58%{transform:translateY(-9px) rotate(.7deg) scale(1.008)}
+  78%{transform:translateY(1px) rotate(-.6deg) scale(1)}
+}
+@keyframes compiler-window-bounce{
+  0%,100%{transform:perspective(1000px) rotateY(-7deg) rotateX(3deg) translateY(0)}
+  25%{transform:perspective(1000px) rotateY(-3deg) rotateX(1deg) translateY(-15px)}
+  50%{transform:perspective(1000px) rotateY(5deg) rotateX(-2deg) translateY(2px)}
+  75%{transform:perspective(1000px) rotateY(-4deg) rotateX(2deg) translateY(-10px)}
+}
+@keyframes chip-hop{
+  0%,100%{transform:translate(0,0) rotate(0deg)}
+  20%{transform:translate(0,-17px) rotate(-5deg)}
+  40%{transform:translate(0,1px) rotate(3deg)}
+  60%{transform:translate(0,-10px) rotate(-3deg)}
+  80%{transform:translate(0,0) rotate(1deg)}
+}
+@keyframes ring-pulse{
+  0%,100%{opacity:.55;scale:1}
+  50%{opacity:1;scale:1.045}
+}
+.hero-art{animation:hero-art-dance 8s cubic-bezier(.45,0,.55,1) infinite;transform-origin:50% 52%}
+.hero-art .code-window{animation:compiler-window-bounce 6.5s ease-in-out infinite;transform-origin:50% 50%}
+.hero-art .chip-lexer{animation:chip-hop 3.4s ease-in-out infinite}
+.hero-art .chip-ast{animation:chip-hop 3.8s ease-in-out infinite .55s}
+.hero-art .chip-code{animation:chip-hop 3.6s ease-in-out infinite 1.05s}
+.hero-art .ring-one{animation:ring-pulse 5s ease-in-out infinite}
+.hero-art .ring-two{animation:ring-turn 28s linear infinite,ring-pulse 6s ease-in-out infinite}
+@media(max-width:620px){.hero-art{animation-duration:8s}.hero-art .code-window{animation-duration:6.5s}}
+@media(prefers-reduced-motion:reduce){.hero-art,.hero-art .code-window,.hero-art .float-chip,.hero-art .art-ring{animation:none!important}}
