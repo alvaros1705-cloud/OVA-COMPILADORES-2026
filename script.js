@@ -364,38 +364,90 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ── CAMBIO DE TEMA CLARO/OSCURO CON LOCALSTORAGE ───────────────────────────
+  // ── TEMA CLARO / OSCURO ───────────────────────────────────────────────────
   function applyPortalTheme(theme) {
     const isLight = theme === 'light';
     document.body.classList.toggle('light-theme', isLight);
     document.documentElement.setAttribute('data-portal-theme', theme);
-
-    localStorage.setItem('theme', theme);
-
+    try { localStorage.setItem('theme', theme); } catch (e) {}
+    const label = document.getElementById('theme-toggle-label');
+    if (label) label.textContent = isLight ? 'Modo oscuro' : 'Modo claro';
+    if (themeToggle) {
+      themeToggle.setAttribute('aria-label', isLight ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro');
+      themeToggle.setAttribute('title', isLight ? 'Modo oscuro' : 'Modo claro');
+    }
     if (ovaIframe && ovaIframe.src !== 'about:blank') {
-      try {
-        ovaIframe.contentWindow.postMessage({
-          type: 'USB_THEME_CHANGED',
-          theme: theme
-        }, '*');
-      } catch (e) {
-        // Ignorar si hay políticas CORS restrictivas
-      }
+      try { ovaIframe.contentWindow.postMessage({ type: 'USB_THEME_CHANGED', theme }, '*'); } catch (e) {}
     }
   }
-
   function initTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    applyPortalTheme(savedTheme === 'light' ? 'light' : 'dark');
+    let saved = 'dark';
+    try { saved = localStorage.getItem('theme') || 'dark'; } catch (e) {}
+    applyPortalTheme(saved === 'light' ? 'light' : 'dark');
   }
-
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const nextTheme = document.body.classList.contains('light-theme') ? 'dark' : 'light';
-      applyPortalTheme(nextTheme);
-    });
-  }
-
+  if (themeToggle) themeToggle.addEventListener('click', () => {
+    applyPortalTheme(document.body.classList.contains('light-theme') ? 'dark' : 'light');
+  });
   initTheme();
+
+  // ── IDIOMA ESPAÑOL / INGLÉS DEL PORTAL ────────────────────────────────────
+  const compilerTranslations = {
+    'Menú Principal':'Main Menu','Buscar por tema o autor...':'Search by topic or author...',
+    'Inicio / Dashboard':'Home / Dashboard','ETAPAS DE COMPILACIÓN':'COMPILATION STAGES',
+    'Analizador Léxico':'Lexical Analyzer','Analizador Sintáctico':'Syntax Analyzer',
+    'Analizador Semántico':'Semantic Analyzer','Mini Compilador (TAC)':'Mini Compiler (TAC)',
+    'Simulador de Autómatas':'Automata Simulator','MiniOpt (Optimizador TAC)':'MiniOpt (TAC Optimizer)',
+    'Volver':'Back','Recargar':'Reload','Pantalla Completa':'Full Screen','Externo':'External',
+    'Ingresar a la OVA':'Enter the OVA','Conocer Proyecto':'About the Project',
+    'Acerca de la Plataforma de Compiladores':'About the Compiler Platform',
+    'Portal Integrado de Objetos Virtuales de Aprendizaje':'Integrated Virtual Learning Objects Portal',
+    'Universidad Simón Bolívar':'Simon Bolivar University',
+    'Programa de Ingeniería de Sistemas':'Systems Engineering Program','Campus Cúcuta':'Cucuta Campus',
+    'Buscar OVAS':'Search VLOs','Cerrar menú de navegación':'Close navigation menu',
+    'Manual de Usuario (PDF)':'User Manual (PDF)','Limpiar':'Clear','Optimizar TAC':'Optimize TAC',
+    'Reglas activas:':'Active rules:','Comparativa Antes/Después':'Before/After Comparison',
+    'Explicación Paso a Paso':'Step-by-Step Explanation','Evolución por Pasadas':'Pass-by-Pass Evolution',
+    'Guía de Reglas':'Rules Guide','Resultado final':'Final result','Puntaje:':'Score:',
+    'Pregunta 1 de 20':'Question 1 of 20','Reiniciar':'Reset'
+  };
+  function setCompilerLanguage(language) {
+    const isEnglish = language === 'en';
+    document.documentElement.lang = language;
+    document.querySelectorAll('[data-compiler-lang]').forEach(btn => {
+      const active = btn.dataset.compilerLang === language;
+      btn.classList.toggle('is-active', active);
+      btn.setAttribute('aria-pressed', String(active));
+    });
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(node => {
+      const original = node.nodeValue;
+      const trimmed = original.trim();
+      if (isEnglish && compilerTranslations[trimmed]) node.nodeValue = original.replace(trimmed, compilerTranslations[trimmed]);
+      else if (!isEnglish) {
+        const spanish = Object.keys(compilerTranslations).find(key => compilerTranslations[key] === trimmed);
+        if (spanish) node.nodeValue = original.replace(trimmed, spanish);
+      }
+    });
+    const search = document.getElementById('ova-search');
+    if (search) {
+      search.placeholder = isEnglish ? 'Search by topic or author...' : 'Buscar por tema o autor...';
+      search.setAttribute('aria-label', isEnglish ? 'Search VLOs' : 'Buscar OVAS');
+    }
+    const sideTitle = document.querySelector('.sidebar-title');
+    if (sideTitle) sideTitle.textContent = isEnglish ? 'Main Menu' : 'Menú Principal';
+    const weather = document.getElementById('header-weather');
+    if (weather) weather.setAttribute('aria-label', isEnglish ? 'Date and time' : 'Fecha y hora');
+    try { localStorage.setItem('compilerLanguage', language); } catch (e) {}
+    if (ovaIframe && ovaIframe.src !== 'about:blank') {
+      try { ovaIframe.contentWindow.postMessage({ type: 'USB_LANGUAGE_CHANGED', language }, '*'); } catch (e) {}
+    }
+  }
+  document.querySelectorAll('[data-compiler-lang]').forEach(btn => btn.addEventListener('click', () => setCompilerLanguage(btn.dataset.compilerLang)));
+  let savedLanguage = 'es';
+  try { savedLanguage = localStorage.getItem('compilerLanguage') || 'es'; } catch (e) {}
+  setCompilerLanguage(savedLanguage);
 
   // ── INTEGRACIÓN DE APIS EN IFRAME (POSTMESSAGE) ───────────────────────────
   function injectSettingsToIframe() {
