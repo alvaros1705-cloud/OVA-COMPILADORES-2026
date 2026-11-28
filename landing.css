@@ -86,3 +86,13 @@
 .dark .pac-unit ul,.dark .unit-details small{color:#c0cec4}
 @media(max-width:1100px){.site-header .main-nav{display:none}.site-header .menu-toggle{display:block}.site-header .main-nav.mobile-open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#fff;padding:20px;z-index:20}.program-facts{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:700px){.pac-purpose,.pac-outcomes,.pac-weeks-grid,.pac-units-grid{grid-template-columns:1fr}.program-facts{grid-template-columns:repeat(2,1fr)}.pac-week div{align-items:flex-start;flex-direction:column}.site-header .header-tools{gap:5px}.site-header .social-link{display:none!important}}
+
+
+/* Identificación del docente responsable en el pie institucional */
+.teacher-credit{display:grid;gap:5px;margin-top:16px;padding-top:13px;border-top:1px solid #d5e2d9}
+.teacher-credit small{font:800 9px 'JetBrains Mono';letter-spacing:.14em;color:#07813d}
+.teacher-credit b{font:800 14px Manrope;color:#173b29}
+.teacher-credit span{font-size:11px;color:#687b70}
+.dark .teacher-credit{border-color:#304438}
+.dark .teacher-credit b{color:#eaf3ed}
+.dark .teacher-credit span{color:#a7b8ad}
