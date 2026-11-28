@@ -178,3 +178,54 @@
 .hero-art .ring-two{animation:ring-turn 28s linear infinite,ring-pulse 6s ease-in-out infinite}
 @media(max-width:620px){.hero-art{animation-duration:8s}.hero-art .code-window{animation-duration:6.5s}}
 @media(prefers-reduced-motion:reduce){.hero-art,.hero-art .code-window,.hero-art .float-chip,.hero-art .art-ring{animation:none!important}}
+
+
+/* Movimiento visible y permanente del protagonista del hero. */
+@keyframes hero-stage-motion{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  25%{transform:translateY(-12px) rotate(-1deg)}
+  50%{transform:translateY(4px) rotate(1deg)}
+  75%{transform:translateY(-8px) rotate(-.7deg)}
+}
+@keyframes compiler-card-motion{
+  0%,100%{transform:perspective(900px) rotateY(-5deg) rotateX(2deg) translateY(0);filter:drop-shadow(0 18px 22px #001e1680)}
+  30%{transform:perspective(900px) rotateY(5deg) rotateX(-2deg) translateY(-22px);filter:drop-shadow(0 30px 30px #001e16a8) drop-shadow(0 0 16px #65f4ba70)}
+  60%{transform:perspective(900px) rotateY(-4deg) rotateX(2deg) translateY(8px);filter:drop-shadow(0 12px 16px #001e1680)}
+}
+@keyframes label-dance-left{
+  0%,100%{transform:translate(0,0) rotate(0) scale(1)}
+  20%{transform:translate(-18px,-25px) rotate(-9deg) scale(1.08)}
+  45%{transform:translate(12px,5px) rotate(7deg) scale(.96)}
+  70%{transform:translate(-8px,-17px) rotate(-5deg) scale(1.05)}
+}
+@keyframes label-dance-right{
+  0%,100%{transform:translate(0,0) rotate(0) scale(1)}
+  22%{transform:translate(18px,-22px) rotate(9deg) scale(1.09)}
+  48%{transform:translate(-12px,8px) rotate(-7deg) scale(.96)}
+  74%{transform:translate(8px,-16px) rotate(5deg) scale(1.05)}
+}
+@keyframes label-dance-bottom{
+  0%,100%{transform:translate(0,0) rotate(0) scale(1)}
+  20%{transform:translate(-12px,18px) rotate(7deg) scale(1.08)}
+  48%{transform:translate(15px,-13px) rotate(-8deg) scale(.96)}
+  76%{transform:translate(-8px,10px) rotate(5deg) scale(1.04)}
+}
+@keyframes label-glow{
+  0%,100%{box-shadow:0 8px 22px #001e1630,0 0 0 0 #fff0}
+  50%{box-shadow:0 14px 32px #001e1650,0 0 24px #fff9,0 0 0 5px #ffffff24}
+}
+@keyframes orbit-flash{
+  0%,100%{opacity:.45;filter:drop-shadow(0 0 0 #fff0)}
+  50%{opacity:1;filter:drop-shadow(0 0 12px #b5ffe4)}
+}
+.hero-art{animation:hero-stage-motion 5.2s ease-in-out infinite!important;will-change:transform}
+.hero-art>.code-window{animation:compiler-card-motion 4.8s ease-in-out infinite!important;will-change:transform,filter}
+.hero-art>.chip-lexer{animation:label-dance-left 2.8s ease-in-out infinite,label-glow 2.8s ease-in-out infinite!important;will-change:transform,box-shadow}
+.hero-art>.chip-ast{animation:label-dance-right 3.1s ease-in-out infinite .25s,label-glow 3.1s ease-in-out infinite .25s!important;will-change:transform,box-shadow}
+.hero-art>.chip-code{animation:label-dance-bottom 2.9s ease-in-out infinite .5s,label-glow 2.9s ease-in-out infinite .5s!important;will-change:transform,box-shadow}
+.hero-art>.art-ring{animation:orbit-flash 3.5s ease-in-out infinite!important}
+.hero-art>.ring-two{animation:spin 18s linear infinite,orbit-flash 3.5s ease-in-out infinite!important}
+.hero-art .code-status .pulse{animation:status-glow 1.2s ease-in-out infinite!important}
+@media(prefers-reduced-motion:reduce){
+ .hero-art,.hero-art>.code-window,.hero-art>.chip-lexer,.hero-art>.chip-ast,.hero-art>.chip-code,.hero-art>.art-ring,.hero-art .code-status .pulse{animation-duration:5s!important;animation-iteration-count:infinite!important}
+}
