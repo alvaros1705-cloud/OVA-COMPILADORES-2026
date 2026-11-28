@@ -77,7 +77,9 @@ miniopt/
 - [Manual de usuario](docs/manual-usuario.md)
 - [Matriz de pruebas](docs/matriz-pruebas.md)
 - [Relación de cambios](docs/cambios.md)
+- [Documento técnico](docs/documento-tecnico.md)
 - [Guion de sustentación](docs/guion-sustentacion.md)
+- [Checklist de entrega](docs/entrega.md)
 
 ## Limitaciones conocidas
 
