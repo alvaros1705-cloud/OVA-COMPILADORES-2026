@@ -119,3 +119,26 @@
 /* Logo del encabezado: convertir el escudo blanco a verde en modo claro; conservar blanco en modo oscuro. */
 .brand img{filter:brightness(0) saturate(100%) invert(22%) sepia(91%) saturate(1100%) hue-rotate(104deg) brightness(82%) contrast(105%) !important;}
 .dark .brand img{filter:none !important;}
+
+
+/* Movimiento sutil: dar vida a la portada sin distraer del contenido académico. */
+@keyframes compiler-float{0%,100%{transform:translate3d(0,0,0) rotate(-1deg)}50%{transform:translate3d(0,-12px,0) rotate(1deg)}}
+@keyframes chip-float{0%,100%{translate:0 0}50%{translate:0 -8px}}
+@keyframes orb-drift{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-22px,18px,0) scale(1.06)}}
+@keyframes ring-turn{to{transform:rotate(360deg)}}
+@keyframes status-glow{0%,100%{box-shadow:0 0 0 4px #73d89520,0 0 10px #73d89530}50%{box-shadow:0 0 0 7px #73d89512,0 0 18px #73d89570}}
+.brand img{transition:transform .35s ease,filter .35s ease;animation:brand-breathe 5s ease-in-out infinite}
+@keyframes brand-breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+.brand:hover img{transform:translateY(-3px) scale(1.05)}
+.hero-art .code-window{animation:compiler-float 7s ease-in-out infinite;will-change:transform}
+.hero-art .chip-lexer{animation:chip-float 4.8s ease-in-out infinite}
+.hero-art .chip-ast{animation:chip-float 5.4s ease-in-out infinite .7s}
+.hero-art .chip-code{animation:chip-float 5s ease-in-out infinite 1.2s}
+.hero-orb{animation:orb-drift 13s ease-in-out infinite}
+.art-ring.ring-two{animation:ring-turn 38s linear infinite}
+.code-status .pulse{animation:status-glow 2.4s ease-in-out infinite}
+.js-reveal{opacity:0;transform:translateY(24px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.7,.2,1)}
+.js-reveal.is-visible{opacity:1;transform:translateY(0)}
+.feature-card,.path-card,.pac-week,.objective-grid article{transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+.feature-card:hover,.path-card:hover,.pac-week:hover,.objective-grid article:hover{transform:translateY(-6px);box-shadow:0 18px 38px rgba(8,65,38,.12)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.js-reveal{opacity:1;transform:none}}
