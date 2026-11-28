@@ -86,3 +86,35 @@
 .dark .pac-unit ul,.dark .unit-details small{color:#c0cec4}
 @media(max-width:1100px){.site-header .main-nav{display:none}.site-header .menu-toggle{display:block}.site-header .main-nav.mobile-open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#fff;padding:20px;z-index:20}.program-facts{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:700px){.pac-purpose,.pac-outcomes,.pac-weeks-grid,.pac-units-grid{grid-template-columns:1fr}.program-facts{grid-template-columns:repeat(2,1fr)}.pac-week div{align-items:flex-start;flex-direction:column}.site-header .header-tools{gap:5px}.site-header .social-link{display:none!important}}
+
+/* Pulido final de identidad institucional y controles */
+.brand img,.footer-brand img{filter:brightness(0) saturate(100%) invert(28%) sepia(95%) saturate(750%) hue-rotate(100deg) brightness(88%) contrast(108%)!important;opacity:1!important;object-fit:contain}
+.brand img{width:92px!important;height:64px!important}
+.footer-brand img{width:76px!important;height:64px!important}
+.footer-brand{align-items:center;gap:16px}
+.footer-brand div{gap:7px}
+.footer-brand b{font:800 12px Manrope;letter-spacing:.07em;color:var(--green)}
+.footer-brand strong{font:800 14px Manrope;color:var(--ink)}
+.footer-teacher{margin-top:17px;padding-top:13px;border-top:1px solid #ffffff26;display:grid;gap:7px}
+.footer-teacher span{font:800 10px 'JetBrains Mono';letter-spacing:.13em;color:#65d99b}
+.footer-teacher strong{font:800 14px Manrope;color:#fff}
+.header-tools{gap:11px}
+.social-link{width:38px!important;height:38px!important;border:1px solid #d7e5dc!important;border-radius:50%!important;background:#fff!important;color:#087a3b!important;display:grid!important;place-items:center!important;padding:9px!important;transition:transform .2s,background .2s,box-shadow .2s}
+.social-link svg{width:19px;height:19px;display:block;fill:currentColor}
+.social-link:hover{transform:translateY(-2px);background:#e9f6ed!important;box-shadow:0 5px 14px #087a3b20}
+.instagram-link svg{fill:none}
+.instagram-link svg circle:last-child{fill:currentColor;stroke:none}
+.tool-btn{height:40px!important;min-width:44px!important;border:1px solid #dce8df!important;border-radius:12px!important;background:#fff!important;color:#234332!important;font:800 12px Manrope!important;box-shadow:0 2px 8px #173d2808;transition:all .2s}
+.lang-btn{min-width:48px!important;letter-spacing:.04em}
+.theme-btn{display:inline-flex!important;align-items:center;gap:9px;padding:0 14px!important;border-radius:999px!important;min-width:142px!important;font-size:11px!important}
+.theme-icon{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#edf7f0;color:#087a3b}
+.theme-icon svg{width:16px;height:16px}
+.theme-label{display:inline!important;font-size:11px!important;font-weight:800!important;white-space:nowrap}
+.dark .site-header{background:#10251b!important;border-color:#294535!important}
+.dark .tool-btn{background:#193528!important;border-color:#365744!important;color:#e8f4eb!important}
+.dark .theme-icon{background:#284b38;color:#f3d36e}
+.dark .social-link{background:#193528!important;border-color:#365744!important;color:#9de2b7!important}
+.dark .footer-brand img,.dark .brand img{filter:brightness(0) saturate(100%) invert(72%) sepia(19%) saturate(630%) hue-rotate(87deg) brightness(101%) contrast(92%)!important}
+.dark .footer-teacher{border-color:#365744}
+@media(max-width:1100px){.site-header .social-link{display:grid!important}}
+@media(max-width:700px){.brand img{width:62px!important;height:52px!important}.footer-brand img{width:62px!important;height:54px!important}.theme-btn{min-width:42px!important;padding:0 10px!important}.theme-label{display:none!important}.footer-teacher strong{font-size:12px}}
