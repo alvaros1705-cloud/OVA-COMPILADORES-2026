@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es" class="usb-ova-root">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MiniOpt — Optimizador de Código Intermedio (TAC) | USB</title>
+  <link rel="stylesheet" href="../shared/usb-ova-tokens.css">
+  <link rel="stylesheet" href="../shared/usb-ova-components.css">
+  <link rel="stylesheet" href="css/miniopt.css">
+  <script src="../shared/usb-ova-theme.js"></script>
+</head>
+<body class="usb-ova-body">
+
+  <!-- Header institucional compatible con el Portal OVAS USB -->
+  <header class="ova-header">
+    <div class="ova-header__brand">
+      <div class="ova-header__icon" aria-hidden="true">OPT</div>
+      <div class="ova-header__text">
+        <h1 class="ova-header__title">MiniOpt — Optimizador de Código Intermedio (TAC)</h1>
+        <p class="ova-header__subtitle">Fase 5 · Optimización Segura de Código de Tres Direcciones · USB Cúcuta</p>
+      </div>
+    </div>
+
+    <div class="ova-header__actions">
+      <span class="ova-header__meta">Cliente Estático</span>
+      <select id="example-select" class="ova-select" aria-label="Seleccionar ejemplo TAC">
+        <option value="pdf-demo">Ejemplo 1: Demostración oficial (PDF)</option>
+        <option value="algebraic">Ejemplo 2: Simplificaciones algebraicas</option>
+        <option value="redundant-temps">Ejemplo 3: Temporales redundantes</option>
+        <option value="dead-code">Ejemplo 4: Eliminación de código muerto</option>
+        <option value="side-effects">Ejemplo 5: Efectos secundarios protegidos</option>
+        <option value="loop-safety">Ejemplo 6: Ciclo while y bloques básicos</option>
+        <option value="div-zero">Ejemplo 7: Caso límite (división por cero)</option>
+        <option value="syntax-error">Ejemplo 8: Error de sintaxis TAC</option>
+      </select>
+      <button type="button" id="btn-optimize" class="ova-btn-primary">▶ Optimizar TAC</button>
+      <button type="button" id="btn-clear" class="ova-btn-secondary">Limpiar</button>
+      <a class="ova-btn-secondary" href="docs/MANUAL_USUARIO_MINIOPT.pdf" download="Manual_Usuario_MiniOpt.pdf" aria-label="Descargar manual de usuario de MiniOpt en PDF" style="text-decoration:none;">Manual de Usuario (PDF)</a>
+    </div>
+  </header>
+
+  <!-- Barra de reglas activables -->
+  <section class="opt-rules-bar" aria-label="Reglas de optimización habilitadas">
+    <span class="opt-rules-bar__label">Reglas activas:</span>
+    <label class="opt-toggle">
+      <input type="checkbox" id="opt-folding" checked>
+      <span>Plegado de constantes</span>
+    </label>
+    <label class="opt-toggle">
+      <input type="checkbox" id="opt-propagation" checked>
+      <span>Propagación de constantes</span>
+    </label>
+    <label class="opt-toggle">
+      <input type="checkbox" id="opt-algebraic" checked>
+      <span>Simplificación algebraica</span>
+    </label>
+    <label class="opt-toggle">
+      <input type="checkbox" id="opt-temps" checked>
+      <span>Temporales redundantes</span>
+    </label>
+    <label class="opt-toggle">
+      <input type="checkbox" id="opt-dce" checked>
+      <span>Código muerto</span>
+    </label>
+  </section>
+
+  <!-- Área de trabajo principal -->
+  <main class="opt-main">
+
+    <!-- Panel izquierdo: Editor TAC -->
+    <section class="ova-panel opt-left-panel" aria-label="Editor de entrada TAC">
+      <div class="ova-panel__header">
+        <span>Entrada — Código de Tres Direcciones (TAC)</span>
+        <span id="input-line-count">0 líneas</span>
+      </div>
+
+      <div id="status-bar" class="ova-status-bar status-ok" role="status" aria-live="polite">
+        <span class="ova-status-bar__dot" aria-hidden="true"></span>
+        <span id="status-text">Listo para analizar y optimizar código TAC.</span>
+      </div>
+
+      <div class="ova-panel__body opt-left-body">
+        <div class="opt-editor-wrap">
+          <div id="editor-gutter" class="opt-editor-gutter" aria-hidden="true">1</div>
+          <textarea
+            id="tac-input"
+            class="opt-editor-textarea"
+            spellcheck="false"
+            autocomplete="off"
+            aria-label="Código TAC original"
+            placeholder="Escribe instrucciones TAC (una por línea o separadas por ';'):&#10;t1 = 5 + 3&#10;t2 = t1 * 2&#10;t3 = t2 + 0&#10;x = t3"
+          ></textarea>
+        </div>
+
+        <div id="error-box" class="opt-error-box hidden" role="alert">
+          <h4>Errores detectados en el TAC de entrada</h4>
+          <ul id="error-list" class="opt-error-list"></ul>
+        </div>
+
+        <div class="opt-editor-actions">
+          <button type="button" id="btn-format-lines" class="ova-btn-secondary">Separar por líneas</button>
+          <button type="button" id="btn-reset-rules" class="ova-btn-secondary">Activar todas las reglas</button>
+        </div>
+
+        <details class="opt-syntax-details">
+          <summary>Sintaxis TAC soportada (referencia rápida)</summary>
+          <div class="opt-syntax-grid">
+            <div class="opt-syntax-item">
+              <code>t1 = a + b</code>
+              <span>Operación binaria (+, -, *, /, %, ==, !=, &lt;, &gt;, &amp;&amp;, ||)</span>
+            </div>
+            <div class="opt-syntax-item">
+              <code>t2 = -x</code>
+              <span>Operación unaria (-, +, !)</span>
+            </div>
+            <div class="opt-syntax-item">
+              <code>x = t1</code>
+              <span>Copia o asignación constante</span>
+            </div>
+            <div class="opt-syntax-item">
+              <code>L1: / goto L1</code>
+              <span>Etiquetas y saltos incondicionales</span>
+            </div>
+            <div class="opt-syntax-item">
+              <code>if a &lt; b goto L1</code>
+              <span>Saltos condicionales (if / ifFalse)</span>
+            </div>
+            <div class="opt-syntax-item">
+              <code>print x / call f, 0</code>
+              <span>Efectos secundarios (siempre protegidos)</span>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Panel derecho: Comparativa, Explicación, Pasadas y Guía -->
+    <section class="ova-panel opt-right-panel" aria-label="Resultados de optimización">
+      <!-- Métricas resumen -->
+      <div class="opt-metrics-row" aria-label="Indicadores de optimización">
+        <div class="opt-metric-card">
+          <span class="opt-metric-card__value" id="metric-original">0</span>
+          <span class="opt-metric-card__label">TAC Original</span>
+        </div>
+        <div class="opt-metric-card opt-metric-card--accent">
+          <span class="opt-metric-card__value" id="metric-optimized">0</span>
+          <span class="opt-metric-card__label">TAC Optimizado</span>
+        </div>
+        <div class="opt-metric-card">
+          <span class="opt-metric-card__value" id="metric-reduction">0%</span>
+          <span class="opt-metric-card__label">Reducción</span>
+        </div>
+        <div class="opt-metric-card">
+          <span class="opt-metric-card__value" id="metric-steps">0</span>
+          <span class="opt-metric-card__label">Reglas aplicadas</span>
+        </div>
+        <div class="opt-metric-card opt-metric-card--ok" id="metric-equiv-card">
+          <span class="opt-metric-card__value" id="metric-equiv">—</span>
+          <span class="opt-metric-card__label">Equivalencia</span>
+        </div>
+      </div>
+
+      <!-- Pestañas -->
+      <div class="ova-tabs" role="tablist">
+        <button type="button" class="ova-tab active" role="tab" aria-selected="true" data-tab="tab-compare">
+          Comparativa Antes / Después
+        </button>
+        <button type="button" class="ova-tab" role="tab" aria-selected="false" data-tab="tab-explain">
+          Explicación Paso a Paso (<span id="tab-steps-count">0</span>)
+        </button>
+        <button type="button" class="ova-tab" role="tab" aria-selected="false" data-tab="tab-passes">
+          Evolución por Pasadas
+        </button>
+        <button type="button" class="ova-tab" role="tab" aria-selected="false" data-tab="tab-guide">
+          Guía de Reglas
+        </button>
+      </div>
+
+      <!-- TAB 1: Comparativa -->
+      <div id="tab-compare" class="ova-tab-content active" role="tabpanel">
+        <div class="opt-compare-grid">
+          <div class="opt-code-card">
+            <div class="opt-code-card__head">
+              <span>TAC Original</span>
+              <span id="badge-orig-count">0 instrucciones</span>
+            </div>
+            <ol id="original-code-view" class="opt-code-lines"></ol>
+          </div>
+
+          <div class="opt-code-card opt-code-card--optimized">
+            <div class="opt-code-card__head">
+              <span>TAC Optimizado</span>
+              <button type="button" id="btn-copy-optimized" class="ova-btn-secondary opt-copy-btn">Copiar</button>
+            </div>
+            <ol id="optimized-code-view" class="opt-code-lines"></ol>
+          </div>
+        </div>
+
+        <div class="opt-summary-grid">
+          <div class="opt-info-box">
+            <h3>Resumen de reglas aplicadas</h3>
+            <div id="rules-summary" class="opt-rule-chips"></div>
+          </div>
+
+          <div class="opt-info-box">
+            <h3>Evidencia de equivalencia semántica</h3>
+            <div id="equivalence-box"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: Explicación paso a paso -->
+      <div id="tab-explain" class="ova-tab-content" role="tabpanel">
+        <div id="steps-container" class="opt-steps-list"></div>
+        <div id="safety-container"></div>
+      </div>
+
+      <!-- TAB 3: Evolución por pasadas -->
+      <div id="tab-passes" class="ova-tab-content" role="tabpanel">
+        <div id="passes-container" class="opt-pass-list"></div>
+      </div>
+
+      <!-- TAB 4: Guía pedagógica -->
+      <div id="tab-guide" class="ova-tab-content" role="tabpanel">
+        <div class="opt-guide-grid">
+          <article class="opt-guide-card">
+            <span class="opt-rule-badge opt-rule-badge--constant-folding">1. Plegado de constantes</span>
+            <h4>Constant Folding</h4>
+            <p>Evalúa en tiempo de compilación operaciones cuyos operandos son constantes conocidas. Protege la división y módulo por cero para no alterar excepciones.</p>
+            <pre>t1 = 5 + 3   →   t1 = 8</pre>
+          </article>
+
+          <article class="opt-guide-card">
+            <span class="opt-rule-badge opt-rule-badge--constant-propagation">2. Propagación de constantes</span>
+            <h4>Constant Propagation</h4>
+            <p>Sustituye usos de variables cuyo valor constante está garantizado dentro del bloque básico. Se reinicia en etiquetas y al reasignar para preservar ciclos y bifurcaciones.</p>
+            <pre>t1 = 8
+t2 = t1 * 2  →  t2 = 8 * 2</pre>
+          </article>
+
+          <article class="opt-guide-card">
+            <span class="opt-rule-badge opt-rule-badge--algebraic-simplification">3. Simplificación algebraica</span>
+            <h4>Algebraic Identities</h4>
+            <p>Aplica identidades exactas como x + 0 = x, x - 0 = x, x * 1 = x, x / 1 = x, x * 0 = 0 y x - x = 0. Evita 0 / x y x / x si x puede ser cero.</p>
+            <pre>t3 = t2 + 0  →  t3 = t2</pre>
+          </article>
+
+          <article class="opt-guide-card">
+            <span class="opt-rule-badge opt-rule-badge--redundant-temp">4. Temporales redundantes</span>
+            <h4>Copy &amp; Temp Elimination</h4>
+            <p>Elimina copias intermedias innecesarias (t1 = a; x = t1), auto-asignaciones (x = x) y fusiona temporales de uso único inmediato en la variable destino.</p>
+            <pre>t1 = a + b
+x = t1       →  x = a + b</pre>
+          </article>
+
+          <article class="opt-guide-card">
+            <span class="opt-rule-badge opt-rule-badge--dead-code">5. Código muerto</span>
+            <h4>Dead Code Elimination</h4>
+            <p>Retira temporales sin uso, asignaciones sobrescritas antes de leerse y código inalcanzable tras un goto/return. Conserva siempre variables de salida y efectos secundarios.</p>
+            <pre>x = 10
+x = 20       →  x = 20</pre>
+          </article>
+
+          <article class="opt-guide-card">
+            <span class="opt-rule-badge opt-rule-badge--safety">Restricción esencial</span>
+            <h4>Seguridad Semántica Primero</h4>
+            <p>Nunca se eliminan instrucciones con efectos secundarios (print, read, call, param, return) ni se optimiza a través de saltos sin garantía. Si una regla no es 100% segura, la instrucción se conserva.</p>
+            <pre>t1 = call leer, 0  (conservada)</pre>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/optimizer.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

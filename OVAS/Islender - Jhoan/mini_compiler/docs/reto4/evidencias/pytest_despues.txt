@@ -1,0 +1,24 @@
+PASSED tests/integration/test_pipeline.py::test_ejemplos_validos_siguen_compilando[hello_world.mc]
+PASSED tests/integration/test_pipeline.py::test_ejemplos_validos_siguen_compilando[functions.mc]
+PASSED tests/integration/test_pipeline.py::test_ejemplos_validos_siguen_compilando[control_structures.mc]
+PASSED tests/integration/test_pipeline.py::test_api_compila_programa_valido
+PASSED tests/integration/test_pipeline.py::test_api_responde_200_con_errores_en_vez_de_500[x 5;]
+PASSED tests/integration/test_pipeline.py::test_api_responde_200_con_errores_en_vez_de_500[int x = 5;@]
+PASSED tests/integration/test_pipeline.py::test_api_responde_200_con_errores_en_vez_de_500[int x = (5 + 3;]
+PASSED tests/unit/intermediate/test_tac.py::test_precedencia_y_temporales
+PASSED tests/unit/intermediate/test_tac.py::test_parentesis
+PASSED tests/unit/intermediate/test_tac.py::test_funcion_no_queda_en_el_flujo_principal
+PASSED tests/unit/intermediate/test_tac.py::test_if_sin_else_no_genera_saltos_sobrantes
+PASSED tests/unit/intermediate/test_tac.py::test_if_else_y_while
+PASSED tests/unit/lexical/test_lexer_errores.py::test_error_lexico_al_final_no_lanza_excepcion[int x = 5;@]
+PASSED tests/unit/lexical/test_lexer_errores.py::test_error_lexico_al_final_no_lanza_excepcion[string s = "hola]
+PASSED tests/unit/lexical/test_lexer_errores.py::test_tras_un_caracter_invalido_no_se_pierde_el_siguiente
+PASSED tests/unit/semantic/test_asignaciones.py::test_variable_no_declarada_en_lado_derecho
+PASSED tests/unit/semantic/test_asignaciones.py::test_asignacion_de_tipo_incompatible
+PASSED tests/unit/semantic/test_asignaciones.py::test_asignacion_valida_int_a_float
+PASSED tests/unit/syntax/test_parser_errores.py::test_error_sintactico_se_reporta_sin_excepcion[int x = 5\nprint(x);-SEMICOLON]
+PASSED tests/unit/syntax/test_parser_errores.py::test_error_sintactico_se_reporta_sin_excepcion[x 5;-SEMICOLON]
+PASSED tests/unit/syntax/test_parser_errores.py::test_error_sintactico_se_reporta_sin_excepcion[int x = (5 + 3;-RPAREN]
+PASSED tests/unit/syntax/test_parser_errores.py::test_recuperacion_reporta_varios_errores
+PASSED tests/unit/syntax/test_parser_errores.py::test_anidamiento_excesivo_es_error_controlado
+23 passed in 0.19s
