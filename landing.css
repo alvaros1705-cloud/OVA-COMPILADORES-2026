@@ -96,3 +96,22 @@
 .dark .teacher-credit{border-color:#304438}
 .dark .teacher-credit b{color:#eaf3ed}
 .dark .teacher-credit span{color:#a7b8ad}
+
+
+/* Perfil académico del docente: jerarquía clara y presentación institucional */
+.teacher-profile{margin-top:20px;padding:18px 20px;border:1px solid #d8e6dc;border-radius:14px;background:linear-gradient(135deg,#f5faf6 0%,#edf6ef 100%);box-shadow:0 8px 22px rgba(13,74,39,.06);display:grid;gap:14px;max-width:560px}
+.teacher-profile-heading{display:flex;align-items:center;gap:13px}
+.teacher-avatar{width:44px;height:44px;flex:0 0 44px;border-radius:50%;display:grid;place-items:center;background:#087a3b;color:#fff;font:800 13px Manrope;letter-spacing:.04em}
+.teacher-profile-heading small{display:block;margin-bottom:5px;color:#087a3b;font:800 9px 'JetBrains Mono';letter-spacing:.15em}
+.teacher-profile-heading h3{margin:0;color:#173b29;font:800 16px Manrope;line-height:1.35}
+.teacher-role{margin:4px 0 0;color:#617468;font:500 11px 'DM Sans',sans-serif}
+.teacher-credentials{display:flex;flex-wrap:wrap;gap:7px;padding-top:12px;border-top:1px solid #d4e4d9}
+.teacher-credentials span,.teacher-credentials strong{display:inline-flex;align-items:center;padding:6px 9px;border-radius:7px;background:#fff;border:1px solid #dce9df;color:#425b4b;font:600 10px 'DM Sans',sans-serif}
+.teacher-credentials strong{background:#e0f1e5;border-color:#b8d9c2;color:#076c34;font-weight:800}
+.dark .teacher-profile{background:linear-gradient(135deg,#17291e,#1c3325);border-color:#355340;box-shadow:none}
+.dark .teacher-profile-heading h3{color:#f0f7f1}
+.dark .teacher-role{color:#b7c9bc}
+.dark .teacher-credentials{border-color:#355340}
+.dark .teacher-credentials span{background:#22392a;border-color:#3b5944;color:#d3e3d7}
+.dark .teacher-credentials strong{background:#174b2c;border-color:#2c7950;color:#c9f2d6}
+@media(max-width:620px){.teacher-profile{padding:15px}.teacher-profile-heading h3{font-size:14px}.teacher-credentials span,.teacher-credentials strong{font-size:9px}}
