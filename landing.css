@@ -47,3 +47,42 @@
 .dark .brand strong{color:#cde6d5}
 @media(max-width:1000px){.main-nav{gap:12px}.main-nav a{font-size:10px}.header-tools{gap:6px}.social-link{display:none}.objective-grid,.units-grid,.week-grid{grid-template-columns:repeat(2,1fr)}.academic-heading{display:block}}
 @media(max-width:620px){.brand img,.footer-brand img{width:48px;height:44px}.brand-university{font-size:10px!important}.brand strong{font-size:8px}.theme-label{display:none}.objective-grid,.units-grid,.week-grid{grid-template-columns:1fr}.academic-section,.units-section,.references-section{padding:65px 22px}.academic-heading h2{font-size:34px}}
+
+/* PAC fidelity: academic program, objectives, weekly plan and four units */
+.program-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:25px 0}
+.program-facts article{background:#e8f4eb;border:1px solid #cce5d2;border-radius:12px;padding:16px;display:grid;gap:7px}
+.program-facts small,.pac-purpose span,.pac-competency>b{font:800 9px 'JetBrains Mono';letter-spacing:.1em;color:#087b3d}
+.program-facts b{font:800 13px Manrope;color:#183b29}
+.pac-purpose{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.pac-purpose article,.pac-competency,.pac-outcomes article{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
+.pac-purpose p,.pac-competency p,.pac-outcomes p{font-size:13px;line-height:1.8;color:var(--muted)}
+.pac-competency h3{font:800 20px Manrope;margin:10px 0}
+.pac-outcomes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.pac-outcomes b{font:800 13px Manrope;color:var(--green)}
+.pac-weeks-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.pac-week{background:#fff;border:1px solid var(--line);border-left:4px solid var(--green);border-radius:12px;padding:17px}
+.pac-week:nth-child(4n+2){border-left-color:#238bd7}.pac-week:nth-child(4n+3){border-left-color:#e7a62e}.pac-week:nth-child(4n){border-left-color:#9270d9}
+.pac-week>span,.pac-unit>span{font:800 10px 'JetBrains Mono';letter-spacing:.08em;color:var(--green)}
+.pac-week p{font-size:13px;line-height:1.65;min-height:42px}
+.pac-week div{border-top:1px solid var(--line);padding-top:10px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.pac-week div b{font:800 11px Manrope}.pac-week div small{font-size:10px;color:var(--muted);text-align:right}
+.pac-units-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.pac-unit{padding:23px;border-radius:15px;border:1px solid #cce5d2;background:#e8f4eb}
+.pac-unit.unit-tone-02{background:#e8f1fb;border-color:#d0e1f5}.pac-unit.unit-tone-03{background:#fff1e3;border-color:#f4dfc8}.pac-unit.unit-tone-04{background:#f1ebfb;border-color:#e0d5f3}
+.pac-unit h3{font:800 20px Manrope;margin:12px 0}
+.pac-unit ul{padding-left:18px;font-size:12px;line-height:1.8;color:#435a4b}
+.unit-details{border-top:1px solid #b8d5c1;margin-top:17px;padding-top:12px}
+.unit-details b{font:800 11px Manrope}.unit-details p{font-size:11px;line-height:1.7}.unit-details small{font-size:10px;color:#52675a}
+.site-header .header-tools{display:flex!important;align-items:center;gap:10px;flex-shrink:0}
+.site-header .social-link{display:grid!important;place-items:center;flex:0 0 34px;width:34px;height:34px;border:1px solid #d7e7dc;border-radius:50%;background:#fff;color:#09843b!important;font-weight:900;font-size:17px;text-decoration:none;opacity:1!important;visibility:visible!important}
+.site-header .instagram-link{font-size:21px}
+.footer-social{align-items:center;flex-wrap:wrap}
+.footer-social .social-link{display:grid!important}
+.brand img{filter:none!important;object-fit:contain;opacity:1!important;width:88px;height:58px}
+.brand-university{font-family:Georgia,serif!important;font-size:16px!important;letter-spacing:.13em!important;color:#09843b!important}
+.dark .program-facts article,.dark .pac-purpose article,.dark .pac-competency,.dark .pac-outcomes article,.dark .pac-week{background:#1b2c22;border-color:#304438}
+.dark .program-facts b,.dark .pac-competency h3,.dark .pac-week p{color:#eaf3ed}
+.dark .pac-unit{background:#1a3024;border-color:#2c4a37}.dark .pac-unit.unit-tone-02{background:#1a2b3a;border-color:#2d455b}.dark .pac-unit.unit-tone-03{background:#36291d;border-color:#57422e}.dark .pac-unit.unit-tone-04{background:#2b243b;border-color:#46365e}
+.dark .pac-unit ul,.dark .unit-details small{color:#c0cec4}
+@media(max-width:1100px){.site-header .main-nav{display:none}.site-header .menu-toggle{display:block}.site-header .main-nav.mobile-open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#fff;padding:20px;z-index:20}.program-facts{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.pac-purpose,.pac-outcomes,.pac-weeks-grid,.pac-units-grid{grid-template-columns:1fr}.program-facts{grid-template-columns:repeat(2,1fr)}.pac-week div{align-items:flex-start;flex-direction:column}.site-header .header-tools{gap:5px}.site-header .social-link{display:none!important}}
