@@ -115,3 +115,7 @@
 .dark .teacher-credentials span{background:#22392a;border-color:#3b5944;color:#d3e3d7}
 .dark .teacher-credentials strong{background:#174b2c;border-color:#2c7950;color:#c9f2d6}
 @media(max-width:620px){.teacher-profile{padding:15px}.teacher-profile-heading h3{font-size:14px}.teacher-credentials span,.teacher-credentials strong{font-size:9px}}
+
+/* Logo del encabezado: convertir el escudo blanco a verde en modo claro; conservar blanco en modo oscuro. */
+.brand img{filter:brightness(0) saturate(100%) invert(22%) sepia(91%) saturate(1100%) hue-rotate(104deg) brightness(82%) contrast(105%) !important;}
+.dark .brand img{filter:none !important;}
