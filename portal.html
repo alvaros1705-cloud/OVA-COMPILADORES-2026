@@ -157,6 +157,14 @@
               </div>
             </a>
           </li>
+          <li>
+            <a href="#/ova/optimizador-tac" class="nav-item" id="nav-ova-7">
+              <span class="ova-num">07</span>
+              <div class="ova-info">
+                <span class="ova-title">MiniOpt (Juan Sebastian)</span>
+              </div>
+            </a>
+          </li>
         </ul>
       </nav>
     </aside>
@@ -250,7 +258,7 @@
                 </svg>
               </div>
               <div class="indicator-info">
-                <span class="indicator-count">6</span>
+                <span class="indicator-count">7</span>
                 <span class="indicator-label">OVAS Integradas</span>
               </div>
             </div>
@@ -265,7 +273,7 @@
                 </svg>
               </div>
               <div class="indicator-info">
-                <span class="indicator-count">6</span>
+                <span class="indicator-count">7</span>
                 <span class="indicator-label">Equipos de Trabajo</span>
               </div>
             </div>
@@ -278,7 +286,7 @@
                 </svg>
               </div>
               <div class="indicator-info">
-                <span class="indicator-count">6</span>
+                <span class="indicator-count">7</span>
                 <span class="indicator-label">Temáticas Cubiertas</span>
               </div>
             </div>
@@ -306,7 +314,7 @@
           </div>
         </section>
 
-        <!-- Sección de Tarjetas de las 5 OVAS -->
+        <!-- Sección de Tarjetas de las 7 OVAS -->
         <span id="ovas-grid-anchor"></span>
         <section class="ovas-section">
           <div class="section-header">
@@ -438,6 +446,27 @@
               <div class="card-actions-row">
                 <a href="#/ova/mini-opt" class="btn-card-primary">Abrir OVA</a>
                 <button class="btn-card-secondary" data-ova="mini-opt">Información</button>
+              </div>
+            </article>
+
+            <!-- Tarjeta OVA 07: MiniOpt (Juan Sebastian) -->
+            <article class="ova-card" data-title="optimizador tac codigo intermedio miniopt plegado constantes juan sebastian" id="card-ova-7">
+              <div class="card-badge">Fase 6: Optimización</div>
+              <div class="card-body">
+                <span class="card-number">07</span>
+                <h3 class="card-title">MiniOpt (Juan Sebastian)</h3>
+                <p class="card-desc">Optimiza código intermedio de tres direcciones con plegado y propagación de constantes, simplificación algebraica, eliminación de código muerto y comparación antes/después con verificación de equivalencia.</p>
+                <div class="card-meta">
+                  <div class="card-author-group">
+                    <span class="meta-label">Autor:</span>
+                    <span class="card-author">Juan Sebastian Perez</span>
+                  </div>
+                  <span class="card-badge-static">Cliente Estático</span>
+                </div>
+              </div>
+              <div class="card-actions-row">
+                <a href="#/ova/optimizador-tac" class="btn-card-primary">Abrir OVA</a>
+                <button class="btn-card-secondary" data-ova="optimizador-tac">Información</button>
               </div>
             </article>
 
@@ -582,7 +611,7 @@
             </div>
           </div>
           <!-- Elemento IFrame -->
-          <iframe id="ova-iframe" name="ova-iframe" title="Contenedor de Objeto Virtual de Aprendizaje" sandbox="allow-scripts allow-same-origin allow-forms" src="about:blank"></iframe>
+          <iframe id="ova-iframe" name="ova-iframe" title="Contenedor de Objeto Virtual de Aprendizaje" sandbox="allow-scripts allow-same-origin allow-forms allow-downloads" src="about:blank"></iframe>
         </div>
       </section>
 
@@ -694,6 +723,24 @@
         <div class="spec-row"><strong>Reglas implementadas:</strong> <span>Plegado de constantes, propagación de constantes por bloque básico, simplificación algebraica, eliminación de temporales redundantes y eliminación de código muerto.</span></div>
         <div class="spec-row"><strong>Seguridad semántica:</strong> <span>Protege instrucciones con efectos secundarios (print, read, call, param, return), divisiones por cero y fronteras de control de flujo (etiquetas y saltos).</span></div>
         <div class="spec-row"><strong>Tecnología:</strong> <span>HTML5, CSS3 con Design System USB compartido y motor en JavaScript cliente estático (100% compatible con GitHub Pages).</span></div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Detalle OVA 07: MiniOpt (Juan Sebastian) -->
+  <dialog class="details-modal" id="details-ova-7-modal">
+    <div class="modal-header">
+      <h2 class="modal-title">Fase 6: MiniOpt (Juan Sebastian) — Optimizador de Código Intermedio (TAC)</h2>
+      <button class="close-details-btn" data-close="details-ova-7-modal" aria-label="Cerrar modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <h3>Detalles Académicos del Proyecto</h3>
+      <p>MiniOpt recibe instrucciones TAC, aplica transformaciones seguras y muestra una comparación explicable entre el código original y el optimizado. Cada regla se registra con su justificación y la herramienta verifica la equivalencia de las salidas observables mediante un intérprete acotado.</p>
+      <div class="tech-spec-table">
+        <div class="spec-row"><strong>Integrante:</strong> <span>Juan Sebastian Perez Galvis</span></div>
+        <div class="spec-row"><strong>Gramática/Temática:</strong> <span>Plegado y propagación de constantes, simplificación algebraica, eliminación de código muerto, coalescencia de temporales y análisis de flujo de control.</span></div>
+        <div class="spec-row"><strong>Características UX:</strong> <span>Editor TAC con numeración, pestañas de resultado, diff antes/después, traza de reglas, métricas, modo paso a paso y verificación de equivalencia.</span></div>
+        <div class="spec-row"><strong>Tecnología:</strong> <span>Cliente 100 % estático en HTML5, CSS y JavaScript con módulos ES; sin backend ni dependencias de ejecución.</span></div>
       </div>
     </div>
   </dialog>

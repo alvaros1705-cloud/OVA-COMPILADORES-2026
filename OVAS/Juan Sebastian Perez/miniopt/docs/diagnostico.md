@@ -88,8 +88,10 @@ Por tanto, el producto mínimo debe cubrir dos frentes: **(a)** un motor de opti
 
 ## 8. Conclusión
 
-El portal está preparado para recibir una nueva OVA estática. La ausencia de backend es una restricción, pero también una ventaja para la reproducibilidad: MiniOpt puede implementarse por completo en el navegador y verificarse con pruebas nativas de Node.js. La integración debe ser quirúrgica en `index.html`, `script.js` y `js/learning-data.js` para no afectar las OVAs previas.
+El portal está preparado para recibir una nueva OVA estática. La ausencia de backend es una restricción, pero también una ventaja para la reproducibilidad: MiniOpt puede implementarse por completo en el navegador y verificarse con pruebas nativas de Node.js. La integración debe ser quirúrgica en `portal.html`, `script.js` y `js/learning-data.js` para no afectar las OVAs previas.
 
 ## 9. Nota sobre la numeración final
 
 Durante el desarrollo, el repositorio institucional recibió otra implementación de MiniOpt como OVA 06, desarrollada por Daihan Riveros. Para no alterar el trabajo de ese equipo, esta entrega se integró como **OVA 07**. La decisión conserva las dos herramientas, mantiene la OVA 06 intacta y permite comparar dos enfoques de optimización en el mismo portal. Los contadores del dashboard se actualizaron a siete OVAs.
+
+El repositorio también movió el portal integrado a `portal.html` y dejó `index.html` como portada académica. La integración de esta entrega se aplicó a `portal.html`, que es el archivo que carga el visor de OVAs. La portada nueva no se modificó.

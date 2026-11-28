@@ -37,7 +37,7 @@ Detalle completo en [`arquitectura.md`](arquitectura.md).
 | Archivo | Cambio |
 |---|---|
 | `script.js` | Ruta `optimizador-tac` y modal `details-ova-7-modal`. |
-| `index.html` | Nav 07, tarjeta 07, modal 07, contadores 6 → 7 y `allow-downloads` en el iframe. |
+| `portal.html` | Nav 07, tarjeta 07, modal 07, contadores 6 → 7 y `allow-downloads` en el iframe. |
 | `js/learning-data.js` | Entrada de guía para la OVA 7. |
 | `OVAS/README.md` | Listado de las siete OVAs. |
 

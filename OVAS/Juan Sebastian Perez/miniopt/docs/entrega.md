@@ -4,7 +4,7 @@
 
 | # | Entregable | Dónde está | Estado |
 |---|---|---|---|
-| 1 | Código fuente actualizado y ejecutable | `OVAS/Juan Sebastian Perez/miniopt/` + cambios en `script.js`, `index.html`, `js/learning-data.js` | **Listo** |
+| 1 | Código fuente actualizado y ejecutable | `OVAS/Juan Sebastian Perez/miniopt/` + cambios en `script.js`, `portal.html`, `js/learning-data.js` | **Listo** |
 | 2 | Enlace al repositorio y rama de trabajo | Repositorio institucional, rama `reto6-miniopt-juan-sebastian` | **Falta push y URL del PR** |
 | 3 | Informe de diagnóstico | [`diagnostico.md`](diagnostico.md) | **Listo** |
 | 4 | Relación de cambios con justificación técnica | [`cambios.md`](cambios.md) | **Listo** |

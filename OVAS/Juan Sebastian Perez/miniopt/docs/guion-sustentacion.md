@@ -9,12 +9,12 @@
 
 ## 0:00 – 0:40 | Contexto y diagnóstico
 
-> “El Reto 6 pedía una herramienta nueva: un optimizador de TAC. Revisé el portal y encontré cinco OVAs estáticas, rutas centralizadas en `script.js`, tarjetas y modales en `index.html` y un sistema de diseño compartido. No existía ninguna ruta, tarjeta ni motor de optimización. La restricción principal es que GitHub Pages no ejecuta backend, así que decidí construir un cliente 100 % estático, sin dependencias de ejecución, y con pruebas nativas de Node.”
+> “El Reto 6 pedía una herramienta nueva: un optimizador de TAC. Revisé el portal y encontré cinco OVAs estáticas, rutas centralizadas en `script.js`, tarjetas y modales en `portal.html` y un sistema de diseño compartido. No existía ninguna ruta, tarjeta ni motor de optimización. La restricción principal es que GitHub Pages no ejecuta backend, así que decidí construir un cliente 100 % estático, sin dependencias de ejecución, y con pruebas nativas de Node.”
 
 Mostrar brevemente:
 
 - `script.js` → `OVAS_ROUTES`.
-- `index.html` → tarjeta 06.
+- `portal.html` → tarjeta 07.
 - `OVAS/Juan Sebastian Perez/miniopt/`.
 
 ## 0:40 – 1:30 | Arquitectura
@@ -83,4 +83,4 @@ Cerrar con:
 | ¿Qué pasa con una llamada? | Es una barrera: no se propaga a través de ella y la equivalencia se marca manual porque no se simula el cuerpo de la función. |
 | ¿Por qué `0.1 + 0.2` no da `0.3`? | Se usa IEEE-754 de JavaScript; no se redondea para no alterar el resultado. Está documentado. |
 | ¿Cómo sé que la UI funciona? | Prueba de humo con `jsdom`: ejemplo inicial, cambio de muestra, modo agresivo, paso a paso, pestañas, error y límite de tamaño. |
-| ¿Qué archivos del portal tocaron? | `script.js`, `index.html`, `js/learning-data.js`, `OVAS/README.md`; no se modificó el código interno de las OVAs 1–5. |
+| ¿Qué archivos del portal tocaron? | `script.js`, `portal.html`, `js/learning-data.js`, `OVAS/README.md`; no se modificó el código interno de las OVAs 1–5 ni la OVA 06. |

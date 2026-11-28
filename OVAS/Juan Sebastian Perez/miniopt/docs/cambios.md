@@ -33,7 +33,7 @@ Se implementó la **OVA 07 — MiniOpt (Juan Sebastian)**, un optimizador estát
 | Archivo | Cambio | Justificación |
 |---|---|---|
 | `script.js` | Ruta `optimizador-tac` y modal `details-ova-7-modal`. | El router SPA necesita conocer la nueva OVA. |
-| `index.html` | Ítem de navegación 07, tarjeta 07, modal 07, contadores 6 → 7, comentario de sección y `allow-downloads` en el iframe. | Integración visual, consistencia del dashboard y descarga del TAC dentro del visor. |
+| `portal.html` | Ítem de navegación 07, tarjeta 07, modal 07, contadores 6 → 7, comentario de sección y `allow-downloads` en el iframe. | Integración visual, consistencia del dashboard y descarga del TAC dentro del visor. |
 | `js/learning-data.js` | Entrada de guía para la OVA 7. | El Centro de Aprendizaje debe explicar la optimización. |
 | `OVAS/README.md` | Listado de las siete OVAs. | Documentación institucional actualizada. |
 
