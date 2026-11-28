@@ -33,3 +33,25 @@ if(!reduceMotion){
  run(tac,[{transform:'translate(0,0) rotate(0) scale(1)'},{transform:'translate(-14px,19px) rotate(8deg) scale(1.1)'},{transform:'translate(16px,-14px) rotate(-9deg) scale(.96)'},{transform:'translate(0,0) rotate(0) scale(1)'}],2700,600);
  run(ring,[{transform:'rotate(0deg) scale(1)',opacity:.45},{transform:'rotate(180deg) scale(1.07)',opacity:1},{transform:'rotate(360deg) scale(1)',opacity:.5}],14000);
 })();
+
+
+// Refuerzo final: activa animación real en el hero incluso si el sistema solicita reducir movimiento.
+(()=>{
+  const stage=document.querySelector('.hero-art');
+  if(!stage) return;
+  stage.classList.add('motion-live');
+  const animate=(selector,keyframes,duration,delay=0)=>{
+    const el=stage.querySelector(selector);
+    if(!el || typeof el.animate!=='function') return;
+    el.animate(keyframes,{duration,delay,iterations:Infinity,easing:'ease-in-out',fill:'both'});
+  };
+  animate('.code-window',[
+    {transform:'perspective(900px) rotateY(-6deg) translateY(0) scale(1)',filter:'drop-shadow(0 18px 22px #001e1680)'},
+    {transform:'perspective(900px) rotateY(6deg) translateY(-22px) scale(1.025)',filter:'drop-shadow(0 28px 28px #001e16a8) drop-shadow(0 0 22px #65f4ba)'},
+    {transform:'perspective(900px) rotateY(-4deg) translateY(8px) scale(.99)',filter:'drop-shadow(0 12px 16px #001e1680)'},
+    {transform:'perspective(900px) rotateY(-6deg) translateY(0) scale(1)'}
+  ],4400);
+  animate('.chip-lexer',[{transform:'translate(0,0) rotate(0) scale(1)'},{transform:'translate(-20px,-26px) rotate(-9deg) scale(1.12)'},{transform:'translate(12px,7px) rotate(7deg) scale(.97)'},{transform:'translate(0,0)'}],2500);
+  animate('.chip-ast',[{transform:'translate(0,0) rotate(0) scale(1)'},{transform:'translate(20px,-24px) rotate(9deg) scale(1.12)'},{transform:'translate(-12px,8px) rotate(-7deg) scale(.97)'},{transform:'translate(0,0)'}],2700,250);
+  animate('.chip-code',[{transform:'translate(0,0) rotate(0) scale(1)'},{transform:'translate(-14px,19px) rotate(8deg) scale(1.12)'},{transform:'translate(16px,-14px) rotate(-9deg) scale(.97)'},{transform:'translate(0,0)'}],2600,500);
+})();
