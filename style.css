@@ -4082,3 +4082,10 @@ body.light-theme .dashboard-view .hero-section:hover .hero-logo-halo {
 .theme-toggle-btn{width:auto;min-width:var(--touch-target-min);height:var(--touch-target-min);padding:0 13px;border-radius:999px;gap:9px;white-space:nowrap}
 .theme-toggle-label{font:600 12px 'Outfit',sans-serif}
 @media(max-width:760px){.language-switch{margin-right:4px}.language-button{min-width:30px;padding:0 7px}.theme-toggle-btn{padding:0 9px}.theme-toggle-label{font-size:10px}}
+
+
+/* Acceso persistente para regresar a la página principal de la OVA */
+.home-return-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 14px;border:1px solid #32a36b;border-radius:10px;background:#087a3b;color:#fff;text-decoration:none;font:700 .78rem 'Outfit',sans-serif;white-space:nowrap;box-shadow:0 5px 16px rgba(8,122,59,.18);transition:background .2s ease,transform .2s ease}
+.home-return-btn:hover{background:#056331;transform:translateY(-1px)}
+.home-return-btn:focus-visible{outline:3px solid #efc64b;outline-offset:3px}
+@media(max-width:760px){.home-return-btn{padding:0 10px;min-width:40px}.home-return-btn span{display:none}}
