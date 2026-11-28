@@ -148,6 +148,14 @@
               </div>
             </a>
           </li>
+          <li>
+            <a href="#/ova/optimizador-tac" class="nav-item" id="nav-ova-6">
+              <span class="ova-num">06</span>
+              <div class="ova-info">
+                <span class="ova-title">Optimizador TAC (MiniOpt)</span>
+              </div>
+            </a>
+          </li>
         </ul>
       </nav>
     </aside>
@@ -241,7 +249,7 @@
                 </svg>
               </div>
               <div class="indicator-info">
-                <span class="indicator-count">5</span>
+                <span class="indicator-count">6</span>
                 <span class="indicator-label">OVAS Integradas</span>
               </div>
             </div>
@@ -256,7 +264,7 @@
                 </svg>
               </div>
               <div class="indicator-info">
-                <span class="indicator-count">5</span>
+                <span class="indicator-count">6</span>
                 <span class="indicator-label">Equipos de Trabajo</span>
               </div>
             </div>
@@ -269,7 +277,7 @@
                 </svg>
               </div>
               <div class="indicator-info">
-                <span class="indicator-count">5</span>
+                <span class="indicator-count">6</span>
                 <span class="indicator-label">Temáticas Cubiertas</span>
               </div>
             </div>
@@ -297,7 +305,7 @@
           </div>
         </section>
 
-        <!-- Sección de Tarjetas de las 5 OVAS -->
+        <!-- Sección de Tarjetas de las 6 OVAS -->
         <span id="ovas-grid-anchor"></span>
         <section class="ovas-section">
           <div class="section-header">
@@ -409,6 +417,27 @@
               <div class="card-actions-row">
                 <a href="#/ova/simulador-automatas" class="btn-card-primary">Abrir OVA</a>
                 <button class="btn-card-secondary" data-ova="simulador-automatas">Información</button>
+              </div>
+            </article>
+
+            <!-- Tarjeta OVA 06: Optimizador de Código Intermedio (MiniOpt) -->
+            <article class="ova-card" data-title="optimizador tac codigo intermedio miniopt plegado constantes juan sebastian" id="card-ova-6">
+              <div class="card-badge">Fase 6: Optimización</div>
+              <div class="card-body">
+                <span class="card-number">06</span>
+                <h3 class="card-title">Optimizador TAC (MiniOpt)</h3>
+                <p class="card-desc">Optimiza código intermedio de tres direcciones con plegado y propagación de constantes, simplificación algebraica, eliminación de código muerto y comparación antes/después con verificación de equivalencia.</p>
+                <div class="card-meta">
+                  <div class="card-author-group">
+                    <span class="meta-label">Autor:</span>
+                    <span class="card-author">Juan Sebastian Perez</span>
+                  </div>
+                  <span class="card-badge-static">Cliente Estático</span>
+                </div>
+              </div>
+              <div class="card-actions-row">
+                <a href="#/ova/optimizador-tac" class="btn-card-primary">Abrir OVA</a>
+                <button class="btn-card-secondary" data-ova="optimizador-tac">Información</button>
               </div>
             </article>
 
@@ -553,7 +582,7 @@
             </div>
           </div>
           <!-- Elemento IFrame -->
-          <iframe id="ova-iframe" name="ova-iframe" title="Contenedor de Objeto Virtual de Aprendizaje" sandbox="allow-scripts allow-same-origin allow-forms" src="about:blank"></iframe>
+          <iframe id="ova-iframe" name="ova-iframe" title="Contenedor de Objeto Virtual de Aprendizaje" sandbox="allow-scripts allow-same-origin allow-forms allow-downloads" src="about:blank"></iframe>
         </div>
       </section>
 
@@ -648,6 +677,24 @@
         <div class="spec-row"><strong>Gramática/Temática:</strong> <span>Definición de estados iniciales y finales, transiciones por símbolo, transiciones vacías (épsilon) y simulación animada de paso de cadena.</span></div>
         <div class="spec-row"><strong>Características UX:</strong> <span>Lienzo interactivo para arrastrar y conectar nodos, simulación animada paso a paso, historial e importación/exportación JSON.</span></div>
         <div class="spec-row"><strong>Tecnología:</strong> <span>Vis.js para grafo interactivo, motor JS local para fallback, API Flask opcional para validaciones complejas.</span></div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Detalle OVA 6 -->
+  <dialog class="details-modal" id="details-ova-6-modal">
+    <div class="modal-header">
+      <h2 class="modal-title">Fase 6: Optimización de Código Intermedio (MiniOpt)</h2>
+      <button class="close-details-btn" data-close="details-ova-6-modal" aria-label="Cerrar modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <h3>Detalles Académicos del Proyecto</h3>
+      <p>MiniOpt recibe instrucciones TAC, aplica transformaciones seguras y muestra una comparación explicable entre el código original y el optimizado. Cada regla se registra con su justificación y la herramienta verifica la equivalencia de las salidas observables mediante un intérprete acotado.</p>
+      <div class="tech-spec-table">
+        <div class="spec-row"><strong>Integrante:</strong> <span>Juan Sebastian Perez Galvis</span></div>
+        <div class="spec-row"><strong>Gramática/Temática:</strong> <span>Plegado y propagación de constantes, simplificación algebraica, eliminación de código muerto, coalescencia de temporales y análisis de flujo de control.</span></div>
+        <div class="spec-row"><strong>Características UX:</strong> <span>Editor TAC con numeración, pestañas de resultado, diff antes/después, traza de reglas, métricas, modo paso a paso y verificación de equivalencia.</span></div>
+        <div class="spec-row"><strong>Tecnología:</strong> <span>Cliente 100 % estático en HTML5, CSS y JavaScript con módulos ES; sin backend ni dependencias de ejecución.</span></div>
       </div>
     </div>
   </dialog>
