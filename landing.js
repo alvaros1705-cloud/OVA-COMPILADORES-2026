@@ -12,3 +12,24 @@ if(!reduceMotion){
   }else{revealTargets.forEach(el=>el.classList.add('is-visible'));}
 }
 })();
+
+// Refuerzo por Web Animations API: garantiza movimiento visible en la ilustración principal.
+(()=>{
+ const stage=document.querySelector('.hero-art');
+ if(!stage || !stage.animate) return;
+ const card=stage.querySelector('.code-window');
+ const lexer=stage.querySelector('.chip-lexer');
+ const ast=stage.querySelector('.chip-ast');
+ const tac=stage.querySelector('.chip-code');
+ const ring=stage.querySelector('.ring-two');
+ const run=(el,frames,duration,delay=0)=>{
+   if(!el) return;
+   el.animate(frames,{duration,delay,iterations:Infinity,easing:'ease-in-out'});
+ };
+ run(stage,[{transform:'translateY(0) rotate(0deg)'},{transform:'translateY(-14px) rotate(-1deg)'},{transform:'translateY(5px) rotate(1deg)'},{transform:'translateY(-9px) rotate(-.6deg)'},{transform:'translateY(0) rotate(0deg)'}],5200);
+ run(card,[{transform:'perspective(900px) rotateY(-5deg) translateY(0)',filter:'drop-shadow(0 15px 18px #001e1680)'},{transform:'perspective(900px) rotateY(6deg) translateY(-24px)',filter:'drop-shadow(0 28px 25px #001e16a8) drop-shadow(0 0 18px #65f4ba)'},{transform:'perspective(900px) rotateY(-4deg) translateY(8px)',filter:'drop-shadow(0 12px 16px #001e1680)'},{transform:'perspective(900px) rotateY(-5deg) translateY(0)'}],4600);
+ run(lexer,[{transform:'translate(0,0) rotate(0) scale(1)'},{transform:'translate(-20px,-27px) rotate(-10deg) scale(1.1)'},{transform:'translate(12px,5px) rotate(8deg) scale(.96)'},{transform:'translate(0,0) rotate(0) scale(1)'}],2600);
+ run(ast,[{transform:'translate(0,0) rotate(0) scale(1)'},{transform:'translate(20px,-25px) rotate(10deg) scale(1.1)'},{transform:'translate(-12px,8px) rotate(-8deg) scale(.96)'},{transform:'translate(0,0) rotate(0) scale(1)'}],2900,300);
+ run(tac,[{transform:'translate(0,0) rotate(0) scale(1)'},{transform:'translate(-14px,19px) rotate(8deg) scale(1.1)'},{transform:'translate(16px,-14px) rotate(-9deg) scale(.96)'},{transform:'translate(0,0) rotate(0) scale(1)'}],2700,600);
+ run(ring,[{transform:'rotate(0deg) scale(1)',opacity:.45},{transform:'rotate(180deg) scale(1.07)',opacity:1},{transform:'rotate(360deg) scale(1)',opacity:.5}],14000);
+})();
