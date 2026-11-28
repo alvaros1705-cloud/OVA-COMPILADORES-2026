@@ -34,8 +34,13 @@ document.addEventListener('DOMContentLoaded', () => {
       author: 'Desarrollado por Ronald & Johel',
       path: 'OVAS/Ronald - Johel/FASS-Sistema-de-Simulaci-n-de-Aut-matas-Finitos/static/index.html'
     },
-    'optimizador-tac': {
+    'mini-opt': {
       title: 'MiniOpt — Optimizador de Código Intermedio (TAC)',
+      author: 'Desarrollado por Daihan Riveros',
+      path: 'OVAS/MiniOpt/index.html'
+    },
+    'optimizador-tac': {
+      title: 'MiniOpt (Juan Sebastian) — Optimizador de Código Intermedio (TAC)',
       author: 'Desarrollado por Juan Sebastian Perez Galvis',
       path: 'OVAS/Juan Sebastian Perez/miniopt/index.html'
     }
@@ -48,7 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
     'analizador-semantico': 'details-ova-3-modal',
     'mini-compilador': 'details-ova-4-modal',
     'simulador-automatas': 'details-ova-5-modal',
-    'optimizador-tac': 'details-ova-6-modal'
+    'mini-opt': 'details-ova-6-modal',
+    'optimizador-tac': 'details-ova-7-modal'
   };
 
   // ── SELECCIÓN DE ELEMENTOS DEL DOM ─────────────────────────────────────────

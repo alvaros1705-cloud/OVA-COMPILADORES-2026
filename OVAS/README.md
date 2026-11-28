@@ -15,7 +15,8 @@ Repositorio destinado al almacenamiento y gestión de proyectos relacionados con
 3. Analizador Semántico — Kevin & Gabriel
 4. Mini Compilador TAC — Islender & Jhoan
 5. Simulador de Autómatas FASS — Ronald & Johel
-6. MiniOpt: Optimizador de Código Intermedio — Juan Sebastian Perez Galvis
+6. MiniOpt: Optimizador de Código Intermedio — Daihan Riveros
+7. MiniOpt: Optimizador de Código Intermedio — Juan Sebastian Perez Galvis
 
 ## Docente
 Ing. Álvaro Salamanca Landínez

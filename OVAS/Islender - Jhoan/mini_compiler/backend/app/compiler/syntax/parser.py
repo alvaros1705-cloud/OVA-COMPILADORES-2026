@@ -19,6 +19,7 @@ class Parser:
 
     # ── declaraciones de alto nivel ──────────────────────────────────────
     def _declaration(self):
+        start = self.s.peek()
         try:
             if self.s.check(TokenType.FUNC):
                 return self._function_decl()
@@ -26,6 +27,10 @@ class Parser:
         except MCSyntaxError as e:
             self.errors.append(e)
             self._synchronize()
+            # Garantiza progreso: si el error ocurrió sin consumir tokens
+            # (p. ej. una '}' suelta), se descarta ese token para no ciclar.
+            if self.s.peek() is start and not self.s.is_at_end():
+                self.s.advance()
             return None
 
     def _function_decl(self) -> FunctionDecl:
@@ -305,6 +310,9 @@ class Parser:
                        TokenType.WHILE, TokenType.FOR, TokenType.RETURN,
                        TokenType.PRINT}
         while not self.s.is_at_end():
-            if self.s.peek().type in sync_tokens:
-                return
+            tok = self.s.peek()
+            if tok.type in sync_tokens or tok.type == TokenType.RBRACE:
+                return  # inicio de sentencia o cierre del bloque actual
             self.s.advance()
+            if tok.type == TokenType.SEMICOLON:
+                return  # fin de la sentencia errónea

@@ -1,0 +1,439 @@
+=== TAC-01 · Expresión aritmética simple
+Fuente:
+    int x = 2 + 3;
+Resultado: OK
+Cuádruplas:
+    1. (+, 2, 3, t1)
+    2. (=, t1, _, x)
+
+=== TAC-02 · Precedencia: * antes que +
+Fuente:
+    int x = 2 + 3 * 4;
+Resultado: OK
+Cuádruplas:
+    1. (*, 3, 4, t1)
+    2. (+, 2, t1, t2)
+    3. (=, t2, _, x)
+
+=== TAC-03 · Paréntesis alteran la precedencia
+Fuente:
+    int x = (2 + 3) * 4;
+Resultado: OK
+Cuádruplas:
+    1. (+, 2, 3, t1)
+    2. (*, t1, 4, t2)
+    3. (=, t2, _, x)
+
+=== TAC-04 · Asociatividad izquierda de -
+Fuente:
+    int x = 10 - 4 - 3;
+Resultado: OK
+Cuádruplas:
+    1. (-, 10, 4, t1)
+    2. (-, t1, 3, t2)
+    3. (=, t2, _, x)
+
+=== TAC-05 · Asignaciones consecutivas
+Fuente:
+    int a = 1;
+    int b = a + 2;
+    a = b * 3;
+    b = a - b;
+    print(a);
+    print(b);
+Resultado: OK
+Cuádruplas:
+    1. (=, 1, _, a)
+    2. (+, a, 2, t1)
+    3. (=, t1, _, b)
+    4. (*, b, 3, t2)
+    5. (=, t2, _, a)
+    6. (-, a, b, t3)
+    7. (=, t3, _, b)
+    8. (PRINT, a, _, )
+    9. (PRINT, b, _, )
+
+=== TAC-06 · Asignación encadenada
+Fuente:
+    int a;
+    int b;
+    a = b = 5;
+    print(a);
+Resultado: OK
+Cuádruplas:
+    1. (DECL, int, _, a)
+    2. (DECL, int, _, b)
+    3. (=, 5, _, b)
+    4. (=, b, _, a)
+    5. (PRINT, a, _, )
+
+=== TAC-07 · if / else
+Fuente:
+    int x = 10;
+    if (x > 5) {
+        print(1);
+    } else {
+        print(0);
+    }
+Resultado: OK
+Cuádruplas:
+    1. (=, 10, _, x)
+    2. (>, x, 5, t1)
+    3. (IF_FALSE, t1, _, L1)
+    4. (PRINT, 1, _, )
+    5. (GOTO, _, _, L2)
+    6. (LABEL, _, _, L1)
+    7. (PRINT, 0, _, )
+    8. (LABEL, _, _, L2)
+
+=== TAC-08 · if sin else
+Fuente:
+    int x = 1;
+    if (x > 0) {
+        x = 2;
+    }
+    print(x);
+Resultado: OK
+Cuádruplas:
+    1. (=, 1, _, x)
+    2. (>, x, 0, t1)
+    3. (IF_FALSE, t1, _, L1)
+    4. (=, 2, _, x)
+    5. (LABEL, _, _, L1)
+    6. (PRINT, x, _, )
+
+=== TAC-09 · Ciclo while
+Fuente:
+    int i = 0;
+    while (i < 3) {
+        print(i);
+        i = i + 1;
+    }
+Resultado: OK
+Cuádruplas:
+    1. (=, 0, _, i)
+    2. (LABEL, _, _, L1)
+    3. (<, i, 3, t1)
+    4. (IF_FALSE, t1, _, L2)
+    5. (PRINT, i, _, )
+    6. (+, i, 1, t2)
+    7. (=, t2, _, i)
+    8. (GOTO, _, _, L1)
+    9. (LABEL, _, _, L2)
+
+=== TAC-10 · Ciclo for
+Fuente:
+    for (int i = 0; i < 3; i = i + 1) {
+        print(i);
+    }
+Resultado: OK
+Cuádruplas:
+    1. (=, 0, _, i)
+    2. (LABEL, _, _, L1)
+    3. (<, i, 3, t1)
+    4. (IF_FALSE, t1, _, L2)
+    5. (PRINT, i, _, )
+    6. (+, i, 1, t2)
+    7. (=, t2, _, i)
+    8. (GOTO, _, _, L1)
+    9. (LABEL, _, _, L2)
+
+=== TAC-11 · if anidado dentro de while
+Fuente:
+    int i = 0;
+    while (i < 4) {
+        if (i % 2 == 0) {
+            print(i);
+        }
+        i = i + 1;
+    }
+Resultado: OK
+Cuádruplas:
+    1. (=, 0, _, i)
+    2. (LABEL, _, _, L1)
+    3. (<, i, 4, t1)
+    4. (IF_FALSE, t1, _, L2)
+    5. (%, i, 2, t2)
+    6. (==, t2, 0, t3)
+    7. (IF_FALSE, t3, _, L3)
+    8. (PRINT, i, _, )
+    9. (LABEL, _, _, L3)
+   10. (+, i, 1, t4)
+   11. (=, t4, _, i)
+   12. (GOTO, _, _, L1)
+   13. (LABEL, _, _, L2)
+
+=== TAC-12 · Programa con varios temporales
+Fuente:
+    int r = (1 + 2) * (3 + 4) - (5 + 6) / (7 - 6);
+    print(r);
+Resultado: OK
+Cuádruplas:
+    1. (+, 1, 2, t1)
+    2. (+, 3, 4, t2)
+    3. (*, t1, t2, t3)
+    4. (+, 5, 6, t4)
+    5. (-, 7, 6, t5)
+    6. (/, t4, t5, t6)
+    7. (-, t3, t6, t7)
+    8. (=, t7, _, r)
+    9. (PRINT, r, _, )
+
+=== TAC-13 · Operadores unarios
+Fuente:
+    int a = 3;
+    int b = -a * 2;
+    bool c = !(a > 1);
+    print(b);
+    print(c);
+Resultado: OK
+Cuádruplas:
+    1. (=, 3, _, a)
+    2. (UNARY_-, a, _, t1)
+    3. (*, t1, 2, t2)
+    4. (=, t2, _, b)
+    5. (>, a, 1, t3)
+    6. (UNARY_!, t3, _, t4)
+    7. (=, t4, _, c)
+    8. (PRINT, b, _, )
+    9. (PRINT, c, _, )
+
+=== TAC-14 · Declaración y llamada de función
+Fuente:
+    func suma(int a, int b) : int {
+        return a + b;
+    }
+    int r = suma(10, 20);
+    print(r);
+Resultado: OK
+Cuádruplas:
+    1. (GOTO, _, _, L1)
+    2. (FUNC_BEGIN, suma, _, func_suma)
+    3. (PARAM, a, _, )
+    4. (PARAM, b, _, )
+    5. (+, a, b, t1)
+    6. (RETURN, t1, _, )
+    7. (FUNC_END, suma, _, )
+    8. (LABEL, _, _, L1)
+    9. (ARG, 10, _, )
+   10. (ARG, 20, _, )
+   11. (CALL, suma, 2, t2)
+   12. (=, t2, _, r)
+   13. (PRINT, r, _, )
+
+=== TAC-15 · Llamadas anidadas
+Fuente:
+    func f(int a, int b) : int {
+        return a + b;
+    }
+    int r = f(f(1, 2), 3);
+    print(r);
+Resultado: OK
+Cuádruplas:
+    1. (GOTO, _, _, L1)
+    2. (FUNC_BEGIN, f, _, func_f)
+    3. (PARAM, a, _, )
+    4. (PARAM, b, _, )
+    5. (+, a, b, t1)
+    6. (RETURN, t1, _, )
+    7. (FUNC_END, f, _, )
+    8. (LABEL, _, _, L1)
+    9. (ARG, 1, _, )
+   10. (ARG, 2, _, )
+   11. (CALL, f, 2, t2)
+   12. (ARG, t2, _, )
+   13. (ARG, 3, _, )
+   14. (CALL, f, 2, t3)
+   15. (=, t3, _, r)
+   16. (PRINT, r, _, )
+
+=== TAC-16 · Recursión (factorial)
+Fuente:
+    func fact(int n) : int {
+        if (n <= 1) {
+            return 1;
+        }
+        return n * fact(n - 1);
+    }
+    print(fact(5));
+Resultado: OK
+Cuádruplas:
+    1. (GOTO, _, _, L1)
+    2. (FUNC_BEGIN, fact, _, func_fact)
+    3. (PARAM, n, _, )
+    4. (<=, n, 1, t1)
+    5. (IF_FALSE, t1, _, L2)
+    6. (RETURN, 1, _, )
+    7. (LABEL, _, _, L2)
+    8. (-, n, 1, t2)
+    9. (ARG, t2, _, )
+   10. (CALL, fact, 1, t3)
+   11. (*, n, t3, t4)
+   12. (RETURN, t4, _, )
+   13. (FUNC_END, fact, _, )
+   14. (LABEL, _, _, L1)
+   15. (ARG, 5, _, )
+   16. (CALL, fact, 1, t5)
+   17. (PRINT, t5, _, )
+
+=== TAC-19 · Aritmética con float
+Fuente:
+    float f = 1.5 * 2;
+    print(f);
+Resultado: OK
+Cuádruplas:
+    1. (*, 1.5, 2, t1)
+    2. (=, t1, _, f)
+    3. (PRINT, f, _, )
+
+=== ERR-01 · Léxico: carácter no reconocido
+Fuente:
+    int x = 5 @ 3;
+Resultado: ERROR
+  error: [Léxico] [(1:11)] Carácter no reconocido: '@'
+
+=== ERR-02 · Léxico: carácter inválido al final del archivo
+Fuente:
+    int x = 5;@
+Resultado: ERROR
+  error: [Léxico] [(1:11)] Carácter no reconocido: '@'
+
+=== ERR-03 · Léxico: cadena sin cerrar
+Fuente:
+    string s = "hola;
+Resultado: ERROR
+  error: [Léxico] [(1:12)] String sin cerrar al final del archivo
+
+=== ERR-04 · Sintáctico: falta punto y coma
+Fuente:
+    int x = 5
+    print(x);
+Resultado: ERROR
+  error: [Sintáctico] [(2:1)] Se esperaba SEMICOLON pero se encontró PRINT 'print'
+
+=== ERR-05 · Sintáctico: asignación mal formada
+Fuente:
+    x 5;
+Resultado: ERROR
+  error: [Sintáctico] [(1:3)] Se esperaba SEMICOLON pero se encontró INTEGER '5'
+
+=== ERR-06 · Sintáctico: paréntesis sin cerrar
+Fuente:
+    int x = (5 + 3;
+Resultado: ERROR
+  error: [Sintáctico] [(1:15)] Se esperaba RPAREN pero se encontró SEMICOLON ';'
+
+=== ERR-07 · Sintáctico: expresión incompleta
+Fuente:
+    int x = 5 + ;
+Resultado: ERROR
+  error: [Sintáctico] [(1:13)] Expresión inesperada: ';'
+
+=== ERR-08 · Semántico: variable no declarada (lado izquierdo)
+Fuente:
+    y = 3;
+Resultado: ERROR
+  error: [Semántico] [(1:1)] Variable 'y' no declarada
+
+=== ERR-09 · Semántico: variable no declarada (lado derecho)
+Fuente:
+    int x = 1;
+    x = y + 1;
+Resultado: ERROR
+  error: [Semántico] [(2:5)] Variable 'y' no declarada
+
+=== ERR-10 · Semántico: asignación de tipo incompatible
+Fuente:
+    int x = 1;
+    x = "hola";
+Resultado: ERROR
+  error: [Semántico] [(2:1)] No se puede asignar 'string' a 'int'
+
+=== ERR-11 · Semántico: inicialización de tipo incompatible
+Fuente:
+    int x = "hola";
+Resultado: ERROR
+  error: [Semántico] [(1:1)] Tipo incompatible: 'int' != 'string'
+
+=== ERR-12 · Semántico: declaración duplicada
+Fuente:
+    int x;
+    int x;
+Resultado: ERROR
+  error: [Semántico] [(2:1)] Variable 'x' ya declarada en este scope
+
+=== ERR-16 · Semántico: condición no booleana
+Fuente:
+    int x = 1;
+    if (x) {
+        print(x);
+    }
+Resultado: ERROR
+  error: [Semántico] [(2:1)] La condición del if debe ser bool
+
+=== ERR-19 · Varios errores sintácticos (recuperación)
+Fuente:
+    int a = ;
+    int b = 2
+    int c = 3;
+Resultado: ERROR
+  error: [Sintáctico] [(1:9)] Expresión inesperada: ';'
+  error: [Sintáctico] [(3:1)] Se esperaba SEMICOLON pero se encontró INT 'int'
+
+=== LIM-01 · Programa vacío
+Fuente:
+    
+Resultado: OK
+
+=== LIM-02 · Solo comentarios
+Fuente:
+    // comentario
+    /* bloque */
+Resultado: OK
+
+=== LIM-03 · 50 niveles de paréntesis
+Fuente:
+    int x = ((((((((((((((((((((((((((((((((((((((((((((((((((1))))))))))))))))))))))))))))))))))))))))))))))))));
+Resultado: OK
+Cuádruplas:
+    1. (=, 1, _, x)
+
+=== LIM-04 · 2000 niveles de paréntesis (anidamiento excesivo)
+Fuente:
+    int x = (((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((( …(recortado)
+Resultado: ERROR
+  error: [Límite] El programa tiene un anidamiento demasiado profundo para ser compilado
+
+=== FMT-01 · Formato compacto
+Fuente:
+    int x=2+3*4;if(x>10){print(x);}
+Resultado: OK
+Cuádruplas:
+    1. (*, 3, 4, t1)
+    2. (+, 2, t1, t2)
+    3. (=, t2, _, x)
+    4. (>, x, 10, t3)
+    5. (IF_FALSE, t3, _, L1)
+    6. (PRINT, x, _, )
+    7. (LABEL, _, _, L1)
+
+=== FMT-02 · Mismo programa con espacios, tabs y saltos de línea
+Fuente:
+    int   x =
+	2 +  3
+     *  4 ;
+    
+    
+    if ( x > 10 )
+    {
+	print( x ) ;
+    }
+Resultado: OK
+Cuádruplas:
+    1. (*, 3, 4, t1)
+    2. (+, 2, t1, t2)
+    3. (=, t2, _, x)
+    4. (>, x, 10, t3)
+    5. (IF_FALSE, t3, _, L1)
+    6. (PRINT, x, _, )
+    7. (LABEL, _, _, L1)

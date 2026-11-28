@@ -22,10 +22,15 @@ class TokenStream:
     def expect(self, *types: TokenType) -> Token:
         token = self.peek()
         if token.type not in types:
+            # Import local para evitar un ciclo tokens -> errors.
+            # Antes se lanzaba el SyntaxError nativo de Python, que el parser
+            # no capturaba: el compilador se caía y la API respondía HTTP 500.
+            from ..errors.syntax_error import SyntaxError as MCSyntaxError
             expected = ", ".join(t.name for t in types)
-            raise SyntaxError(
-                f"Se esperaba {expected} pero se encontró {token.type.name} "
-                f"'{token.value}' en {token.position}"
+            found = "fin del archivo" if token.type == TokenType.EOF else f"'{token.value}'"
+            raise MCSyntaxError(
+                f"Se esperaba {expected} pero se encontró {token.type.name} {found}",
+                token.position,
             )
         return self.advance()
 

@@ -22,6 +22,17 @@ class CompileResult:
 
 class CompilerPipeline:
     def compile(self, source: str) -> CompileResult:
+        try:
+            return self._compile(source)
+        except RecursionError:
+            # El parser y los visitantes son recursivos: un anidamiento
+            # extremo (p. ej. miles de paréntesis) agota la pila de Python.
+            return CompileResult(success=False, errors=[
+                "[Límite] El programa tiene un anidamiento demasiado profundo "
+                "para ser compilado"
+            ])
+
+    def _compile(self, source: str) -> CompileResult:
         result = CompileResult(success=False)
 
         # Fase 1: Análisis léxico
