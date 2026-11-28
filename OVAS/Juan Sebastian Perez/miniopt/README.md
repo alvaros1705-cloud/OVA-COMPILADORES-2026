@@ -77,6 +77,7 @@ miniopt/
 - [Manual de usuario](docs/manual-usuario.md)
 - [Matriz de pruebas](docs/matriz-pruebas.md)
 - [Relación de cambios](docs/cambios.md)
+- [Guion de sustentación](docs/guion-sustentacion.md)
 
 ## Limitaciones conocidas
 
