@@ -33,7 +33,7 @@
 | P-17 | `// comentario` + línea vacía + `x = 1; print x` | Conservar comentarios y líneas vacías | `// comentario` y línea vacía presentes; `equivalent` | Aprobado | El formato no se pierde. |
 | P-18 | Portal con 6 tarjetas y ruta `#/ova/optimizador-tac` | Cargar MiniOpt en el iframe | 6 tarjetas, 6 ítems OVA + Inicio, modal 6, iframe con la ruta correcta | Aprobado | Verificado con `jsdom` sobre el portal servido. |
 | P-19 | Regresión de las 5 OVAs previas | Rutas y tarjetas intactas | Las 5 rutas originales siguen en `OVAS_ROUTES`; contadores a 6 | Aprobado | No se modificó código de las OVAs previas. |
-| P-20 | Tema claro/oscuro y layout móvil | Cambio de tema y una columna en pantallas pequeñas | Variables `usb-ova-light`, grid responsive y `prefers-reduced-motion` | Aprobado | Revisión visual/CSS; el portal inyecta el tema por `postMessage`. |
+| P-20 | Tema claro/oscuro y layout móvil | Cambio de tema y una columna en pantallas pequeñas | Variables `usb-ova-light`, grid responsive y `prefers-reduced-motion` definidos | Aprobado (revisión de código) | El entorno de pruebas no permitió capturar pantalla; la evidencia visual (captura/video) queda para el equipo. |
 
 ## 3. Pruebas automatizadas
 
