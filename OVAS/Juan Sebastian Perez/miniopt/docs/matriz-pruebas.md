@@ -89,3 +89,32 @@ portal smoke OK
 4. Caso de seguridad: `call` y `a[0] = x` → instrucciones conservadas.
 5. Caso de comparación: activar modo agresivo y mostrar la diferencia detectada.
 6. Regresión: abrir las OVAs 1 a 5 desde el portal y comprobar que siguen cargando.
+
+## 6. Evidencias visuales
+
+Las capturas están en [`evidencias/`](evidencias/) y fueron generadas con Playwright/Chromium sobre el portal servido por HTTP. El índice completo está en [`evidencias/README.md`](evidencias/README.md).
+
+| Evidencia | Qué demuestra | Caso |
+|---|---|---|
+| [`01-ejemplo-enunciado.png`](evidencias/01-ejemplo-enunciado.png) | `x = 16`, 4 → 1 instrucciones y 75 % de reducción. | P-01 |
+| [`02-reglas-aplicadas.png`](evidencias/02-reglas-aplicadas.png) | Traza explicable de CF, AS, CP y DCE. | P-01 |
+| [`03-equivalencia.png`](evidencias/03-equivalencia.png) | Salidas observables equivalentes. | P-01 |
+| [`04-division-por-cero.png`](evidencias/04-division-por-cero.png) | Operación insegura conservada y advertida. | P-08 |
+| [`05-efectos-secundarios.png`](evidencias/05-efectos-secundarios.png) | `call`, `param` y `a[0]` intactos. | P-09 |
+| [`06-error-por-linea.png`](evidencias/06-error-por-linea.png) | Error en línea 1 sin bloquear el resto. | P-12 |
+| [`07-paso-a-paso.png`](evidencias/07-paso-a-paso.png) | Aplicación pase a pase. | P-01 |
+| [`08-modo-agresivo.png`](evidencias/08-modo-agresivo.png) | Diferencia `x: 10 → 0` detectada. | P-07 |
+| [`09-tema-claro.png`](evidencias/09-tema-claro.png) | Tema claro institucional. | P-20 |
+| [`10-portal-dashboard.png`](evidencias/10-portal-dashboard.png) | Dashboard con 6 OVAS y nav 06. | P-18 |
+| [`11-portal-seis-ovas.png`](evidencias/11-portal-seis-ovas.png) | Las seis tarjetas del portal. | P-18 |
+| [`12-portal-iframe-miniopt.png`](evidencias/12-portal-iframe-miniopt.png) | MiniOpt dentro del iframe. | P-18 |
+
+### Vista rápida
+
+![Ejemplo del enunciado](evidencias/01-ejemplo-enunciado.png)
+
+![Efectos secundarios](evidencias/05-efectos-secundarios.png)
+
+![Modo agresivo](evidencias/08-modo-agresivo.png)
+
+![Portal con seis OVAs](evidencias/11-portal-seis-ovas.png)

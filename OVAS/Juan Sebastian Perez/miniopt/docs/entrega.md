@@ -9,7 +9,7 @@
 | 3 | Informe de diagnóstico | [`diagnostico.md`](diagnostico.md) | **Listo** |
 | 4 | Relación de cambios con justificación técnica | [`cambios.md`](cambios.md) | **Listo** |
 | 5 | Matriz de pruebas (ID, entrada, esperado, obtenido, estado, observaciones) | [`matriz-pruebas.md`](matriz-pruebas.md) — P-01 a P-20 | **Listo** |
-| 6 | Evidencias de ejecución (capturas o grabaciones) | Salida de `npm test`, pruebas de humo de UI/portal | **Parcial:** faltan capturas o video |
+| 6 | Evidencias de ejecución (capturas o grabaciones) | [`evidencias/`](evidencias/) — 12 capturas + salida de `npm test` | **Listo** (video en el punto 9) |
 | 7 | Manual de usuario actualizado | [`manual-usuario.md`](manual-usuario.md) | **Listo** |
 | 8 | Documento técnico breve (arquitectura, archivos, decisiones, limitaciones) | [`documento-tecnico.md`](documento-tecnico.md) | **Listo** |
 | 9 | Video de sustentación de mínimo 5 minutos | Guion en [`guion-sustentacion.md`](guion-sustentacion.md) | **Falta grabarlo** |
@@ -67,15 +67,25 @@ Luego, en GitHub:
    - capturas o video.
 4. **No fusionar** hasta la revisión y autorización del docente.
 
-## 6. Evidencias pendientes de producir
+## 6. Evidencias visuales listas
 
-- Capturas de pantalla de:
-  - ejemplo del enunciado con `x = 16`,
-  - pestaña de reglas aplicadas,
-  - pestaña de equivalencia,
-  - caso de división por cero,
-  - caso de efectos secundarios,
-  - tarjeta OVA 06 en el portal.
+Las 12 capturas están en [`evidencias/`](evidencias/) y cubren:
+
+- ejemplo del enunciado con `x = 16`,
+- reglas aplicadas,
+- equivalencia,
+- división por cero,
+- efectos secundarios,
+- error por línea,
+- paso a paso,
+- modo agresivo,
+- tema claro,
+- dashboard con 6 OVAs,
+- las seis tarjetas,
+- MiniOpt dentro del iframe.
+
+Pendiente únicamente:
+
 - Video de 5 minutos siguiendo [`guion-sustentacion.md`](guion-sustentacion.md).
 - Opcional: grabación de `npm test` mostrando `38 pass`.
 

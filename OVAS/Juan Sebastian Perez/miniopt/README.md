@@ -80,6 +80,7 @@ miniopt/
 - [Documento técnico](docs/documento-tecnico.md)
 - [Guion de sustentación](docs/guion-sustentacion.md)
 - [Checklist de entrega](docs/entrega.md)
+- [Evidencias visuales](docs/evidencias/README.md)
 
 ## Limitaciones conocidas
 
